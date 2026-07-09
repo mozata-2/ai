@@ -39,8 +39,8 @@
       >
         <!-- 顶部：按比例绘制的矩形图标 -->
         <div class="ratio-icon" aria-hidden="true">
-          <svg viewBox="0 0 80 80" width="40" height="40">
-            <!-- 最长边占 60，按比例计算另一边 -->
+          <svg viewBox="0 0 80 80" width="27" height="27">
+            <!-- 最长边占 40（缩三分之一），按比例计算另一边 -->
             <rect
               :x="rectMeta(opt)[0]"
               :y="rectMeta(opt)[1]"
@@ -71,11 +71,11 @@ export const RATIO_OPTS = [
   { key: '16:9', w: 16, h: 9 },
   { key: '21:9', w: 21, h: 9 }
 ]
-// 根据 w:h 在 80x80 的 viewBox 里生成居中矩形（最长边=60）
+// 根据 w:h 在 80x80 的 viewBox 里生成居中矩形（最长边=40，缩三分之一）
 export function rectMeta (opt) {
-  const maxSide = 60
+  const maxSide = 40
   let dw = opt.w, dh = opt.h
-  // 归一化：让最长边=60
+  // 归一化：让最长边=40
   const scale = maxSide / Math.max(dw, dh)
   const rw = dw * scale
   const rh = dh * scale
@@ -169,7 +169,7 @@ const onToggleCustomSize = () => {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: #ffffff;
   transition: transform 180ms ease;
 }
 .switch[aria-checked='true'],
@@ -178,6 +178,7 @@ const onToggleCustomSize = () => {
 }
 .switch[aria-checked='true'] .switch__thumb {
   transform: translateX(18px);
+  background: #ffffff;
 }
 
 /* 5 x 2 比例网格：每列固定 62.4px（用户指定） */
@@ -218,8 +219,8 @@ const onToggleCustomSize = () => {
 }
 .ratio-item:active { transform: scale(0.98); }
 .ratio-icon {
-  width: 44px;                    /* ⭐ 缩小到 44×44（原来 52→44，省出空间给 14px 字号） */
-  height: 44px;
+  width: 30px;                    /* ⭐ 缩三分之一：原 44→30 */
+  height: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -236,9 +237,8 @@ const onToggleCustomSize = () => {
 /* 选中态：整卡片粉色渐变，图标+文字变白 */
 .ratio-item--active {
   background: #FE2C55;
-  color: #FFFFFF;
-  border-color: rgba(255,255,255,0.12);
+  color: #fff;
+  border-color: #FE2C55;
 }
-.ratio-item--active:hover { filter: brightness(1.05); }
-.ratio-item--active .ratio-label { color: #FFFFFF; }
+.ratio-item--active .ratio-label { color: #fff; }
 </style>

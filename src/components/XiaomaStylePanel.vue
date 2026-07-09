@@ -102,9 +102,9 @@ defineEmits(['update:modelValue'])
 .style-btn__label { font-size: 13px; font-weight: 600; line-height: 1.2; }
 
 .style-btn--active {
-  background: #FE2C55;
+  background: #;
   border-color: rgba(255,255,255,0.12);
-  color: #FFFFFF;
+  color: #;
 }
 .style-btn--active:hover { filter: brightness(1.05); }
 </style>

@@ -51,7 +51,7 @@ const collapsed = ref(false)
        防止整页滚动（它们内部用 .col-left__scroll 做局部滚动）
      - 其他页面（首页、资产、音乐、画布、工具、设置、客服等）：
        恢复 overflow-y:auto，让页面正常上下滚动 */
-const LOCKED_PATHS = ['/image', '/video']
+const LOCKED_PATHS = ['/image', '/video', '/tool']
 const isScrollLocked = computed(() =>
   LOCKED_PATHS.some(p => route.path && route.path.startsWith(p))
 )
@@ -99,7 +99,7 @@ onBeforeUnmount(() => {
   height: 100dvh;
   max-height: 100dvh;
   min-height: 0;
-  background: var(--bg-base);
+  background: var(--bg-base, #121212);
   position: relative;
   overflow: hidden;
   transition: background-color var(--theme-dur) var(--theme-ease);
@@ -124,7 +124,7 @@ onBeforeUnmount(() => {
   padding-top: 9px;
   padding-left: 36px;
   box-sizing: border-box;
-  background: var(--bg-base);
+  background: var(--bg-base, #121212);
   transition: background-color var(--theme-dur) var(--theme-ease);
 }
 /* ⭐ 仅 /image、/video 页面锁定外层滚动（防止整页滚动）——

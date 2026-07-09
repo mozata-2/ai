@@ -68,7 +68,7 @@ defineEmits(['update:modelValue'])
 }
 .count-title__icon {
   flex: 0 0 auto;
-  color: #2563EB;
+  color: #;
 }
 .panel-title__text { flex: 0 0 auto; }
 
@@ -118,7 +118,8 @@ defineEmits(['update:modelValue'])
 /* 选中态：粉色底 + 白字（尺寸/圆角保持一致，⭐ 永远不加粗） */
 .count-btn--active {
   background: #FE2C55;
-  color: #FFFFFF;
+  color: #fff;
+  border-color: #FE2C55;
   font-weight: 400 !important;
 }
 

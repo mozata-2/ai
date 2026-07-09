@@ -105,7 +105,7 @@ const onRemove = () => {
   /* ⭐ 亮/暗主题统一：用主题描边变量，亮主题下自动换成深色虚线 */
   border: 2px dashed var(--border-strong, rgba(255, 255, 255, 0.27));
   border-radius: 12px;
-  /* ⭐ 亮/暗主题统一：使用 elevated-2（暗→深灰；亮→浅灰）替代硬编码 #141414 */
+  /* ⭐ 亮/暗主题统一：使用 elevated-2（暗→深灰；亮→浅灰）替代硬编码 # */
   /* background: var(--bg-elevated-2, #ffffff);  */
   display: flex;
   flex-direction: column;
@@ -176,7 +176,7 @@ const onRemove = () => {
   /* ⭐ 亮/暗主题统一：半透明遮罩 + 粉色文字，亮主题下也可读；
         不用 --mask-soft（未定义），直接用 rgba 同时兼容两种主题 */
   background: rgba(0,0,0,0.45);
-  color: #FE2C55;
+  color: #;
   padding: 3px 9px;
   font-size: 12px;
   border-radius: 7px;

@@ -27,6 +27,9 @@
 
   --icon-default: #888888;
 
+  --bg-warning: #FFF6EC;
+  --text-warning: #FFA940;
+
   --scroll-track: #1a1a1a;
   --scroll-thumb: #3a3a3a;
   --scroll-thumb-hover: #555555;
@@ -56,6 +59,48 @@
   --el-color-primary-light-8: #FFD4DD;
   --el-color-primary-light-9: #FFEAEE;
   --el-color-primary-dark-2: #CB2344;
+
+  /* ------- Element Plus 深色主题：把 EP 自带的颜色变量映射到我们的主题变量，
+           保证所有 EP 组件（含挂载到 body 的气泡/悬浮弹层 Tooltip/Popover/Dropdown/Dialog/Select…）跟随深浅切换 ------- */
+  --el-bg-color: var(--bg-base);
+  --el-bg-color-page: var(--bg-base);
+  --el-bg-color-overlay: var(--bg-elevated);
+  --el-text-color-primary: var(--text-primary);
+  --el-text-color-regular: var(--text-secondary);
+  --el-text-color-secondary: var(--text-muted);
+  --el-text-color-placeholder: var(--text-faint);
+  --el-text-color-disabled: var(--text-extra-faint);
+  --el-border-color: var(--border-base);
+  --el-border-color-light: var(--border-strong);
+  --el-border-color-lighter: var(--border-extra);
+  --el-border-color-extra-light: var(--border-extra);
+  --el-fill-color-blank: var(--bg-surface);
+  --el-fill-color: var(--bg-elevated);
+  --el-fill-color-light: var(--bg-elevated-2);
+  --el-fill-color-lighter: var(--bg-elevated-3);
+  --el-fill-color-extra-light: var(--bg-elevated-3);
+  --el-box-shadow: var(--shadow-card);
+  --el-box-shadow-light: var(--shadow-card-hover);
+  --el-mask-color: rgba(0, 0, 0, 0.55);
+  --el-overlay-color: rgba(0, 0, 0, 0.55);
+  --el-overlay-background-color: rgba(0, 0, 0, 0.55);
+  --el-popover-bg-color: var(--bg-elevated);
+  --el-popover-border-color: var(--border-strong);
+  --el-tooltip-bg-color: var(--bg-elevated-2);
+  --el-tooltip-text-color: var(--text-secondary);
+  --el-tooltip-border-color: var(--border-strong);
+  --el-dropdown-menu-bg-color: var(--bg-elevated);
+  --el-dropdown-menu-border-color: var(--border-strong);
+  --el-dialog-bg-color: var(--bg-surface);
+  --el-dialog-border-color: var(--border-strong);
+  --el-drawer-bg-color: var(--bg-surface);
+  --el-message-bg-color: var(--bg-elevated);
+  --el-notification-bg-color: var(--bg-elevated);
+  --el-select-dropdown-bg-color: var(--bg-elevated);
+  --el-select-dropdown-border-color: var(--border-strong);
+  --el-cascader-menu-bg-color: var(--bg-elevated);
+  --el-autocomplete-bg-color: var(--bg-elevated);
+  --el-color-picker-bg-color: var(--bg-elevated);
 }
 
 /* ============================================
@@ -80,6 +125,9 @@
 
   --icon-default: #6c7280;
 
+  --bg-warning: #FFF6EC;
+  --text-warning: #FFA940;
+
   --scroll-track: #f0f1f4;
   --scroll-thumb: #cfd2d9;
   --scroll-thumb-hover: #a8adbb;
@@ -100,6 +148,47 @@
   --el-color-primary-light-8: #FFD4DD;
   --el-color-primary-light-9: #FFEAEE;
   --el-color-primary-dark-2: #CB2344;
+
+  /* 浅色下 Element Plus 颜色变量映射 */
+  --el-bg-color: var(--bg-base);
+  --el-bg-color-page: var(--bg-base);
+  --el-bg-color-overlay: var(--bg-surface);
+  --el-text-color-primary: var(--text-primary);
+  --el-text-color-regular: var(--text-secondary);
+  --el-text-color-secondary: var(--text-muted);
+  --el-text-color-placeholder: var(--text-faint);
+  --el-text-color-disabled: var(--text-extra-faint);
+  --el-border-color: var(--border-base);
+  --el-border-color-light: var(--border-strong);
+  --el-border-color-lighter: var(--border-extra);
+  --el-border-color-extra-light: var(--border-extra);
+  --el-fill-color-blank: var(--bg-surface);
+  --el-fill-color: var(--bg-elevated);
+  --el-fill-color-light: var(--bg-elevated-2);
+  --el-fill-color-lighter: var(--bg-elevated-3);
+  --el-fill-color-extra-light: var(--bg-elevated-3);
+  --el-box-shadow: var(--shadow-card);
+  --el-box-shadow-light: var(--shadow-card-hover);
+  --el-mask-color: rgba(16, 20, 28, 0.38);
+  --el-overlay-color: rgba(16, 20, 28, 0.38);
+  --el-overlay-background-color: rgba(16, 20, 28, 0.38);
+  --el-popover-bg-color: var(--bg-surface);
+  --el-popover-border-color: var(--border-strong);
+  --el-tooltip-bg-color: #1f2329;
+  --el-tooltip-text-color: #ffffff;
+  --el-tooltip-border-color: var(--border-strong);
+  --el-dropdown-menu-bg-color: var(--bg-surface);
+  --el-dropdown-menu-border-color: var(--border-strong);
+  --el-dialog-bg-color: var(--bg-surface);
+  --el-dialog-border-color: var(--border-strong);
+  --el-drawer-bg-color: var(--bg-surface);
+  --el-message-bg-color: var(--bg-surface);
+  --el-notification-bg-color: var(--bg-surface);
+  --el-select-dropdown-bg-color: var(--bg-surface);
+  --el-select-dropdown-border-color: var(--border-strong);
+  --el-cascader-menu-bg-color: var(--bg-surface);
+  --el-autocomplete-bg-color: var(--bg-surface);
+  --el-color-picker-bg-color: var(--bg-surface);
 }
 
 html, body, #app {
@@ -113,6 +202,16 @@ html, body, #app {
   transition:
     background-color var(--theme-dur) var(--theme-ease),
     color var(--theme-dur) var(--theme-ease);
+}
+
+/* 画布营销页（CanvasLanding.vue）单独解禁纵向滚动：
+   该页是独立长页面（Hero + Features + Workflow + Footer），不套 Layout 壳。
+   通过 html.allow-scroll-canvas / body.allow-scroll-canvas 类在 onMounted 注入，onUnmounted 移除。 */
+html.allow-scroll-canvas,
+html.allow-scroll-canvas body,
+html.allow-scroll-canvas #app {
+  overflow-y: auto;   /* 解禁纵向滚动 → 鼠标滚轮可用 */
+  overflow-x: hidden; /* 保持横向禁滚，防止横条 */
 }
 
 ::-webkit-scrollbar {
@@ -143,4 +242,213 @@ button {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+/* ============================================
+   全局选中样式：所有按钮 & 切换按钮选中状态
+   选中底色 #FE2C55 + 白色文字
+   ============================================ */
+
+/* --- Element Plus el-button：primary 选中/聚焦态 --- */
+.el-button--primary {
+  --el-button-bg-color: #FE2C55;
+  --el-button-border-color: #FE2C55;
+  --el-button-hover-bg-color: #FE2C55;
+  --el-button-hover-border-color: #FE2C55;
+  --el-button-active-bg-color: #FE2C55;
+  --el-button-active-border-color: #FE2C55;
+  --el-button-disabled-bg-color: #FE2C55;
+  --el-button-disabled-border-color: #FE2C55;
+  color: #ffffff !important;
+}
+.el-button--primary.is-active,
+.el-button--primary:active,
+.el-button--primary:focus {
+  background: #FE2C55 !important;
+  border-color: #FE2C55 !important;
+  color: #ffffff !important;
+}
+
+/* --- Element Plus el-radio-button：选中态 --- */
+.el-radio-button__original-radio:checked + .el-radio-button__inner,
+.el-radio-button.is-active .el-radio-button__inner {
+  background: #FE2C55 !important;
+  border-color: #FE2C55 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* --- Element Plus el-radio：选中态 --- */
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #FE2C55 !important;
+  background: #FE2C55 !important;
+}
+.el-radio__input.is-checked + .el-radio__label {
+  color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-checkbox：选中态 --- */
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #FE2C55 !important;
+  border-color: #FE2C55 !important;
+}
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-switch：选中态 --- */
+.el-switch.is-checked .el-switch__core {
+  border-color: #FE2C55 !important;
+  background-color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-tabs / el-tab-pane：标签选中态 --- */
+.el-tabs__item.is-active,
+.el-tabs__item.is-active:hover {
+  color: #FE2C55 !important;
+}
+.el-tabs__active-bar {
+  background-color: #FE2C55 !important;
+}
+.el-tabs__nav-wrap.is-scrollable .el-tabs__item.is-active {
+  color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-select：下拉选项选中/高亮态 --- */
+.el-select-dropdown__item.is-selected,
+.el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
+  background: #FE2C55 !important;
+  color: #ffffff !important;
+}
+.el-select-dropdown__item.selected {
+  background: #FE2C55 !important;
+  color: #ffffff !important;
+}
+.el-select .el-select__wrapper.is-focused {
+  box-shadow: 0 0 0 1px #FE2C55 inset !important;
+}
+
+/* --- Element Plus el-cascader：选中态 --- */
+.el-cascader-node.is-active,
+.el-cascader-node.in-active-path,
+.el-cascader-node.is-selectable.in-checked-path {
+  color: #FE2C55 !important;
+}
+.el-cascader-panel .el-radio__input.is-checked .el-radio__inner {
+  border-color: #FE2C55 !important;
+  background: #FE2C55 !important;
+}
+
+/* --- Element Plus el-pagination：页码选中态 --- */
+.el-pagination.is-background .el-pager li.is-active,
+.el-pagination .el-pager li.is-active {
+  background: #FE2C55 !important;
+  color: #ffffff !important;
+}
+
+/* --- Element Plus el-breadcrumb：当前项 --- */
+.el-breadcrumb__inner.is-link,
+.el-breadcrumb__inner {
+  color: inherit;
+}
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-step / el-steps：完成态 + 当前态 --- */
+.el-step.is-process .el-step__title,
+.el-step.is-process .el-step__icon-inner {
+  color: #FE2C55 !important;
+}
+.el-step.is-finish .el-step__head,
+.el-step.is-finish .el-step__title {
+  color: #FE2C55 !important;
+}
+.el-step.is-finish .el-step__head.is-line,
+.el-step.is-finish .el-step__icon.is-text,
+.el-step.is-finish .el-step__icon-inner {
+  border-color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-progress：进度条 --- */
+.el-progress-bar__inner {
+  background: #FE2C55 !important;
+}
+.el-progress__text {
+  color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-tree / el-tree-v2：选中/高亮态 --- */
+.el-tree-node.is-current > .el-tree-node__content,
+.el-tree-node.is-current:focus > .el-tree-node__content,
+.el-tree-node:focus > .el-tree-node__content {
+  background: #FE2C55 !important;
+  color: #ffffff !important;
+}
+
+/* --- Element Plus el-transfer：穿梭框选中态 --- */
+.el-transfer-panel__item.is-checked .el-checkbox__inner {
+  background: #FE2C55 !important;
+  border-color: #FE2C55 !important;
+}
+.el-transfer-panel .el-transfer-panel__header .el-checkbox__label {
+  color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-tag：type=primary / success / danger 统一粉红系 --- */
+.el-tag--primary {
+  background: #FE2C55 !important;
+  border-color: #FE2C55 !important;
+  color: #ffffff !important;
+}
+
+/* --- Element Plus el-link：primary + 选中态 --- */
+.el-link.el-link--primary,
+.el-link.is-underline:hover {
+  color: #FE2C55 !important;
+}
+
+/* --- Element Plus el-slider：滑块选中态 --- */
+.el-slider__runway .el-slider__bar,
+.el-slider__runway .el-slider__button,
+.el-slider__button.hover,
+.el-slider__button:hover {
+  background: #FE2C55 !important;
+  border-color: #FE2C55 !important;
+}
+.el-slider__input #input::placeholder { color: inherit; }
+
+/* --- Element Plus el-time-select / el-time-picker：选中态 --- */
+.el-time-panel__content::after,
+.el-time-spinner__item.active:not(.disabled) {
+  color: #FE2C55 !important;
+}
+.el-date-picker .el-picker-panel__content td.current:not(.disabled) span {
+  background: #FE2C55 !important;
+  color: #ffffff !important;
+}
+.el-date-table td.today .date-cell,
+.el-date-table td.today .date-cell::after {
+  color: #FE2C55 !important;
+}
+.el-date-table td.end-date div,
+.el-date-table td.start-date div,
+.el-date-table td.in-range div {
+  background: rgba(254,44,85,0.12) !important;
+}
+.el-date-table td.start-date div,
+.el-date-table td.end-date div {
+  color: #ffffff !important;
+  background: #FE2C55 !important;
+}
+
+/* --- Element Plus el-drawer / el-dialog footer 确定按钮：默认粉红色 --- */
+.el-dialog__footer .el-button--primary,
+.el-drawer__footer .el-button--primary,
+.el-message-box .el-button--primary {
+  background: #FE2C55 !important;
+  border-color: #FE2C55 !important;
+  color: #ffffff !important;
 }

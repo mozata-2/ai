@@ -269,7 +269,7 @@ onMounted(() => {
   width: 30px;              /* 整体开关宽度：30 */
   height: 16px;             /* 整体开关高度：16 */
   border-radius: 6px;       /* 圆角：6px */
-  background: #E5E6EB;
+  background: #C8CCD3;
   display: inline-block;
   position: relative;
   transition: background-color 140ms ease;
@@ -282,7 +282,7 @@ onMounted(() => {
   width: 12px;              /* 滑块缩小，16−2*2 = 12 */
   height: 12px;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: #ffffff;
   transition: left 140ms ease;
 }
 .custom-toggle input:checked + .custom-toggle__track {
@@ -290,6 +290,7 @@ onMounted(() => {
 }
 .custom-toggle input:checked + .custom-toggle__track .custom-toggle__thumb {
   left: 16px;               /* 30 − 2*2 − 12 = 14？取 16 贴边 */
+  background: #ffffff;
 }
 
 /* ================= 8 个比例按钮：2 行 x 4 列（每格 81×74） ================= */
@@ -332,7 +333,7 @@ onMounted(() => {
   width: 48px;
   height: 48px;
   border-radius: 6px;           /* 图标容器圆角 6px */
-  background: #F2F3F5;
+  background: #;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -342,7 +343,7 @@ onMounted(() => {
   overflow: hidden;
 }
 .ratio-icon__box {
-  background: #C9CDD4;
+  background: #;
   border-radius: 2px;           /* 内部小矩形保持 2px 细节 */
   transition:
     background-color 140ms ease,
@@ -361,7 +362,7 @@ onMounted(() => {
 .ratio-icon--auto .ratio-icon__box   {
   width: 28px; height: 21px;
   background: transparent;
-  border: 1.5px dashed #C9CDD4;
+  border: 1.5px dashed #;
   border-radius: 3px;
 }
 
@@ -378,6 +379,8 @@ onMounted(() => {
 /* 选中态：⭐ 整卡粉红底包裹（图标+字全部在同一块粉红底上，像截图那样） */
 .ratio-btn--active {
   background: #FE2C55;
+  color: #fff;
+  border-color: #FE2C55;
   border-radius: 6px;
 }
 .ratio-btn--active .ratio-btn__icon {
@@ -391,7 +394,7 @@ onMounted(() => {
   border-color: rgba(255, 255, 255, 0.85);
 }
 .ratio-btn--active .ratio-btn__label {
-  color: #FFFFFF;                        /* 选中：比例字白色 */
+  color: #fff;                        /* 选中：比例字白色 */
   font-weight: 400;                      /* 选中也取消加粗 */
 }
 
@@ -428,8 +431,8 @@ onMounted(() => {
   align-items: stretch;
   width: 100%;
   height: 40px;
-  background: #F7F8FA;
-  border: 1px solid #E5E6EB;
+  background: #;
+  border: 1px solid #;
   border-radius: 10px;
   overflow: hidden;
   box-sizing: border-box;
@@ -453,10 +456,10 @@ onMounted(() => {
   box-sizing: border-box;
   user-select: none;
 }
-.stepper__btn:hover:not(:disabled) { background: #EEF0F3; }
-.stepper__btn:active:not(:disabled) { background: #E5E6EB; }
+.stepper__btn:hover:not(:disabled) { background: #; }
+.stepper__btn:active:not(:disabled) { background: #; }
 .stepper__btn:disabled {
-  color: #C9CDD4;
+  color: #;
   cursor: not-allowed;
 }
 

@@ -1,15 +1,15 @@
 <template>
-  <section class="v31-ratio-panel">
+  <section class="sr-aspect-panel">
     <div class="panel-title">
       <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" class="panel-title__icon">
         <path d="M3 21 L3 15 M3 21 L9 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         <path d="M21 3 L21 9 M21 3 L15 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         <rect x="6" y="6" width="12" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
       </svg>
-      <span class="panel-title__text">宽高比</span>
+      <span class="panel-title__text">视频比例</span>
     </div>
 
-    <div class="ratio-grid" role="radiogroup" aria-label="V31 宽高比选择">
+    <div class="ratio-grid" role="radiogroup" aria-label="SR 视频比例选择">
       <button
         type="button"
         class="ratio-btn"
@@ -18,11 +18,8 @@
         :aria-checked="modelValue === '9:16'"
         @click="$emit('update:modelValue', '9:16')"
       >
-        <svg viewBox="0 0 48 48" width="14" height="14" aria-hidden="true" class="ratio-btn__icon">
-          <rect x="10" y="4" width="28" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="2.2"/>
-          <circle cx="24" cy="41" r="1.6" fill="currentColor" opacity="0.7"/>
-        </svg>
-        <span class="ratio-btn__label">9:16 竖屏视频</span>
+        <span class="ratio-btn__main">9:16</span>
+        <span class="ratio-btn__sub">竖屏视频</span>
       </button>
 
       <button
@@ -33,10 +30,8 @@
         :aria-checked="modelValue === '16:9'"
         @click="$emit('update:modelValue', '16:9')"
       >
-        <svg viewBox="0 0 48 48" width="14" height="14" aria-hidden="true" class="ratio-btn__icon">
-          <rect x="4" y="10" width="40" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.2"/>
-        </svg>
-        <span class="ratio-btn__label">16:9 横屏视频</span>
+        <span class="ratio-btn__main">16:9</span>
+        <span class="ratio-btn__sub">横屏视频</span>
       </button>
     </div>
   </section>
@@ -54,7 +49,7 @@ defineEmits(['update:modelValue'])
 </script>
 
 <style scoped>
-.v31-ratio-panel {
+.sr-aspect-panel {
   width: 100%;
   box-sizing: border-box;
   padding: 12px 0;
@@ -83,39 +78,40 @@ defineEmits(['update:modelValue'])
   -webkit-appearance: none;
   width: 173.5px;
   flex: 0 0 173.5px;
-  height: 52px;
+  height: 56px;
   border-radius: 6px;
   border: 1px solid var(--border-base, rgba(255,255,255,0.06));
   background: transparent;
   color: var(--text-primary, #E5EAF3);
   cursor: pointer;
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 0 14px;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
   user-select: none;
   box-sizing: border-box;
-  font-size: 12px;
-  font-weight: 500;
 }
 .ratio-btn:active { transform: scale(0.98); }
-.ratio-btn__icon {
-  width: 14px;
-  height: 14px;
-  flex: 0 0 14px;
-  color: currentColor;
-}
-.ratio-btn__label {
-  font-size: 12px;
-  font-weight: 500;
+.ratio-btn__main {
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1.2;
-  text-align: left;
+}
+.ratio-btn__sub {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text-secondary, #BFC4CC);
 }
 
 .ratio-btn--active {
   background: #FE2C55;
   border-color: #FE2C55;
   color: #fff;
+}
+.ratio-btn--active .ratio-btn__sub {
+  color: rgba(255,255,255,0.85);
 }
 </style>

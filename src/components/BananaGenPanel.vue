@@ -214,8 +214,7 @@ defineEmits(['update:genMode', 'update:resolution', 'update:count'])
 /* 选中态：粉红底 + 白字 */
 .seg-btn--active {
   background: #FE2C55;
-  color: #FFFFFF;
+  color: #fff;
   border-color: #FE2C55;
 }
-.seg-btn--active:hover { filter: brightness(1.05); }
 </style>

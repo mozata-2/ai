@@ -29,9 +29,9 @@ import PromptPlaza from '../components/PromptPlaza.vue'
   width: auto;
 }
 
-/* ⭐ 版心：实体宽度就是 1309，左右无 padding。max-width:100% 兼容小屏 */
+/* ⭐ 版心：实体宽度 1136，左右无 padding。max-width:100% 兼容小屏 */
 .home-content {
-  width: 1309px;
+  width: 1136px;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;

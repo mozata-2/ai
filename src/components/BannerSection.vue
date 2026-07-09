@@ -141,7 +141,7 @@ onUnmounted(() => {
 
 .dot.active {
   width: 24px;
-  background: #fff;
+  background: var(--text-primary, #fff);
   /* ⭐ 删除发散光 box-shadow */
 }
 
@@ -153,9 +153,9 @@ onUnmounted(() => {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--bg-elevated-2, rgba(0, 0, 0, 0.3));
   backdrop-filter: blur(8px);
-  color: #fff;
+  color: var(--text-primary, #fff);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -174,7 +174,7 @@ onUnmounted(() => {
 }
 
 .arrow-btn:hover {
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--bg-elevated-3, rgba(0, 0, 0, 0.5));
 }
 
 .arrow-left {

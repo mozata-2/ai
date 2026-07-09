@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="v31-keyframes-panel">
     <div class="panel-row">
       <div class="panel-title">
@@ -94,15 +94,16 @@ defineEmits(['update:modelValue'])
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: #ffffff;
   transition:
-    transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .toggle-switch--on {
   background: #FE2C55;
 }
 .toggle-switch--on .toggle-switch__thumb {
   transform: translateX(22px);
+  background: #ffffff;
 }
 .toggle-switch:active { transform: scale(0.98); }
 </style>

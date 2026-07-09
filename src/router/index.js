@@ -10,10 +10,13 @@ import Canvas from '../views/Canvas.vue'
 import Tool from '../views/Tool.vue'
 import Service from '../views/Service.vue'
 import Settings from '../views/Settings.vue'
+import CanvasLanding from '../views/CanvasLanding.vue'
 
 const routes = [
   // 登录：独立全屏布局（不含侧边栏）
   { path: '/login', name: 'Login', component: Login },
+  // 画布市场营销落地页：独立全屏布局（不含侧边栏外壳，与截图一致）
+  { path: '/canvas-landing', name: 'CanvasLanding', component: CanvasLanding },
 
   // 主应用：Layout 外壳常驻，子路由只替换右侧内容区（单页面局部切换）
   {

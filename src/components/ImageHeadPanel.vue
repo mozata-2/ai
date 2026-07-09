@@ -38,7 +38,7 @@ defineProps({
   transition: color var(--theme-dur) var(--theme-ease);
 }
 .page-title__brand {
-  background: linear-gradient(135deg, #FE2C55 0%, #C26CFF 55%, #3CC6FF 100%);
+  background: linear-gradient(135deg, # 0%, # 55%, # 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

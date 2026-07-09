@@ -1,19 +1,34 @@
 <template>
   <section class="gk-head">
-    <h1 class="gk-title">
-      <span class="gk-title__brand">{{ brand }}</span>
-      <span class="gk-title__sub">{{ title }}</span>
-    </h1>
-    <p class="gk-desc" v-if="desc">{{ desc }}</p>
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-desc">{{ desc }}</p>
   </section>
 </template>
 
 <script setup>
-defineProps({
-  brand: { type: String, default: '构客' },
-  title: { type: String, default: 'G1.5 图生视频' },
-  desc:  { type: String, default: '' }
+import { computed } from 'vue'
+
+const props = defineProps({
+  mode: {
+    type: String,
+    default: 'g15',
+    validator: (v) => ['g15', 'classic'].includes(v)
+  }
 })
+
+const TITLES = {
+  g15: {
+    title: '构客 G1.5 图生视频',
+    desc: '仅支持 1 张参考图 · 支持 10/15 秒 · 提交即返回'
+  },
+  classic: {
+    title: '构客 视频生成',
+    desc: '队列模式 · 提交即返回 · 后台自动处理 · 失败自动重试'
+  }
+}
+
+const title = computed(() => TITLES[props.mode].title)
+const desc  = computed(() => TITLES[props.mode].desc)
 </script>
 
 <style scoped>
@@ -23,11 +38,8 @@ defineProps({
   padding: 2px 6px 8px;
   background: transparent;
 }
-.gk-title {
+.page-title {
   margin: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
   font-size: 20px;
   line-height: 1.15;
   font-weight: 700;
@@ -35,15 +47,7 @@ defineProps({
   color: var(--text-primary, #FFFFFF);
   transition: color var(--theme-dur) var(--theme-ease);
 }
-.gk-title__brand {
-  color: var(--text-primary, #FFFFFF);
-  font-weight: 700;
-}
-.gk-title__sub {
-  color: var(--text-primary, #FFFFFF);
-  font-weight: 700;
-}
-.gk-desc {
+.page-desc {
   margin: 9px 0 0;
   font-size: 14px;
   line-height: 1.85;

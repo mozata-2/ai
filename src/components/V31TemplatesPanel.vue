@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="v31-templates-panel">
     <div class="panel-title-row">
       <div class="panel-title">
@@ -296,19 +296,19 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  height: 34px;
-  padding: 0 14px;
-  background: var(--bg-elevated-2, #26272B);
-  border: 1px solid var(--border-base, rgba(255,255,255,0.08));
-  border-radius: 999px;
-  color: #FE2C55;
-  font-size: 14px;
-  font-weight: 600;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #ff5677;
+  font-size: 12px;
+  font-weight: 400;
   cursor: pointer;
   box-sizing: border-box;
   flex: 0 0 auto;
+  padding: 0;
+  height: auto;
+  line-height: 1;
 }
-.view-more:hover { color: #FE2C55; }
 .view-more > svg { flex: 0 0 auto; }
 
 .scroll-wrapper {
@@ -338,7 +338,7 @@ onMounted(() => {
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: #FFFFFF;
+  background: #;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -357,7 +357,7 @@ onMounted(() => {
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: #FFFFFF;
+  background: #;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -392,18 +392,18 @@ onMounted(() => {
 .tpl-card__btn {
   appearance: none;
   -webkit-appearance: none;
-  width: 108px;
-  height: 40px;
+  width: 110px;
+  height: 24px;
   border: none;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #FE2C55;
-  color: #FFFFFF;
-  font-size: 14px;
+  color: #ffffff;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
+  box-sizing: border-box;
 }
 </style>

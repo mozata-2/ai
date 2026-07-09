@@ -117,6 +117,7 @@ const currentPx = computed(() => {
 /* 选中态：粉色底 + 白字（尺寸/圆角保持与未选中一致） */
 .res-btn--active {
   background: #FE2C55;
-  color: #FFFFFF;
+  color: #fff;
+  border-color: #FE2C55;
 }
 </style>

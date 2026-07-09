@@ -739,14 +739,14 @@ const onUseModalTemplate = (tpl) => {
   gap: 6px;
   font-size: 14px;
   font-weight: 600;
-  /* ⭐ 亮/暗主题统一：用主题变量替代硬编码 #E5EAF3，保证浅色下可读 */
+  /* ⭐ 亮/暗主题统一：用主题变量替代硬编码 #，保证浅色下可读 */
   color: var(--text-primary, #E5EAF3);
   margin-bottom: 10px;
 }
 .panel-title__icon  { font-size: 14px; }
 .panel-title__spark { font-size: 14px; }
 .panel-title__opt   {
-  /* ⭐ 亮/暗主题统一：替换硬编码 #8B93A0 */
+  /* ⭐ 亮/暗主题统一：替换硬编码 # */
   color: var(--text-faint, #8B93A0);
   font-weight: 400;
   margin-left: 2px;
@@ -849,17 +849,14 @@ const onUseModalTemplate = (tpl) => {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: #FE2C55;
-  color: #FFFFFF;
+  background: #FE2C55;              /* ⭐ 用户要求：底部按钮统一粉底 #FE2C55 */
+  color: #ffffff;                       /* ⭐ 白字 */
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid #FE2C55;         /* ⭐ 边框同色 */
   cursor: pointer;
-  transition:
-    transform 140ms ease,
-    filter 160ms ease,
-    opacity 160ms ease;
+  transition: opacity 160ms ease;       /* ⭐ 仅保留禁用透明度，移除 translateY/filter 装饰动画 */
   box-sizing: border-box;
 }
 /* ⭐ 按钮内部：「消耗 xx 积分」—— 颜色淡一点、字号小一点，和截图一致 */
@@ -870,20 +867,16 @@ const onUseModalTemplate = (tpl) => {
   letter-spacing: 0;
   margin-left: 8px;
 }
-.gen-btn:hover:not(:disabled) {
-  transform: translateY(-1.5px);
-  filter: brightness(1.05);
-}
-.gen-btn:active:not(:disabled) { transform: translateY(0) scale(0.99); }
+.gen-btn:hover:not(:disabled) { opacity: 0.92; }
+.gen-btn:active:not(:disabled) { opacity: 0.86; }
 .gen-btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
-  filter: grayscale(0.15);
 }
 .gen-tips {
   align-self: center;
   font-size: 12px;
-  color: #6D7380;
+  color: #606266;
   line-height: 1;
 }
 
@@ -923,8 +916,8 @@ const onUseModalTemplate = (tpl) => {
   appearance: none;
   -webkit-appearance: none;
   border: 1px solid rgba(255,255,255,0.08);
-  background: #FE2C55;
-  color: #FFFFFF;
+  background: #;
+  color: #;
   text-align: center;
   padding: 0 16px;
   width: 88px;
@@ -943,7 +936,7 @@ const onUseModalTemplate = (tpl) => {
   white-space: nowrap;
 }
 .record-panel__head .my-work-btn:hover {
-  background: #FE2C55;
+  background: #;
   transform: translateY(-1px);
 }
 .record-panel__head .my-work-btn:active { transform: translateY(0) scale(0.98); }
@@ -970,7 +963,7 @@ const onUseModalTemplate = (tpl) => {
 }
 .record-empty__text {
   font-size: 13px;
-  /* ⭐ 亮/暗主题统一：替换硬编码 #98A2B3 */
+  /* ⭐ 亮/暗主题统一：替换硬编码 # */
   color: var(--text-faint, #98A2B3);
   line-height: 1.45;
 }
@@ -1199,7 +1192,7 @@ const onUseModalTemplate = (tpl) => {
   align-items: center;
   justify-content: center;          /* 两按钮居中（外胶囊大框保留） */
   padding: 4px;
-  background: #F2F6FC;              /* ⭐ 保留外胶囊大框（与截图一致） */
+  background: #;              /* ⭐ 保留外胶囊大框（与截图一致） */
   border-radius: 12px;
   gap: 4px;                         /* 中间 4px 缝，让各自圆角独立显示 */
 }
@@ -1211,7 +1204,7 @@ const onUseModalTemplate = (tpl) => {
   border-radius: 6px;               /* ⭐ 圆角 6 */
   border: none;
   background: transparent;          /* 未选中：透明（外框已有背景） */
-  color: #4E5969;
+  color: #;
   font-size: 12px;                  /* ⭐ 字号 12 */
   font-weight: 400;                 /* 取消加粗 */
   cursor: pointer;
@@ -1226,8 +1219,9 @@ const onUseModalTemplate = (tpl) => {
   text-overflow: ellipsis;
 }
 .jimeng-tab--active {
-  background: #FE2C55;              /* 选中：粉红底白字（尺寸字号圆角不变） */
-  color: #FFFFFF;
+  background: #FE2C55;
+  color: #fff;
+  border-color: #FE2C55;
 }
 
 /* ==============================
@@ -1307,8 +1301,8 @@ const onUseModalTemplate = (tpl) => {
 }
 /* 选中态：粉红底白字（尺寸字号圆角完全继承 .jimeng-resolution__btn） */
 .jimeng-resolution__btn--capsule-active {
-  background: #FE2C55;
-  color: #FFFFFF;
+  background: #;
+  color: #;
 }
 /* 未选中态：⭐ 取消背景色（transparent）+ 主文字色 */
 .jimeng-resolution__btn--plain {

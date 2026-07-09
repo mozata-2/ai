@@ -212,7 +212,7 @@ onMounted(() => {
   font-weight: 500;
 }
 
-/* 查看更多胶囊按钮 */
+/* 查看更多：纯文字样式，无背景无边框 */
 .view-more {
   appearance: none;
   -webkit-appearance: none;
@@ -220,19 +220,19 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  height: 34px;
-  padding: 0 14px;
-  background: var(--bg-elevated-2, #26272B);
-  border: 1px solid var(--border-base, rgba(255,255,255,0.08));
-  border-radius: 999px;
-  color: #FE2C55;
-  font-size: 14px;
-  font-weight: 600;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #ff5677;
+  font-size: 12px;
+  font-weight: 400;
   cursor: pointer;
   box-sizing: border-box;
   flex: 0 0 auto;
+  padding: 0;
+  height: auto;
+  line-height: 1;
 }
-.view-more:hover { color: #FE2C55; }
 .view-more > svg { flex: 0 0 auto; }
 
 /* ========== 滚动卡片区 ========== */
@@ -298,7 +298,7 @@ onMounted(() => {
   left: 6px;
   bottom: 6px;
   background: rgba(255,255,255,0.92);
-  color: #1f2937;
+  color: #;
   padding: 2px 6px;
   border-radius: 999px;
   font-size: 10px;
@@ -309,20 +309,9 @@ onMounted(() => {
   text-overflow: ellipsis;
 }
 .tpl-card__title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-primary, #E5EAF3);
-  line-height: 1.35;
-  min-height: 16px;
-  padding: 0 1px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  box-sizing: border-box;
-  width: 100%;
+  /* 用户要求：取消"字"模块（卡片标题文字） */
+  display: none !important;
 }
-.tpl-sub { color: var(--text-secondary, #BFC4CC); font-weight: 400; margin-left: 1px; }
 .tpl-card__btn {
   appearance: none;
   -webkit-appearance: none;
@@ -331,7 +320,7 @@ onMounted(() => {
   border: none;
   border-radius: 4px;            /* ⭐ 圆角 4 */
   background: #FE2C55;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 12px;               /* ⭐ 字号 12 */
   font-weight: 400;              /* ⭐ 取消加粗 */
   cursor: pointer;
@@ -352,7 +341,7 @@ onMounted(() => {
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: #FFFFFF;
+  background: #;
   cursor: pointer;
   display: inline-flex;
   align-items: center;

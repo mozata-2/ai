@@ -57,7 +57,7 @@ defineEmits(['update:modelValue'])
 }
 .channel-title__icon {
   flex: 0 0 auto;
-  color: #2563EB;
+  color: #;
 }
 .panel-title__text { flex: 0 0 auto; }
 
@@ -105,7 +105,8 @@ defineEmits(['update:modelValue'])
 
 .channel-btn--active {
   background: #FE2C55;
-  color: #FFFFFF;
+  color: #fff;
+  border-color: #FE2C55;
   font-weight: 700;
 }
 </style>

@@ -5,17 +5,35 @@
 
       <div class="col-left">
 
-        <!-- GK 视频：顶部固定切换组件（不受滚动影响） -->
-        <GkModeTabs v-if="activeTool === 'gkv'" v-model="gkMode" class="gk-fixed-tabs" />
-
         <div class="col-left__scroll">
 
-          <template v-if="activeTool === 'v31'">
+          <template v-if="activeTool === 'gkv'">
+            <GkModeTabs v-model="gkMode" />
+            <GkHeadPanel :mode="gkMode" />
+            <!-- ⭐ 用户要求：GK 视频的"参考图片 + 提示词"两个组件整体左移 2px。
+                 用 wrapper + position:relative; left:-2px，纯视觉偏移，
+                 不改变文档流占位（避免压缩右边界，影响 356px 宽度） -->
+            <div class="gk-prompt-ref-shift">
+              <GkImageRefPanel v-model="gkRefImage" :mode="gkMode" />
+              <ImagePromptPanel
+                class="video-prompt prompt--gk-left"
+                v-model="promptText"
+                :max="PROMPT_MAX"
+                :suggest-tags="VIDEO_PROMPT_TAGS"
+                placeholder="描述你想要的视频画面与镜头语言"
+              />
+            </div>
+            <GkAspectPanel v-model="gkRatio" :mode="gkMode" />
+            <GkDurationPanel v-model="gkDuration" :mode="gkMode" />
+            <GkGenCount v-model="gkCount" />
+          </template>
+
+          <template v-else-if="activeTool === 'v31'">
             <V31ModeTabs v-model="v31Mode" />
-            <V31KeyframesPanel v-model="v31Keyframes" />
             <V31ImageUpload v-if="v31Mode === 'img2video' || v31Mode === 'ref2video'" v-model="v31Image1" />
             <ImagePromptPanel
               class="video-prompt"
+              variant="v31"
               v-model="promptText"
               :max="PROMPT_MAX"
               :suggest-tags="VIDEO_PROMPT_TAGS"
@@ -24,29 +42,55 @@
             <V31TemplatesPanel @apply-template="onApplyTemplate" />
             <V31ModelSelect v-model="v31Model" />
             <V31RatioPanel v-model="v31Ratio" />
+            <V31GenCount v-model="v31Count" />
+            <V31AdvancedPanel v-model:translate="v31Translate" v-model:dubbing="v31Dubbing" />
           </template>
 
-          <!-- GK 视频模块 -->
-          <template v-else-if="activeTool === 'gkv'">
-            <GkHeadPanel
-              :brand="gkHead.brand"
-              :title="gkHead.title"
-              :desc="gkHead.desc"
+          <template v-else-if="activeTool === 'sr'">
+            <SrHeadPanel />
+            <GkImageRefPanel v-model="srRefImage" mode="classic" />
+            <ImagePromptPanel
+              class="video-prompt"
+              variant="sr"
+              v-model="promptText"
+              :max="PROMPT_MAX"
+              :suggest-tags="VIDEO_PROMPT_TAGS"
+              placeholder="描述你想要的视频画面与镜头语言"
             />
+            <V31TemplatesPanel @apply-template="onApplyTemplate" />
+            <SrAspectPanel v-model="srRatio" />
+            <SrChannelPanel v-model="srChannel" />
+            <GkGenCount v-model="srCount" />
+          </template>
 
-            <GkImageRefPanel v-model="gkRefImage" />
-
+          <!-- ⭐ 通义万象专属 7 模块（严格按用户指定顺序：①头→②模式→③提示词→④音频→⑤清晰度→⑥尺寸→⑦时长） -->
+          <template v-else-if="activeTool === 'tongyi'">
+            <!-- ① 标题组件：上文字 20 加粗 / 下文字 14；brand 不显示（用户要求删除） -->
+            <ImageHeadPanel
+              class="ty-head"
+              :brand="''"
+              :title="'通义万象视频生成'"
+              :desc="'阿里通义万象 · 队列模式 · 四种生成方式'"
+            />
+            <!-- ② 模式组件：单按钮 81.75×36 / 圆角 6 / 文字 12 / 未选中 #606266 / 选中 #FE2C55 -->
+            <TongyiModeTabs v-model="tongyiMode" />
+            <!-- ③ 提示词：上方"输入文字描述..."14 号 #606266 + 下方直接调用公共 ImagePromptPanel -->
+            <p class="ty-prompt-intro">输入文字描述，生成最高15秒的多镜头叙事视频</p>
             <ImagePromptPanel
               class="video-prompt"
               v-model="promptText"
               :max="PROMPT_MAX"
               :suggest-tags="VIDEO_PROMPT_TAGS"
-              placeholder="请用中文描述您想要的视频效果，例如：一个可爱的小猫咪在沙滩抓螃蟹，镜头缓慢推进，保持主体清晰，画面自然流畅"
+              placeholder="描述你想生成的视频内容，例如：一只可爱的猫咪在花园里玩耍..."
             />
-
-            <GkAspectPanel v-model="gkRatio" />
-            <GkDurationPanel v-model="gkDuration" />
-            <GkGenCount v-model="gkCount" />
+            <!-- ④ 音频：标题 14 不加粗 / 地址框 291×32 圆角 6 / 选择按钮 60×32 圆角 6 文字 14 / 支持 12 号 -->
+            <TongyiAudioPanel v-model="tongyiAudioUrl" />
+            <!-- ⑤ 清晰度：单按钮 173.5×56 圆角 6，按钮内上文字 14 下文字 12，选中 #FE2C55 -->
+            <TongyiQualityPanel v-model="tongyiQuality" />
+            <!-- ⑥ 尺寸：单按钮 62.2×76 圆角 6，内外部文字均 12，选中 #FE2C55 -->
+            <TongyiAspectPanel v-model="tongyiAspect" />
+            <!-- ⑦ 时长：单按钮 111.66×36 圆角 6，内部文字 14，选中 #FE2C55 -->
+            <TongyiDurationPanel v-model="tongyiDuration" />
           </template>
 
           <template v-else>
@@ -148,16 +192,22 @@ import VideoSizePanel   from '../components/VideoSizePanel.vue'
 import VideoAspectPanel from '../components/VideoAspectPanel.vue'
 
 import TongyiModelSelect    from '../components/TongyiModelSelect.vue'
+import TongyiModeTabs       from '../components/TongyiModeTabs.vue'
+import TongyiAudioPanel     from '../components/TongyiAudioPanel.vue'
+import TongyiQualityPanel   from '../components/TongyiQualityPanel.vue'
+import TongyiAspectPanel    from '../components/TongyiAspectPanel.vue'
+import TongyiDurationPanel  from '../components/TongyiDurationPanel.vue'
 import JimengVersionToggle  from '../components/JimengVersionToggle.vue'
 import XiaomaStylePanel     from '../components/XiaomaStylePanel.vue'
 import VeoDurationPanel     from '../components/VeoDurationPanel.vue'
 
 import V31ModeTabs      from '../components/V31ModeTabs.vue'
-import V31KeyframesPanel from '../components/V31KeyframesPanel.vue'
 import V31ImageUpload   from '../components/V31ImageUpload.vue'
 import V31TemplatesPanel from '../components/V31TemplatesPanel.vue'
 import V31ModelSelect   from '../components/V31ModelSelect.vue'
 import V31RatioPanel    from '../components/V31RatioPanel.vue'
+import V31GenCount      from '../components/V31GenCount.vue'
+import V31AdvancedPanel from '../components/V31AdvancedPanel.vue'
 
 import GkModeTabs       from '../components/GkModeTabs.vue'
 import GkHeadPanel      from '../components/GkHeadPanel.vue'
@@ -165,6 +215,10 @@ import GkImageRefPanel  from '../components/GkImageRefPanel.vue'
 import GkAspectPanel    from '../components/GkAspectPanel.vue'
 import GkDurationPanel  from '../components/GkDurationPanel.vue'
 import GkGenCount       from '../components/GkGenCount.vue'
+
+import SrHeadPanel      from '../components/SrHeadPanel.vue'
+import SrAspectPanel    from '../components/SrAspectPanel.vue'
+import SrChannelPanel   from '../components/SrChannelPanel.vue'
 
 const route  = useRoute()
 const router = useRouter()
@@ -199,40 +253,56 @@ const TOOL_META = {
   veo:       { brand: 'Veo-uimi',  title: '长时长/电影感',   desc: '支持长时长生成，电影级画面质感' }
 }
 
-const GK_HEAD_META = {
-  g15:     { brand: '构客', title: 'G1.5 图生视频', desc: '仅支持 1 张参考图 · 支持 10/15 秒 · 提交即返回' },
-  classic: { brand: '构客', title: '经典模式',      desc: '经典视频生成模式，支持文生视频与图生视频' }
-}
-
 const PROMPT_MAX  = 2000
 const promptText  = ref('')
 const refVideo    = ref(null)
 const videoSize   = ref('auto')
 
-/* GK 视频模块状态 */
-const gkMode      = ref('g15')
-const gkRefImage  = ref(null)
-const gkRatio     = ref('9:16')
-const gkDuration  = ref('10s')
-const gkCount     = ref('1')
-const gkHead      = computed(() => GK_HEAD_META[gkMode.value] || GK_HEAD_META.g15)
-
-const tongyiModel = ref('ty-standard')
-const tongyiRatio = ref('9:16')
+const tongyiModel    = ref('ty-standard')
+const tongyiRatio    = ref('9:16')
+/* 通义 7 模块专属状态 */
+const tongyiMode     = ref('txt2video')   // 文生视频 / 图生视频 / 视频换人 / 图生动作（默认第 1 个选中）
+const tongyiAudioUrl = ref('')            // 音频文件地址
+const tongyiQuality  = ref('720p')        // 清晰度：720P 标准清晰度 / 1080P 高清画质
+const tongyiAspect   = ref('16:9')        // 尺寸：16:9 / 9:16 / 1:1 / 4:3 / 3:4
+const tongyiDuration = ref('t5')          // 时长：5秒 / 10秒 / 15秒
 
 const xiaomaStyle = ref('realistic')
 
 const veoDuration = ref('5s')
 
-const v31Mode      = ref('img2video')
-const v31Keyframes = ref(false)
+const v31Mode      = ref('text2video')
 const v31Image1    = ref(null)
 const v31Model     = ref('fast')
 const v31Ratio     = ref('9:16')
+const v31Count     = ref(1)
+const v31Translate = ref(true)
+const v31Dubbing   = ref(true)
 const onApplyTemplate = () => {
   // eslint-disable-next-line no-console
   console.log('[V31] apply template')
 }
+
+// GK 视频模块状态
+const gkMode     = ref('g15')
+const gkRefImage = ref(null)
+const gkRatio    = ref('9:16')
+const gkDuration = ref('10s')
+const gkCount    = ref('1')
+// 切换模式时，同步重置时长选项为各自合法范围内的默认值
+watch(gkMode, (mode) => {
+  if (mode === 'classic') {
+    if (!['6s', '10s'].includes(gkDuration.value)) gkDuration.value = '6s'
+  } else {
+    if (!['10s', '15s'].includes(gkDuration.value)) gkDuration.value = '10s'
+  }
+})
+
+// SR 视频模块状态
+const srRefImage = ref(null)
+const srRatio    = ref('9:16')
+const srChannel  = ref('sora1')
+const srCount    = ref('1')
 
 const VIDEO_PROMPT_TAGS = [
   '电影感', '慢镜头', '推镜头', '4K超清', '电影运镜', '航拍视角', 
@@ -242,29 +312,50 @@ const VIDEO_PROMPT_TAGS = [
 const BASE_COST_PER_VIDEO = 120
 const genCost = computed(() => {
   let cost = BASE_COST_PER_VIDEO
-
   if (activeTool.value === 'gkv') {
+    // GK：时长倍数 × 生成数量
+    let durMul = 1
+    if (gkMode.value === 'classic') {
+      // classic：6秒=1倍，10秒=1.5倍
+      durMul = gkDuration.value === '10s' ? 1.5 : 1
+    } else {
+      // g15：10秒=1倍，15秒=1.5倍
+      durMul = gkDuration.value === '15s' ? 1.5 : 1
+    }
     const count = parseInt(gkCount.value) || 1
-    const durCost = gkDuration.value === '15s' ? Math.round(BASE_COST_PER_VIDEO * 1.5) : BASE_COST_PER_VIDEO
-    cost = durCost * count
-    return cost
-  }
-
-  if (activeTool.value === 'jimeng20') {
+    cost = Math.round(BASE_COST_PER_VIDEO * durMul * count)
+  } else if (activeTool.value === 'jimeng20') {
     cost = Math.round(cost * 1.5)
-  }
-  if (activeTool.value === 'veo') {
+  } else if (activeTool.value === 'veo') {
     const durSeconds = parseInt(veoDuration.value) || 5
     if (durSeconds > 10) {
       cost = cost * 2
     }
+  }
+  if (activeTool.value === 'v31') {
+    const c = v31Count.value || 1
+    cost = cost * c
+  }
+  if (activeTool.value === 'sr') {
+    const c = parseInt(srCount.value) || 1
+    cost = Math.round(BASE_COST_PER_VIDEO * c)
   }
   return cost
 })
 
 const canGenerate = computed(() => {
   if (activeTool.value === 'gkv') {
-    return promptText.value.trim().length > 0 && !!gkRefImage.value
+    // GK：g15需要提示词+参考图；classic模式图片可选，只要有提示词即可
+    if (gkMode.value === 'g15') {
+      return promptText.value.trim().length > 0 && !!gkRefImage.value
+    }
+    return promptText.value.trim().length > 0
+  }
+  if (activeTool.value === 'v31') {
+    // V31：img2video/ref2video需要图片；text2video只要有提示词
+    const hasPrompt = promptText.value.trim().length > 0
+    if (v31Mode.value === 'text2video') return hasPrompt
+    return hasPrompt && !!v31Image1.value
   }
   return promptText.value.trim().length > 0
 })
@@ -285,6 +376,15 @@ const onGenerate = () => {
     ref:      refVideo.value,
     size:     videoSize.value,
     cost:     genCost.value,
+    gk: activeTool.value === 'gkv'
+      ? {
+          gkMode:     gkMode.value,
+          gkRefImage: gkRefImage.value,
+          gkRatio:    gkRatio.value,
+          gkDuration: gkDuration.value,
+          gkCount:    gkCount.value
+        }
+      : undefined,
     tongyi: activeTool.value === 'tongyi'
       ? { model: tongyiModel.value, ratio: tongyiRatio.value }
       : undefined,
@@ -297,13 +397,23 @@ const onGenerate = () => {
     veo: activeTool.value === 'veo'
       ? { duration: veoDuration.value }
       : undefined,
-    gkv: activeTool.value === 'gkv'
+    v31: activeTool.value === 'v31'
       ? {
-          mode:     gkMode.value,
-          refImage: gkRefImage.value,
-          ratio:    gkRatio.value,
-          duration: gkDuration.value,
-          count:    gkCount.value
+          v31Mode:      v31Mode.value,
+          v31Image1:    v31Image1.value,
+          v31Model:     v31Model.value,
+          v31Ratio:     v31Ratio.value,
+          v31Count:     v31Count.value,
+          v31Translate: v31Translate.value,
+          v31Dubbing:   v31Dubbing.value
+        }
+      : undefined,
+    sr: activeTool.value === 'sr'
+      ? {
+          srRefImage: srRefImage.value,
+          srRatio:    srRatio.value,
+          srChannel:  srChannel.value,
+          srCount:    srCount.value
         }
       : undefined
   })
@@ -314,17 +424,6 @@ const onGenerate = () => {
 
 .video-prompt{
   margin-left: 10px;
-}
-
-.gk-fixed-tabs {
-  flex: 0 0 auto;
-  width: 356px;
-  max-width: 356px;
-  box-sizing: border-box;
-  padding: 8px 0 4px;
-  align-self: center;
-  z-index: 2;
-  background: transparent;
 }
 .video-page {
   width: 100%;
@@ -409,11 +508,9 @@ const onGenerate = () => {
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;                              /* ✅ 减少内部 gap：10→8 */
-  /* 底部预留出「生成按钮(48px) + 按钮/滚动区 gap(14px) + 提示行(≈20px) + 安全区」 ≈ 100px，
-        保证滚到底部时，最后一块面板不会把粉色按钮挤出 overflow:hidden 边界，按钮完整显示（不改按钮位置） */
-  padding: 4px 0 100px;                /* ✅ 减少 padding-bottom：120→100 */
+  align-items: flex-start;               /* ✅ 所有子组件左对齐（通义 7 模块左边缘严格对齐到同一基准） */
+  padding: 4px 22px 100px;              /* ✅ 左右 22px 内边距，保证 400 宽容器内 356 组件居中 + 同一左基准 */
+  gap: 8px;
   box-sizing: border-box;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -431,6 +528,54 @@ const onGenerate = () => {
 .col-left__scroll::-webkit-scrollbar-track { background: transparent; }
 .col-left__scroll::-webkit-scrollbar-thumb { background: transparent; }
 
+/* ⭐ 用户要求：GK 视频下「参考图片 + 提示词」两块整体左移 2px
+   纯视觉偏移，不改变文档流占位，因此不会压缩右侧宽度。 */
+.gk-prompt-ref-shift {
+  position: relative;
+  left: -2px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 356px;
+  max-width: 356px;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+}
+/* ⭐ GK 专属：ImagePromptPanel 是跨模块共享组件，
+   组件内残留了大量调试用错误值（根容器 margin-left:-166px / 
+   .prompt-panel__foot width:203% / .prompt-textarea 363px / 
+   .title-action margin-left:18px），
+   只能在 GK 这一个实例上用 :deep() 局部覆盖，避免影响
+   Banana / V31 / SR / Tongyi 等其它模块。
+   最终以 GkHeadPanel 标题的 padding-left:6px 为统一基准。 */
+.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left) {
+  margin-left: 0 !important;              /* ✅ 清除 -166px 错误值 */
+  margin-top: 0 !important;               /* ✅ 清除 -10px 残留 */
+  padding: 0 6px;                         /* ✅ 对齐基准：GkHeadPanel 标题的 6px 内边距 */
+  box-sizing: border-box;
+  width: 100%;
+}
+.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .panel-title) {
+  /* 组件默认已经 14px 标题，保持即可，左边缘由根容器 padding 保证 */
+  margin-bottom: 9px;
+}
+.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .prompt-textarea) {
+  width: 100%;                            /* ✅ 组件写死 363px，现在改为容器自适应 */
+  box-sizing: border-box;
+}
+.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .prompt-panel__foot) {
+  width: 100%;                            /* ✅ 清除 width: 203% 错误值 */
+  box-sizing: border-box;
+}
+.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .prompt-tags) {
+  width: 100%;                            /* ✅ 清除 width: 363px 写死值 */
+  flex-basis: auto;
+  min-width: 0;
+}
+.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .title-action) {
+  margin-left: auto !important;           /* ✅ 清除 18px 硬编码（组件是为了让按钮在v31时跟右侧边缘对齐），让它自然靠标题行右边缘 */
+}
+
 .gen-btn {
   appearance: none;
   -webkit-appearance: none;
@@ -445,17 +590,14 @@ const onGenerate = () => {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: #FE2C55;
-  color: #FFFFFF;
+  background: #FE2C55;              /* ⭐ 用户要求：底部按钮统一粉底 #FE2C55 */
+  color: #ffffff;                       /* ⭐ 白字 */
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid #FE2C55;         /* ⭐ 边框同色 */
   cursor: pointer;
-  transition:
-    transform 140ms ease,
-    filter 160ms ease,
-    opacity 160ms ease;
+  transition: opacity 160ms ease;       /* ⭐ 仅保留透明度，移除 translateY/filter 装饰动画 */
   box-sizing: border-box;
 }
 /* ⭐ 按钮内部：「消耗 xx 积分」—— 颜色淡一点、字号小一点，和截图一致 */
@@ -466,20 +608,16 @@ const onGenerate = () => {
   letter-spacing: 0;
   margin-left: 8px;
 }
-.gen-btn:hover:not(:disabled) {
-  transform: translateY(-1.5px);
-  filter: brightness(1.05);
-}
-.gen-btn:active:not(:disabled) { transform: translateY(0) scale(0.99); }
+.gen-btn:hover:not(:disabled) { opacity: 0.92; }
+.gen-btn:active:not(:disabled) { opacity: 0.86; }
 .gen-btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
-  filter: grayscale(0.15);
 }
 .gen-tips {
   align-self: center;
   font-size: 12px;
-  color: #6D7380;
+  color: #606266;
   line-height: 1;
 }
 
@@ -513,8 +651,8 @@ const onGenerate = () => {
   appearance: none;
   -webkit-appearance: none;
   border: 1px solid rgba(255,255,255,0.08);
-  background: #FE2C55;
-  color: #FFFFFF;
+  background: #;
+  color: #;
   padding: 0 16px;
   height: 36px;
   border-radius: 10px;
@@ -531,7 +669,7 @@ const onGenerate = () => {
   white-space: nowrap;
 }
 .record-panel__head .my-work-btn:hover {
-  background: #FE2C55;
+  background: #;
   transform: translateY(-1px);
 }
 .record-panel__head .my-work-btn:active { transform: translateY(0) scale(0.98); }
@@ -585,5 +723,35 @@ const onGenerate = () => {
   }
   .col-right.record-panel { min-height: 0; }
   .gen-btn { width: calc(100% - 30px); margin: 0 15px; }
+}
+
+/* ========== 通义万象专属样式（严格按用户规格） ========== */
+/* ① 标题组件：上文字 20 加粗 / 下文字 14；取消 ImageHeadPanel 自身 6px 左右 padding 与其它组件左对齐 */
+.ty-head :deep(.image-head) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 4px !important;
+}
+.ty-head :deep(.page-title) {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+.ty-head :deep(.page-desc) {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  margin-top: 8px !important;
+}
+
+/* ③ 提示词上方"输入文字描述..."：字号 14 颜色 #（严格要求） */
+.ty-prompt-intro {
+  width: 356px;
+  max-width: 356px;
+  margin: 2px 0 8px;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #;
+  font-weight: 400;
+  box-sizing: border-box;
 }
 </style>

@@ -1,4 +1,4 @@
-﻿﻿<template>
+﻿<template>
   <section class="tongyi-model-select">
     <div class="panel-title">
       <span class="title-emoji" aria-hidden="true">🤖</span>
@@ -101,8 +101,7 @@ defineEmits(['update:modelValue'])
 
 .seg-btn--active {
   background: #FE2C55;
-  border-color: rgba(255,255,255,0.12);
-  color: #FFFFFF;
+  border-color: #FE2C55;
+  color: #fff;
 }
-.seg-btn--active:hover { filter: brightness(1.05); }
 </style>

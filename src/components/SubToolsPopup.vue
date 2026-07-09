@@ -217,6 +217,120 @@
               <circle cx="27" cy="32" r="9" fill="#FFFFFF" opacity="0.22" />
               <circle cx="27" cy="32" r="5" fill="#FFFFFF" />
             </svg>
+
+            <!-- ========== 工具模块 8 款工具图标 ========== -->
+            <!-- 视频反推：摄像机 + 逆向回放（CCW 双箭头） -->
+            <svg v-else-if="tool.shape === 'vreverse'" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+              <g fill="none" stroke="#E5EAF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="16" width="40" height="32" rx="5" />
+                <polygon points="46,30 58,24 58,40 46,36" />
+                <path d="M36 28 L36 36" />
+                <path d="M30 28 L24 32 L30 36 Z" fill="#E5EAF3" />
+              </g>
+            </svg>
+
+            <!-- Claw 龙虾：红橙渐变 + 钳子 + 尾巴 -->
+            <svg v-else-if="tool.shape === 'claw'" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+              <defs>
+                <linearGradient :id="`claw-${_rid}`" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%"   stop-color="#FF8A6B" />
+                  <stop offset="100%" stop-color="#FE2C55" />
+                </linearGradient>
+              </defs>
+              <g :fill="`url(#claw-${_rid})`" stroke="#D91A43" stroke-width="1.6" stroke-linejoin="round">
+                <!-- 身体 -->
+                <ellipse cx="32" cy="36" rx="13" ry="10" />
+                <!-- 头 -->
+                <path d="M26 28 L32 20 L38 28 Z" />
+                <!-- 左钳 -->
+                <path d="M20 30 Q14 26 10 20 L14 22 L14 16 L10 16 L8 20 L6 18 Q14 26 20 32 Z" />
+                <!-- 右钳 -->
+                <path d="M44 30 Q50 26 54 20 L50 22 L50 16 L54 16 L56 20 L58 18 Q50 26 44 32 Z" />
+                <!-- 尾巴 -->
+                <path d="M32 44 Q30 52 32 56 Q34 52 32 44 Z" />
+              </g>
+              <!-- 眼睛 -->
+              <circle cx="29" cy="27" r="1.6" fill="#1A1C20" />
+              <circle cx="35" cy="27" r="1.6" fill="#1A1C20" />
+            </svg>
+
+            <!-- 局部编辑：方框（局部选区）+ 铅笔 -->
+            <svg v-else-if="tool.shape === 'localedit'" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+              <g fill="none" stroke="#E5EAF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <!-- 局部选区方框（四角裁剪） -->
+                <path d="M14 10 L26 10 M38 10 L50 10 M14 54 L26 54 M38 54 L50 54" />
+                <path d="M10 14 L10 26 M10 38 L10 50 M54 14 L54 26 M54 38 L54 50" />
+                <!-- 铅笔 -->
+                <path d="M38 44 L44 38 L50 44 L44 50 Z" fill="#F2F3F5" stroke="#E5EAF3" />
+                <line x1="40" y1="42" x2="46" y2="48" stroke="#8D6E3F" stroke-width="2.4" />
+                <circle cx="49" cy="34" r="4" fill="none" stroke="#FE2C55" stroke-width="3" />
+                <line x1="52" y1="31" x2="58" y2="25" stroke="#FE2C55" stroke-width="3" />
+              </g>
+            </svg>
+
+            <!-- 一键仿图：方框 + 内部图像（山+太阳） -->
+            <svg v-else-if="tool.shape === 'copyimg'" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+              <g fill="none" stroke="#E5EAF3" stroke-width="3" stroke-linejoin="round">
+                <rect x="10" y="12" width="36" height="36" rx="4" />
+                <rect x="18" y="20" width="36" height="36" rx="4" fill="#1A1C20" />
+              </g>
+              <!-- 内部图像：山 -->
+              <path d="M24 46 L30 36 L36 42 L42 32 L50 46 Z" fill="#6C7385" />
+              <circle cx="44" cy="30" r="3" fill="#FFD447" />
+            </svg>
+
+            <!-- 无损改字：文档 + T + 铅笔 -->
+            <svg v-else-if="tool.shape === 'textfix'" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+              <g fill="none" stroke="#E5EAF3" stroke-width="3" stroke-linejoin="round">
+                <rect x="10" y="12" width="36" height="40" rx="3" />
+                <rect x="18" y="20" width="36" height="40" rx="3" fill="#1A1C20" />
+              </g>
+              <!-- T 字 -->
+              <line x1="28" y1="30" x2="44" y2="30" stroke="#E5EAF3" stroke-width="3.2" stroke-linecap="round" />
+              <line x1="36" y1="30" x2="36" y2="46" stroke="#E5EAF3" stroke-width="3.2" stroke-linecap="round" />
+            </svg>
+
+            <!-- 手持产品：礼物盒/纸箱 -->
+            <svg v-else-if="tool.shape === 'giftbox'" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+              <g fill="none" stroke="#E5EAF3" stroke-width="3" stroke-linejoin="round">
+                <!-- 盒身 -->
+                <rect x="10" y="24" width="44" height="30" rx="2" />
+                <!-- 盒盖 -->
+                <path d="M6 24 L58 24 L58 30 L6 30 Z" />
+                <!-- 缎带竖 -->
+                <line x1="32" y1="24" x2="32" y2="54" />
+                <!-- 缎带横 -->
+                <line x1="10" y1="34" x2="54" y2="34" />
+                <!-- 蝴蝶结 -->
+                <path d="M24 24 Q22 14 30 14 Q32 16 32 24" />
+                <path d="M40 24 Q42 14 34 14 Q32 16 32 24" />
+              </g>
+            </svg>
+
+            <!-- 一键换装：卡车 -->
+            <svg v-else-if="tool.shape === 'truck'" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+              <g fill="none" stroke="#E5EAF3" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+                <!-- 车头 -->
+                <rect x="8" y="28" width="22" height="18" rx="3" />
+                <!-- 挡风玻璃 -->
+                <path d="M22 28 L26 32 L26 44 L22 44 Z" fill="#2C2F37" />
+                <!-- 车厢 -->
+                <rect x="30" y="24" width="20" height="22" rx="2" />
+                <!-- 车轮 -->
+                <circle cx="18" cy="50" r="4" fill="#1A1C20" />
+                <circle cx="44" cy="50" r="4" fill="#1A1C20" />
+                <circle cx="18" cy="50" r="1.4" fill="#8D93A5" />
+                <circle cx="44" cy="50" r="1.4" fill="#8D93A5" />
+              </g>
+            </svg>
+
+            <!-- 一键成片：圆环播放按钮 -->
+            <svg v-else-if="tool.shape === 'play'" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
+              <g fill="none" stroke="#E5EAF3" stroke-width="3" stroke-linejoin="round">
+                <circle cx="32" cy="32" r="20" />
+              </g>
+              <polygon points="26,22 46,32 26,42" fill="#E5EAF3" stroke="none" />
+            </svg>
           </span>
           <span class="subtool-btn__name">{{ tool.name }}</span>
         </button>
@@ -268,25 +382,38 @@ const isActiveTool = (tool) => {
   return cur === toolKey
 }
 
-/* ========= 尺寸（动态：根据 tools 数量计算行数 → 气泡高度） ========= */
-const POPUP_W = 260       // 整体气泡宽（保持不变：3 列 × 75.34 + padding + gap ≈ 260）
-const ITEM_W  = 75.34     // 单一工具块宽
-const ITEM_H  = 71        // 单一工具块高
-const COL_GAP = 6         // 列间距
-const ROW_GAP = 8         // 行间距
-const PAD_X   = 12        // 左右 padding 各 12
-const GAP_X   = 6         // 菜单项右 → 气泡左 的间隙
-const DIAMOND = 14        // 菱形方块的边长
+/* ========= 尺寸（严格按用户规格：工具菜单 3×3 8子工具 整体 260×267；图片菜单 2行保持 260×200 兼容） ========= */
+const POPUP_W = 260       // 整体气泡宽（不变）
+const ITEM_W  = 75.33     // ⭐ 单一工具块宽：用户精确 75.33（从 75.34 微调）
+const ITEM_H  = 71        // 单一工具块高（不变）
+const COL_GAP = 8         // ⭐ 列间距：用户指定"边距为8"统一行列 gap
+const ROW_GAP = 8         // ⭐ 行间距：同上
+const PAD_X   = 9         // ⭐ 左右 padding：260 - (3×75.33 + 2×8) = 260 - 241.99 = 18.01 → 左右各 9
+const GAP_X   = 6         // 菜单项右 → 气泡左 的间隙（不变）
+const DIAMOND = 14        // 菱形方块的边长（不变）
 
-// 行数：5~6 个 → 2 行；7~9 个 → 3 行；10~12 → 4 行 …
+// 行数：1~3 个 → 1 行；4~6 个 → 2 行；7~9 个 → 3 行（工具/视频都是 8个=3行，图片是 6个=2行）
 const rows = computed(() => {
   const n = Array.isArray(props.tools) ? props.tools.length : 0
   if (n <= 0) return 2
   return Math.ceil(n / 3)
 })
-// 总高度 = 上下 padding(各25) + ITEM_H * 行数 + ROW_GAP * (行数-1)
-const POPUP_H = computed(() => 50 + ITEM_H * rows.value + ROW_GAP * (rows.value - 1))
-const PAD_Y   = computed(() => (POPUP_H.value - (ITEM_H * rows.value + ROW_GAP * (rows.value - 1))) / 2)
+/* ⭐ 气泡总高：
+   2行（图片菜单 6 工具）：200（保持旧值 260×200，图片模块原有布局不变）
+     → 上下 padding = (200 - (71×2 + 8×1)) / 2 = (200-150)/2 = 25  ✓
+   3行（工具/视频菜单 8 工具）：用户指定 267 高
+     → 上下 padding = (267 - (71×3 + 8×2)) / 2 = (267-229)/2 = 19  ✓ */
+const POPUP_H = computed(() => {
+  if (rows.value === 2) return 200
+  if (rows.value === 3) return 267
+  // 其他行数（罕见）：按 padding 25 回退
+  return 50 + ITEM_H * rows.value + ROW_GAP * (rows.value - 1)
+})
+const PAD_Y = computed(() => {
+  if (rows.value === 2) return 25
+  if (rows.value === 3) return 19
+  return (POPUP_H.value - (ITEM_H * rows.value + ROW_GAP * (rows.value - 1))) / 2
+})
 
 const emit = defineEmits(['tool-click', 'popup-enter', 'popup-leave'])
 const onToolClick       = (tool) => tool && emit('tool-click', tool)
@@ -393,17 +520,17 @@ onBeforeUnmount(() => {
 <style>
 /* ⚠ Teleport 到 body，不能用 scoped；类名加前缀防冲突 */
 
-/* ================= 气泡本体（260×200，深色圆角） ================= */
+/* ================= 气泡本体（宽 260；高：2行=200 / 3行=267；深色圆角） ================= */
 .subtools-popup {
   z-index: 9995;
   position: relative;          /* 菱形指示物 position: absolute 的 containing block */
   box-sizing: border-box;
-  /* 上下 padding 用 JS 写进 :style（因为要精确定位 2 行栅格居中）；左右 12px */
+  /* 上下 padding 用 JS 写进 :style（2行=25  3行=19）；左右 9px */
 
-  background: #1A1C20;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px;          /* 参考图圆角比较大 */
-  color: #E5EAF3;
+  background: var(--bg-elevated, #1A1C20);
+  border: 1px solid var(--border-base, rgba(255,255,255,0.06));
+  border-radius: 6px;          /* ⭐ 用户指定圆角 6（原16） */
+  color: var(--text-primary, #E5EAF3);
   overflow: visible;            /* ⭐ 菱形要凸出左边界外，overflow 必须 visible */
   user-select: none;
 }
@@ -415,31 +542,31 @@ onBeforeUnmount(() => {
   /* ⭐ top 不再用 50%，改成动态 style="top:xxpx"（永远指向菜单项中间，气泡顶部和菜单项顶部对齐，完全不动） */
   width:  14px;
   height: 14px;
-  background: #1A1C20;          /* 与气泡同色，看起来是从气泡"延伸"出去的 */
+  background: var(--bg-elevated, #1A1C20);          /* 与气泡同色，看起来是从气泡"延伸"出去的 */
   transform: rotate(45deg);
   pointer-events: none;
   /* 让菱形的两条"非外边"与气泡 1px 边框贴合，视觉上不割裂 */
-  border-right: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-right: 1px solid var(--border-base, rgba(255,255,255,0.06));
+  border-bottom: 1px solid var(--border-base, rgba(255,255,255,0.06));
   border-bottom-right-radius: 2px;
 }
 
-/* ================= 3 列 × 2 行 工具栅格 ================= */
+/* ================= 3 列 × N 行 工具栅格 ================= */
 .subtools-grid {
   display: grid;
-  grid-template-columns: repeat(3, 75.34px);
+  grid-template-columns: repeat(3, 75.33px);  /* ⭐ 用户精确 75.33 */
   grid-auto-rows: 71px;
-  gap: 8px 6px;                 /* 行 8 / 列 6 */
+  gap: 8px 8px;                 /* ⭐ 用户指定行列边距统一为 8（原行8列6） */
   width: 100%;
   box-sizing: border-box;
 }
 
-/* ================= 单一工具块（75.34 × 71，上图下字，居中） ================= */
+/* ================= 单一工具块（75.33 × 71，上图下字，居中） ================= */
 .subtool-btn {
   appearance: none;
   -webkit-appearance: none;
   box-sizing: border-box;
-  width:  75.34px;
+  width:  75.33px;              /* ⭐ 用户精确 75.33（原75.34） */
   height: 71px;
   padding: 8px;                 /* 参考截图 padding 8px */
   border-radius: 10px;
@@ -462,15 +589,15 @@ onBeforeUnmount(() => {
     transform 120ms ease;
 }
 .subtool-btn:hover {
-  background: rgba(255,255,255,0.08);  /* 参考截图 hover 填充 #FFFFFF14 ≈ 0.08 */
-  border-color: rgba(255,255,255,0.08);
+  background: var(--hover-bg, rgba(255,255,255,0.08));  /* 参考截图 hover 填充 #FFFFFF14 ≈ 0.08 */
+  border-color: var(--border-base, rgba(255,255,255,0.08));
 }
 /* ⭐ 激活态：与顶部 Tab 的 .img-tab--active 视觉同步（浅粉底 + 粉色描边） */
 .subtool-btn.subtool-btn--active {
-  background: rgba(254,44,85,0.14);
-  border: 1px solid rgba(254,44,85,0.48);
+  background: #FE2C55;
+  border-color: #FE2C55;
 }
-.subtool-btn.subtool-btn--active .subtool-btn__name { color: #FF9EB0; font-weight: 600; }
+.subtool-btn.subtool-btn--active .subtool-btn__name { color: #fff !important; }
 .subtool-btn:active { transform: scale(0.97); }
 
 .subtool-btn__icon {
@@ -496,7 +623,7 @@ onBeforeUnmount(() => {
   line-height: 16px;
   border-radius: 8px;
   background: #FE2C55;
-  color: #ffffff;
+  color: var(--text-primary, #ffffff);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.4px;
@@ -505,10 +632,10 @@ onBeforeUnmount(() => {
 }
 
 .subtool-btn__name {
-  font-size: 12px;
+  font-size: 14px;              /* ⭐ 用户指定字号 14（原12） */
   line-height: 1.2;
   font-weight: 500;
-  color: #E5EAF3;
+  color: var(--text-primary, #E5EAF3);
   text-align: center;
   letter-spacing: 0.2px;
   white-space: nowrap;

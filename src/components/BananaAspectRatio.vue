@@ -63,11 +63,11 @@ defineProps({
 })
 defineEmits(['update:modelValue'])
 
-// 缩略图：按比例在 36×36 容器中居中显示的矩形
+// 缩略图：按比例在 24×24 容器中居中显示的矩形（用户要求不动按钮只缩比例框三分之一）
 function ratioStyle(value) {
   const [w, h] = value.split(':').map(Number)
-  const boxSize = 36                 // 缩略图容器 36×36
-  const maxInner = 28                // 内部矩形最大边 28
+  const boxSize = 24                 // 比例框 24×24（原36缩三分之一）
+  const maxInner = 18                // 内部矩形最大边 18（原28同比例缩）
   const scale = maxInner / Math.max(w, h)
   return {
     width:  Math.round(w * scale) + 'px',
@@ -112,14 +112,14 @@ function ratioStyle(value) {
   align-items: center;
   justify-content: center;
   gap: 4px;                      /* 图标 → 文字 4 */
-  color: #6B7280;
+  color: #1F2329;
   min-width: 0;
   box-sizing: border-box;
   padding: 4px 0;
 }
 .ratio-box {
-  width: 36px;
-  height: 36px;
+  width: 24px;                   /* 比例框 24×24（原36缩三分之一） */
+  height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -127,24 +127,28 @@ function ratioStyle(value) {
 }
 .ratio-box__inner {
   border-radius: 4px;
-  background: #F2F6FC;           /* 浅灰矩形（截图里 4:3 的样式） */
+  background: #EEF2F7;           /* ⭐ 浅灰矩形（未选中态的比例缩略图） */
 }
 .ratio-label {
-  font-size: 12px;               /* ⭐ 字号 12 */
+  font-size: 12px;               /* ⭐ 字号 12（保持清晰） */
   font-weight: 400;              /* ⭐ 取消加粗 */
   line-height: 1.2;
-  color: #4B5563;
+  color: #1F2329;
   text-align: center;
   display: block;                /* ⭐ 不管选中不选中都显示（用户纠正） */
   flex: 0 0 auto;
 }
 
-/* 选中态：整卡 #FE2C55 填充 + 比例字变白（图标样式保持不变，用户要求） */
+/* 选中态：整卡 #FE2C55 填充 + 比例字变白 + 缩略图浅粉 */
 .ratio-btn--active {
   background: #FE2C55;
-  color: #FFFFFF;
+  color: #fff;
+  border-color: #FE2C55;
 }
 .ratio-btn--active .ratio-label {
-  color: #FFFFFF;                 /* ⭐ 选中：只改比例字为白，图标不改 */
+  color: #fff;                 /* ⭐ 选中：只改比例字为白，图标不改 */
+}
+.ratio-btn--active .ratio-box__inner {
+  background: #FFB3C1;         /* ⭐ 选中：缩略图浅粉色，在粉底上看得见 */
 }
 </style>

@@ -684,7 +684,7 @@ const categoryCount = (cat) => {
   height: 32px;
   background: linear-gradient(135deg, #ff4d8d, #c23ad2);
   border-radius: 8px;
-  color: #fff;
+  color: var(--text-primary, #fff);
 }
 
 .plaza-title h2 {
@@ -707,7 +707,7 @@ const categoryCount = (cat) => {
   color: #ff4d8d;
 }
 
-/* 搜索框 */
+/* 搜索框：外框整体 300×32 */
 .search-box {
   display: flex;
   align-items: center;
@@ -715,15 +715,18 @@ const categoryCount = (cat) => {
   height: 32px;
   min-width: 0;
   box-sizing: border-box;
-  border: 1px solid rgba(151, 151, 151, 0.373);
+  border: 1px solid var(--border-base, rgba(151, 151, 151, 0.373));
   border-radius: 4px;
-  padding-top: 7px;
-  overflow: hidden;
+  padding: 0;
+  background: var(--bg-surface, #ffffff);
+  color: var(--text-primary);
+  /* 去掉 overflow:hidden，让内部 60×32 的按钮不被上下 1px 边框裁剪（父内框高30 < 按钮高32） */
+  overflow: visible;
   transition:
     background-color var(--theme-dur) var(--theme-ease),
     border-color var(--theme-dur) var(--theme-ease),
     box-shadow var(--theme-dur) var(--theme-ease);
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .search-box:focus-within {
@@ -732,7 +735,7 @@ const categoryCount = (cat) => {
 }
 
 .search-icon {
-  color: #a1a1aa;
+  color: var(--icon-default, #a1a1aa);
   flex-shrink: 0;
   margin-left: 10px;
   transition: color var(--theme-dur) var(--theme-ease);
@@ -753,32 +756,35 @@ const categoryCount = (cat) => {
 }
 
 .search-box input::placeholder {
-  color: #71717a;
+  color: var(--text-faint, #71717a);
 }
 
 .search-btn {
   width: 60px;
-  height: 32px;
+  height: 32px; /* 60×32 按钮外框 */
   flex: 0 0 60px;
   box-sizing: border-box;
   padding: 0;
-  background-color: #ecececa2;
-  color: #949596;
+  background-color: var(--bg-elevated-2, #ecececa2);
+  color: var(--text-muted, #949596);
   font-size: 13px;
   font-weight: 500;
   text-align: center;
   border: none;
-  border-left: 1px solid rgba(163, 162, 162, 0.421);
+  border-left: 1px solid var(--border-base, rgba(163, 162, 162, 0.421));
   border-radius: 0 5px 5px 0;
   cursor: pointer;
   white-space: nowrap;
+  /* 保证按钮内文字真正垂直居中 */
+  display: inline-flex; align-items: center; justify-content: center;
+  line-height: 1;
   transition:
     background-color var(--interact-dur) var(--interact-ease),
     color var(--theme-dur) var(--theme-ease);
 }
 
 .search-btn:hover {
-  background: #3a3b3c;
+  background: var(--bg-elevated-3, #3a3b3c);
 }
 
 /* 分类标签 */
@@ -852,15 +858,15 @@ const categoryCount = (cat) => {
 .work-card {
   border-radius: 16px;
   overflow: hidden;
-  background: var(--bg-elevated);
+  background: var(--bg-elevated, #F5F7FA);
   cursor: pointer;
   transition:
     background-color var(--theme-dur) var(--theme-ease),
     border-color var(--theme-dur) var(--theme-ease),
     box-shadow var(--theme-dur) var(--theme-ease),
     transform var(--interact-dur) var(--interact-ease);
-  border: 1px solid var(--border-base);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-base, #E5E6EA);
+  box-shadow: var(--shadow-card, 0 4px 12px rgba(0,0,0,0.08));
   /* 多列瀑布流关键属性 */
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
@@ -881,7 +887,7 @@ const categoryCount = (cat) => {
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: var(--bg-elevated-2);
+  background: var(--bg-elevated-2, #F0F1F4);
 }
 
 .work-image {
@@ -907,13 +913,13 @@ const categoryCount = (cat) => {
   font-weight: 600;
   z-index: 3;
   pointer-events: none;
-  color: #fff;
+  color: var(--text-primary, #fff);
   backdrop-filter: blur(4px);
 }
 .badge-hot    { background: rgba(255, 77, 79, 0.9); }
 .badge-new    { background: rgba(16, 185, 129, 0.9); }
 .badge-top    { background: linear-gradient(135deg, rgba(255, 77, 141, 0.95), rgba(194, 58, 210, 0.95)); }
-.badge-pro    { background: rgba(234, 179, 8, 0.92); color: #422; }
+.badge-pro    { background: rgba(234, 179, 8, 0.92); color: var(--text-primary, #422); }
 .badge-video  { background: rgba(255, 77, 77, 0.9); display: inline-flex; align-items: center; gap: 4px; }
 .badge-video::before { content: '▶'; font-size: 8px; }
 
@@ -946,7 +952,7 @@ const categoryCount = (cat) => {
   width: 36px;
   height: 36px;
   background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  color: #fff;
+  color: var(--text-primary, #fff);
   border-radius: 8px;
   font-weight: 900;
   display: flex;
@@ -962,7 +968,7 @@ const categoryCount = (cat) => {
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   font-size: 11px;
-  color: #cbd5e1;
+  color: var(--text-secondary, #cbd5e1);
 }
 
 .lt-center-title {
@@ -1036,7 +1042,7 @@ const categoryCount = (cat) => {
 .lt-mini-text {
   font-size: 11px;
   text-align: center;
-  color: #e2e8f0;
+  color: var(--text-secondary, #e2e8f0);
   font-weight: 500;
 }
 
@@ -1046,7 +1052,7 @@ const categoryCount = (cat) => {
   border: 1px solid rgba(16, 185, 129, 0.3);
   border-radius: 20px;
   font-size: 12px;
-  color: #a7f3d0;
+  color: var(--text-secondary, #a7f3d0);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1060,7 +1066,7 @@ const categoryCount = (cat) => {
 
 /* 房间视频卡片覆盖 */
 .room-overlay {
-  background: #000;
+  background: var(--bg-base, #000);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1071,7 +1077,7 @@ const categoryCount = (cat) => {
   top: 12px;
   left: 12px;
   background: rgba(255, 77, 77, 0.9);
-  color: #fff;
+  color: var(--text-primary, #fff);
   padding: 3px 10px;
   border-radius: 6px;
   font-size: 11px;
@@ -1116,7 +1122,7 @@ const categoryCount = (cat) => {
   top: 12px;
   left: 12px;
   background: rgba(255, 77, 77, 0.9);
-  color: #fff;
+  color: var(--text-primary, #fff);
   padding: 3px 10px;
   border-radius: 6px;
   font-size: 11px;
@@ -1521,14 +1527,9 @@ const categoryCount = (cat) => {
 }
 
 .hover-btn.primary {
-  background: linear-gradient(135deg, #ff4d8d 0%, #c23ad2 100%);
-  color: #fff;
+  background: #FE2C55;
+  color: #ffffff;
   margin-bottom: 10px;
-}
-
-.hover-btn.primary:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(255, 77, 141, 0.5);
 }
 
 .hover-actions {

@@ -157,13 +157,13 @@ const cards = ref([
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 2px;
-  color: #1f2937;
+  color: var(--text-primary, #1f2937);
   line-height: 1.3;
 }
 
 .card-desc {
   font-size: 11px;
-  color: #4b5563;
+  color: var(--text-muted, #4b5563);
   margin-bottom: 0;
   line-height: 1.3;
 }

@@ -101,7 +101,7 @@ defineEmits(['update:modelValue'])
 /* 选中：粉色方形圆角大按钮 */
 .count-btn--active {
   background: #FE2C55;
-  color: #FFFFFF;
+  color: #fff;
+  border-color: #FE2C55;
 }
-.count-btn--active:hover { filter: brightness(1.05); }
 </style>

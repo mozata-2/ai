@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="assets-page">
 
     <!-- ① 顶部小字说明 -->
@@ -367,7 +367,7 @@ function onLogin() { router.push('/login') }
   
 }
 
-/* 底部粉色满宽大按钮：100%宽 58高 0圆角 大字号 */
+/* 底部粉色满宽大按钮：100%宽 32高 圆角4 大字号 */
 .create-group-btn {
   flex-shrink: 0;
   /* 宽度与 GroupFolderItem 固定宽 224px 完全一致 → 缩放后不会左栏宽度不齐 */
@@ -376,7 +376,7 @@ function onLogin() { router.push('/login') }
   padding: 0;
   margin-left: -4px;
   border: none;
-  background: #FF5677;
+  background: #FE2C55;              /* ⭐ 用户要求：统一粉 #FE2C55（原 #FF5677） */
   border-radius: 4px;
   color: #ffffff;
   font-size: 14px;
@@ -386,12 +386,12 @@ function onLogin() { router.push('/login') }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  transition: filter 160ms ease, background-color 160ms ease;
+  transition: opacity 160ms ease;   /* ⭐ 移除 brightness/filter 装饰 */
   user-select: none;
   box-sizing: border-box;
 }
-.create-group-btn:hover { filter: brightness(1.08); background: #FF3C63; }
-.create-group-btn:active { filter: brightness(0.95); }
+.create-group-btn:hover { opacity: 0.92; }
+.create-group-btn:active { opacity: 0.86; }
 .create-group-btn__plus {
   font-size: 22px;
   font-weight: 300;
@@ -583,7 +583,7 @@ function onLogin() { router.push('/login') }
 .filter-tabs :deep(.el-radio-button.is-active .el-radio-button__inner) {
   background: #FE2C55 !important;
   border-color: #FE2C55 !important;
-  color: #fff !important;
+  color: #ffffff !important;
   font-weight: 500;
 }
 
@@ -618,7 +618,7 @@ function onLogin() { router.push('/login') }
   justify-content: center !important;
   background: #FE2C55 !important;
   border: 1px solid #FE2C55 !important;
-  color: #fff !important;
+  color: var(--text-primary, #fff) !important;
   overflow: hidden;
   flex: 0 0 92px;                  /* 防止 flex 容器压缩 */
 }
@@ -1007,7 +1007,7 @@ function onLogin() { router.push('/login') }
 
 /* ------- 遮罩层：背景模糊 ------- */
 .create-group-overlay.el-overlay {
-  background-color: rgba(8, 8, 10, 0.3) !important;
+  background-color: var(--el-overlay-color, rgba(8, 8, 10, 0.3)) !important;
   backdrop-filter: blur(6px) saturate(1.1);
   -webkit-backdrop-filter: blur(6px) saturate(1.1);
 }

@@ -1,4 +1,4 @@
-﻿﻿<template>
+﻿<template>
   <section class="veo-duration-panel">
     <div class="panel-title">
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="panel-title__icon">
@@ -100,8 +100,7 @@ defineEmits(['update:modelValue'])
 
 .dur-btn--active {
   background: #FE2C55;
-  border-color: rgba(255,255,255,0.12);
-  color: #FFFFFF;
+  border-color: #FE2C55;
+  color: #fff;
 }
-.dur-btn--active:hover { filter: brightness(1.05); }
 </style>

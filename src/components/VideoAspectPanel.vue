@@ -1,4 +1,4 @@
-﻿﻿<template>
+﻿<template>
   <section class="video-aspect-panel">
     <div class="panel-title">
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="panel-title__icon">
@@ -116,9 +116,8 @@ defineEmits(['update:modelValue'])
 
 .aspect-btn--active {
   background: #FE2C55;
-  border-color: rgba(255,255,255,0.12);
-  color: #FFFFFF;
+  border-color: #FE2C55;
+  color: #fff;
 }
-.aspect-btn--active:hover { filter: brightness(1.05); }
 .aspect-btn--active .aspect-btn__sub { color: rgba(255,255,255,0.85); }
 </style>

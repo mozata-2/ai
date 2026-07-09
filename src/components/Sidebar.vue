@@ -215,13 +215,34 @@ const menuItems = ref([
       { key: 'veo',       name: 'Veo-uimi',  hot: false, shape: 'veo',      routeKey: 'veo' }
     ] },
   { name: '音乐',   shortName: '音乐', path: '/music',   icon: iconMusic, desc: '敬请期待',      expandable: true,  subTools: [] },
-  { name: '画布',   shortName: '画布', path: '/canvas',  icon: iconCanvas,desc: '敬请期待',      expandable: true,  subTools: [] },
-  { name: '工具',   shortName: '工具', path: '/tool',    icon: iconTool,  desc: '更多工具',      expandable: true,  subTools: [] }
+  { name: '画布',   shortName: '画布', path: '/canvas',  icon: iconCanvas,desc: '画布市场',      expandable: false, subTools: [] },
+  /* ⭐ 工具菜单 8 个子工具（严格按截图 3×3 栅格顺序排布：前 8 个占 1~8，第 9 格空） */
+  { name: '工具',   shortName: '工具', path: '/tool',    icon: iconTool,  desc: '更多工具',      expandable: true,
+    subTools: [
+      /* 第 1 行 */
+      { key: 'vreverse',  name: '视频反推', hot: false, shape: 'vreverse',   routeKey: 'vreverse' },
+      { key: 'claw',      name: 'Claw龙虾', hot: false, shape: 'claw',       routeKey: 'claw' },
+      { key: 'localedit', name: '局部编辑', hot: false, shape: 'localedit',  routeKey: 'localedit' },
+      /* 第 2 行 */
+      { key: 'copyimg',   name: '一键仿图', hot: false, shape: 'copyimg',    routeKey: 'copyimg' },
+      { key: 'textfix',   name: '无损改字', hot: false, shape: 'textfix',    routeKey: 'textfix' },
+      { key: 'giftbox',   name: '手持产品', hot: false, shape: 'giftbox',    routeKey: 'giftbox' },
+      /* 第 3 行（第 9 格留空，正好匹配截图） */
+      { key: 'truck',     name: '一键换装', hot: false, shape: 'truck',      routeKey: 'truck' },
+      { key: 'play',      name: '一键成片', hot: false, shape: 'play',       routeKey: 'play' }
+    ] }
 ])
 
 const isActive = (path) => route.path === path
 
 const goMenu = (item) => {
+  // ⭐ 画布菜单：点击时新开浏览器标签页，打开独立画布营销页（不套 Layout 壳）
+  if (item && item.path === '/canvas') {
+    window.open('/#/canvas-landing', '_blank', 'noopener,noreferrer')
+    emit('menu-item-clicked')
+    if (isNarrowRef.value) onClose()
+    return
+  }
   const target = item && item.path ? item.path : '/'
   router.push(target).catch(() => {})
   emit('menu-item-clicked')
@@ -386,7 +407,7 @@ onBeforeUnmount(() => clearHideTimer())
   font-size: 18px;
   font-weight: 700;
   /* ⭐ 亮/暗主题统一：主文字色 */
-  color: var(--text-primary, #E5EAF3);
+  color: var(--text-primary, #ffffff);
   transition: color var(--theme-dur) var(--theme-ease);
   margin-bottom: 1px;
 }
@@ -402,7 +423,7 @@ onBeforeUnmount(() => clearHideTimer())
   justify-content: space-between;
   gap: 12px;
   /* ⭐ 亮/暗主题统一：次级文字色 */
-  color: var(--text-secondary, #A6ABB8);
+  color: var(--text-secondary, #aaaaaa);
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;

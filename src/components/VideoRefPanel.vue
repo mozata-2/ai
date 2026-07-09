@@ -160,7 +160,7 @@ const onRemove = () => {
 .link-btn {
   appearance: none;
   background: rgba(0,0,0,0.45);
-  color: #FE2C55;
+  color: #;
   padding: 3px 9px;
   font-size: 12px;
   border-radius: 7px;

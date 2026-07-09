@@ -135,8 +135,8 @@ onBeforeUnmount(() => {
 .coming-soon-popup {
   box-sizing: border-box;
   /* ⭐ 和 SubToolsPopup 同色：#1A1C20，保持气泡切换时颜色不跳 */
-  background: #1A1C20;
-  border: 1px solid rgba(255,255,255,0.06);
+  background: var(--bg-elevated, #1A1C20);
+  border: 1px solid var(--border-base, rgba(255,255,255,0.06));
   border-radius: 16px;
   /* ⭐ 删除发散光 box-shadow（用户要求"取消所有按钮的发散光!!!"） */
   display: flex;
@@ -153,12 +153,12 @@ onBeforeUnmount(() => {
   /* ⭐ top 不再 translateY(-50%)，现在用动态 style 永远指向菜单项中间 */
   width:  14px;
   height: 14px;
-  background: #1A1C20;
+  background: var(--bg-elevated, #1A1C20);
   transform: rotate(45deg);
   pointer-events: none;
   /* 让菱形的两条"非外边"与气泡 1px 边框贴合，视觉上不割裂 */
-  border-right: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-right: 1px solid var(--border-base, rgba(255,255,255,0.06));
+  border-bottom: 1px solid var(--border-base, rgba(255,255,255,0.06));
   border-left: none;
   border-top: none;
   border-bottom-right-radius: 2px;

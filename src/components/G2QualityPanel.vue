@@ -108,7 +108,7 @@ const costData = computed(() => {
 }
 .quality-title__icon {
   flex: 0 0 auto;
-  color: #FBBF24;
+  color: #;
 }
 .panel-title__text { flex: 0 0 auto; }
 
@@ -158,7 +158,8 @@ const costData = computed(() => {
 /* 选中态：粉色底 + 白字（尺寸/圆角保持一致） */
 .quality-btn--active {
   background: #FE2C55;
-  color: #FFFFFF;
+  color: #fff;
+  border-color: #FE2C55;
   font-weight: 700;
 }
 
@@ -166,7 +167,7 @@ const costData = computed(() => {
 .cost-card {
   width: 100%;
   box-sizing: border-box;
-  background: #F7F8FA;
+  background: #;
   border-radius: 12px;
   padding: 10px 16px;
   display: flex;

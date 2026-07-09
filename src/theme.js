@@ -18,10 +18,14 @@ const pickInitial = () => {
 
 export const theme = ref(pickInitial())
 
-/** 将 theme.value 同步到 <html data-theme="..."> 并持久化到 localStorage */
+/** 将 theme.value 同步到 <html data-theme="..."> 和 Element Plus 深色标识 html.dark，并持久化 localStorage */
 const applyTheme = (t) => {
   if (typeof document !== 'undefined' && document.documentElement) {
-    document.documentElement.setAttribute('data-theme', t)
+    const html = document.documentElement
+    html.setAttribute('data-theme', t)
+    /* ⭐ Element Plus 深色主题挂钩：必须在 <html> 上加 `dark` class，
+          否则所有挂载到 <body> 下的悬浮气泡（Tooltip / Popover / Dropdown / Select 下拉 / Dialog 等）不会随主题切换 */
+    html.classList.toggle('dark', t === 'dark')
   }
   try {
     if (localStorage && localStorage.setItem) localStorage.setItem(STORAGE_KEY, t)

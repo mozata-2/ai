@@ -88,7 +88,7 @@ function appendTag(tag) {
 }
 .left-emoji { font-size: 18px; }
 .left-brackets {
-  color: #a0a3ab;
+  color: #;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 13px;
   font-weight: 500;
@@ -105,7 +105,7 @@ function appendTag(tag) {
   border: none;
   padding: 4px 6px;
   cursor: pointer;
-  color: #FE2C55;
+  color: #;
   font-size: 14px;
   font-weight: 600;
   display: inline-flex;
@@ -127,7 +127,7 @@ function appendTag(tag) {
   transition: border-color 160ms ease;
 }
 .textarea-wrap:focus-within {
-  border-color: #FE2C55;
+  border-color: #;
 }
 .prompt-textarea {
   width: 100%;
@@ -184,7 +184,7 @@ function appendTag(tag) {
 }
 .suggest-chip:hover {
   background: rgba(254,44,85,0.12);
-  color: #FE2C55;
+  color: #;
   transform: translateY(-1px);
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <section class="gk-mode-tabs">
+  <div> 
     <div class="tabs-row" role="tablist" aria-label="GK 模式选择">
       <button
         v-for="opt in MODE_OPTS"
@@ -14,12 +15,13 @@
         <span class="tab-btn__label">{{ opt.label }}</span>
       </button>
     </div>
+    </div>
   </section>
 </template>
 
 <script>
 export const MODE_OPTS = [
-  { key: 'g15', label: 'G1.5' },
+  { key: 'g15',    label: 'G1.5' },
   { key: 'classic', label: '经典模式' }
 ]
 </script>
@@ -39,49 +41,59 @@ defineEmits(['update:modelValue'])
 .gk-mode-tabs {
   width: 100%;
   box-sizing: border-box;
-  padding: 4px 0 8px;
+  
   display: flex;
   flex-direction: column;
+  align-items: flex-start;       /* ⭐ 不再居中，368×44 贴左 */
   gap: 0;
-  flex: 0 0 auto;
-  background: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-base, #121212);
 }
+/* tabs容器：用户要求整体 368 × 44，单按钮 176 × 36；整体向上移 2px */
 .tabs-row {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 0;
+  width: 368px;                     /* ⭐ 容器整体 368 宽 */
+  height: 44px;                     /* ⭐ 容器整体 44 高 */
+  gap: 8px;                         /* 两按钮之间 8px 缝 */
+  padding: 0 4px;                   /* 左右各 4 → 368 - 8 - 8 = 352 刚好两按钮 */
   box-sizing: border-box;
+  border-radius: 6px;
+  margin-top: -4px;
+  background: var(--bg-elevated-2, #F5F7FA);
+  margin-left: 4px;                 /* ⭐ 用户指这个浅灰容器（绿框）整体向上移 2px */
 }
+/* 单个按钮：用户指定 176 × 36，未选中透明背景 */
 .tab-btn {
   appearance: none;
   -webkit-appearance: none;
-  border: 1px solid var(--border-base, rgba(255,255,255,0.06));
-  background: var(--bg-elevated-2, #26272B);
+  border: none;
+  background: transparent;
   color: var(--text-secondary, #BFC4CC);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   border-radius: 6px;
-  flex: 0 0 175.5px;
-  width: 175.5px;
-  height: 36px;
+  width: 176px;                     /* ⭐ 单按钮 176 宽 */
+  height: 36px;                     /* ⭐ 单按钮 36 高 */
   padding: 0 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   user-select: none;
+  flex: 0 0 176px;
   box-sizing: border-box;
+  transition: background-color 160ms ease, color 160ms ease;
 }
-.tab-btn:active { transform: scale(0.985); }
+/* ⭐ 移除 scale 变换（违反硬约束） */
 
+/* 选中：纯粉色背景 + 白字 */
 .tab-btn--active {
   background: #FE2C55;
-  border-color: rgba(255,255,255,0.12);
-  color: #FFFFFF;
+  color: #fff;
+  border-color: #FE2C55;
 }
 </style>

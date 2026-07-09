@@ -12,13 +12,13 @@
 .empty-page {
   width: 100%;
   min-height: 100vh;
-  background: var(--bg-base);
+  background: #121212;
   padding: 48px 56px;
   box-sizing: border-box;
 }
 .page-title {
   margin: 0;
-  color: var(--text-primary);
+  color: #FFFFFF;
   font-size: 28px;
   font-weight: 700;
 }

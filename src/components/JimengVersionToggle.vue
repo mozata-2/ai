@@ -1,4 +1,4 @@
-﻿﻿<template>
+﻿<template>
   <section class="jimeng-version-toggle">
     <div class="panel-title">
       <span class="title-emoji" aria-hidden="true">🔄</span>
@@ -111,20 +111,19 @@ defineEmits(['update:modelValue'])
   font-size: 10px;
   font-weight: 700;
   border-radius: 9px;
-  background: #FE2C55;
-  color: #FFFFFF;
+  background: #;
+  color: #;
   letter-spacing: 0.3px;
   flex: 0 0 auto;
 }
 
 .seg-btn--active {
   background: #FE2C55;
-  border-color: rgba(255,255,255,0.12);
-  color: #FFFFFF;
+  border-color: #FE2C55;
+  color: #fff;
 }
-.seg-btn--active:hover { filter: brightness(1.05); }
 .seg-btn--active .seg-btn__badge {
   background: rgba(255,255,255,0.22);
-  color: #FFFFFF;
+  color: #fff;
 }
 </style>

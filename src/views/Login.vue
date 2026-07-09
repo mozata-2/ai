@@ -143,7 +143,7 @@ const handleLogin = async () => {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: #0c0c0e;
+  background: var(--bg-base, #0c0c0e);
 }
 
 /* ====== 左半屏：视频区 ====== */
@@ -196,7 +196,7 @@ const handleLogin = async () => {
   flex: 1;
   min-width: 0;
   height: 100%;
-  background:#0F0F0F;
+  background: var(--bg-surface, #0F0F0F);
 }
 
 /* 右上角 X 关闭按钮 */
@@ -212,7 +212,7 @@ const handleLogin = async () => {
   justify-content: center;
   background: transparent;
   border: none;
-  color: #9ca3af;
+  color: var(--text-faint, #9ca3af);
   cursor: pointer;
   border-radius: 8px;
   transition:
@@ -221,7 +221,7 @@ const handleLogin = async () => {
 }
 .close-btn:hover {
   background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
+  color: var(--text-primary, #ffffff);
 }
 
 /* 右半屏居中卡片容器 */
@@ -252,7 +252,7 @@ const handleLogin = async () => {
 .login-title {
   margin: 0 0 8px;
   text-align: center;
-  color: #ffffff;
+  color: var(--text-primary, #ffffff);
   font-size: 40px;
   font-weight: 500;
   letter-spacing: 0px;
@@ -262,7 +262,7 @@ const handleLogin = async () => {
 .login-subtitle {
   margin: 0 0 32px;
   text-align: center;
-  color: #9ca3af;
+  color: var(--text-faint, #9ca3af);
   font-size: 14px;
   line-height: 1.5;
   margin-left: -8px;
@@ -309,12 +309,12 @@ const handleLogin = async () => {
   box-shadow: 0 0 0 3px rgba(255, 126, 156, 0.12);
 }
 .login-input :deep(.el-input__inner) {
-  color: #f5f5f5;
+  color: var(--text-secondary, #f5f5f5);
   font-size: 15px;
   height: 60px;
 }
 .login-input :deep(.el-input__inner::placeholder) {
-  color: #8e8e95;
+  color: var(--text-faint, #8e8e95);
 }
 .login-input :deep(.el-input__prefix-inner) {
   margin-right: 10px;
@@ -322,7 +322,7 @@ const handleLogin = async () => {
 
 /* 自定义 svg 前缀图标 */
 .input-icon {
-  color: #a1a1aa;
+  color: var(--text-faint, #a1a1aa);
   display: block;
   flex-shrink: 0;
   transition: color 180ms ease;
@@ -334,31 +334,25 @@ const handleLogin = async () => {
 
 /* 显示密码的图标（小眼睛）颜色 */
 .login-input :deep(.el-input__suffix-inner) {
-  color: #a1a1aa;
+  color: var(--text-faint, #a1a1aa);
 }
 
-/* 登录按钮：粉色，大圆角，高 56px */
+/* 登录按钮：纯粉底 #FE2C55，大圆角，高 56px（用户要求移除渐变/装饰动画） */
 .login-submit-btn {
   width: 100% !important;
   height: 56px !important;
-  border: none !important;
+  border: 1px solid #FE2C55 !important;
   border-radius: 16px !important;
-  background: linear-gradient(135deg, #FF7E9C 0%, #FF5677 100%) !important;
+  background: #FE2C55 !important;        /* ⭐ 纯粉底 #FE2C55（原渐变） */
   color: #ffffff !important;
   font-size: 17px !important;
   font-weight: 600 !important;
   letter-spacing: 2px !important;
   margin-top: 4px;
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    filter 180ms ease !important;
+  transition: opacity 180ms ease !important;  /* ⭐ 移除 translateY/box-shadow/filter 装饰 */
+  box-shadow: none !important;
 }
-.login-submit-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(255, 86, 119, 0.35) !important;
-  filter: brightness(1.03);
-}
+.login-submit-btn:hover { opacity: 0.92; }
 
 /* 底部注册引导 */
 .login-footer {
@@ -370,7 +364,7 @@ const handleLogin = async () => {
   font-size: 14px;
 }
 .gray-text {
-  color: #94979f;
+  color: var(--text-faint, #94979f);
 }
 .link-text {
   color: #ff7e9c;

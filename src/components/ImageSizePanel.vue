@@ -117,14 +117,11 @@ defineEmits(['update:modelValue'])
 }
 .size-btn:active { transform: scale(0.98); }
 
-/* 选中：红色高亮（参考图 Auto 的效果：Background #FE2C55 / Color #FFFFFF） */
+/* 选中：红色高亮（参考图 Auto 的效果：Background #FE2C55 / Color #fff） */
 .size-btn--active {
   background: #FE2C55;                  /* ✅ 选中背景 #FE2C55（和截图一致） */
-  border-color: rgba(255,255,255,0.12);
-  color: #FFFFFF;                       /* ✅ 选中文字 #FFFFFF（和截图一致） */
+  border-color: #FE2C55;
+  color: #fff;                       /* ✅ 选中文字 #fff（和截图一致） */
   border-width: 2px;                    /* ✅ 选中保持 2px 边框（截图 border-2） */
-}
-.size-btn--active:hover {
-  filter: brightness(1.05);
 }
 </style>

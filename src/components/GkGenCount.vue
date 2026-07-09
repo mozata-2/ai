@@ -2,15 +2,15 @@
   <section class="gk-gen-count">
     <div class="panel-title">
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="panel-title__icon">
-        <rect x="3" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
-        <rect x="14" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.6"/>
-        <rect x="3" y="14" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.4"/>
-        <rect x="14" y="14" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.2"/>
+        <path d="M4 6 H20 M4 12 H20 M4 18 H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <rect x="3" y="4" width="18" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.3"/>
+        <rect x="3" y="10" width="18" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.3"/>
+        <rect x="3" y="16" width="18" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.3"/>
       </svg>
       <span class="panel-title__text">生成数量</span>
     </div>
 
-    <div class="count-grid" role="radiogroup" :aria-label="'生成数量选择，当前' + modelValue">
+    <div class="count-row" role="radiogroup" :aria-label="'生成数量选择，当前' + modelValue">
       <button
         v-for="opt in COUNT_OPTS"
         :key="opt.key"
@@ -29,10 +29,10 @@
 
 <script>
 export const COUNT_OPTS = [
-  { key: '1',  label: '1 条' },
-  { key: '3',  label: '3 条' },
-  { key: '5',  label: '5 条' },
-  { key: '10', label: '10 条' }
+  { key: '1', label: '1条' },
+  { key: '2', label: '2条' },
+  { key: '3', label: '3条' },
+  { key: '4', label: '4条' }
 ]
 </script>
 
@@ -51,7 +51,7 @@ defineEmits(['update:modelValue'])
 .gk-gen-count {
   width: 100%;
   box-sizing: border-box;
-  padding: 12px 0;
+  padding: 12px 6px;                   /* ⭐ 左右补 6px → 与 GkHeadPanel 标题对齐 */
   background: transparent;
 }
 .panel-title {
@@ -66,40 +66,36 @@ defineEmits(['update:modelValue'])
 .panel-title__icon { color: var(--text-secondary, #C9CDD4); flex: 0 0 auto; }
 .panel-title__text { flex: 0 0 auto; }
 
-.count-grid {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+.count-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   width: 100%;
 }
 .count-btn {
   appearance: none;
   -webkit-appearance: none;
-  border: 1px solid var(--border-base, rgba(255,255,255,0.06));
-  background: var(--bg-elevated-2, #26272B);
-  color: var(--text-primary, #E5EAF3);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 6px;
   flex: 0 0 82.75px;
   width: 82.75px;
   height: 36px;
-  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-base, rgba(255,255,255,0.06));
+  background: transparent;
+  color: var(--text-primary, #E5EAF3);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
   user-select: none;
   box-sizing: border-box;
 }
-.count-btn:active { transform: scale(0.985); }
+.count-btn:active { transform: scale(0.98); }
 
 .count-btn--active {
   background: #FE2C55;
-  border-color: rgba(255,255,255,0.12);
-  color: #FFFFFF;
+  border-color: #FE2C55;
+  color: #fff;
 }
 </style>

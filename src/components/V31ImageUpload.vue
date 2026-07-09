@@ -163,7 +163,7 @@ const onRemove = () => {
 .link-btn {
   appearance: none;
   background: rgba(0,0,0,0.45);
-  color: #FE2C55;
+  color: #;
   padding: 3px 9px;
   font-size: 12px;
   border-radius: 7px;
@@ -240,7 +240,7 @@ const onRemove = () => {
   transition: color var(--theme-dur, 200ms) var(--theme-ease, ease);
 }
 .upload-tips__line--warn {
-  color: #FE2C55;
+  color: #;
   font-weight: 500;
 }
 .upload-tips__line--warn > span:last-child {
