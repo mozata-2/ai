@@ -105,4 +105,13 @@ defineEmits(['update:modelValue'])
 }
 .seg-btn--active .seg-btn__title { color: #fff; }
 .seg-btn--active .seg-btn__sub   { color: rgba(255,255,255,0.92); }
+
+/* 窄屏(≤1000)单列：容器原 width:356px 锁死 + 2×173.5 + gap9 = 356，向右溢出 13px */
+@media (max-width: 999.98px) {
+  .seg-row { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .seg-btn { width: 100%; }
+}
+@media (max-width: 767.98px) {
+  .seg-btn { height: 52px; }
+}
 </style>

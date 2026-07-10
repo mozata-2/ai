@@ -201,4 +201,20 @@ const onRemove = () => {
   background: var(--hover-bg, rgba(255,255,255,0.03));
   transform: translateY(-1px);
 }
+
+/* 窄屏(≤1000)：单列下 uploader width:101% 会让右边溢出，左右不再对称 */
+@media (max-width: 999.98px) {
+  .video-ref {
+    margin-left: 0;
+    width: 100%;
+  }
+  .uploader { width: 100%; }
+}
+@media (max-width: 767.98px) {
+  .uploader {
+    height: 160px;
+    min-height: 160px;
+    max-height: 160px;
+  }
+}
 </style>

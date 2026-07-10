@@ -217,4 +217,23 @@ defineEmits(['update:genMode', 'update:resolution', 'update:count'])
   color: #fff;
   border-color: #FE2C55;
 }
+
+/* 窄屏(≤1000)单列：seg-row 2/3/4 列原 359px 锁死 > 手机 343 内宽，向右溢出 16px
+   最右按钮边框/文字（实时出图、4K 的 K、10张 的 1）被裁 */
+@media (max-width: 999.98px) {
+  .seg-row--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 6px; }
+  .seg-row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 6px; }
+  .seg-row--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 6px; }
+  .seg-btn,
+  .seg-btn--tall,
+  .seg-row--3 .seg-btn,
+  .seg-row--4 .seg-btn { width: 100%; }
+  /* 高按钮高度保持 70px，其他尺寸按钮保持 44/36px — 字号不变 */
+}
+/* 移动端(≤768)：按钮高度再缩 4px 更贴手机 */
+@media (max-width: 767.98px) {
+  .seg-btn--tall { height: 66px; }
+  .seg-row--3 .seg-btn { height: 40px; }
+  .seg-row--4 .seg-btn { height: 32px; }
+}
 </style>

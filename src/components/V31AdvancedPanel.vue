@@ -232,9 +232,16 @@ const open = ref(true)
 /* 底部浅灰分割线 */
 .divider {
   width: 100%;
+}
+hr.divider {
   height: 1px;
   background: var(--divider, rgba(55, 58, 64, 0.9));
   border: none;
   margin-top: 18px;
+}
+
+/* 窄屏(≤1000)单列：adv-box 原 width:359px 锁死 > 手机 343 内宽，向右溢出 16px */
+@media (max-width: 999.98px) {
+  .adv-box { width: 100%; }
 }
 </style>

@@ -131,4 +131,11 @@ defineEmits(['update:modelValue'])
   color: #fff;
   border-color: #FE2C55;
 }
+
+/* 窄屏(≤1000)单列：tabs-row 359 锁死 + 单按钮 111×3 + gap12×2 = 357，手机 343 放不下
+   容器改 100% 全宽，按钮改 1fr 分柱，永不溢出 */
+@media (max-width: 999.98px) {
+  .tabs-row { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 4px; }
+  .tab-btn { width: 100%; }
+}
 </style>

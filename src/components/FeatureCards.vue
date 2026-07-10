@@ -157,7 +157,7 @@ const cards = ref([
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 2px;
-  color: var(--text-primary, #1f2937);
+  color: var(--text-primary, #ffffff);
   line-height: 1.3;
 }
 
@@ -190,5 +190,66 @@ const cards = ref([
 
 .feature-card:hover .card-image img {
   transform: rotate(0deg) scale(1.05);
+}
+
+/* =====================================================================
+   响应式：窄屏时卡片由横向滚动 → 上下排列（flex-wrap）
+   ===================================================================== */
+/* --- 中屏 ≤1280：卡片宽度改为自适应（clamp 到 280px 更紧凑），继续横向滚动 --- */
+@media (max-width: 1279.98px) {
+  .feature-card {
+    flex: 0 0 clamp(260px, 30vw, 320px);
+    width: clamp(260px, 30vw, 320px);
+    height: 120px;
+  }
+}
+/* --- 窄屏 ≤1000：取消横向滚动，改为上下排列（flex-wrap），卡片铺满一行 --- */
+@media (max-width: 999.98px) {
+  .feature-scroll-wrap { margin-bottom: 24px; }
+  .feature-section {
+    flex-wrap: wrap;
+    gap: 12px;
+    overflow-x: visible;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    padding-right: 0;
+    margin-right: 0;
+    box-sizing: border-box;
+  }
+  .feature-card {
+    flex: 1 1 calc(50% - 6px);      /* 两列：每行 2 张，减去 gap/2 */
+    width: calc(50% - 6px);
+    max-width: calc(50% - 6px);
+    min-width: 0;
+    height: 124px;
+    margin-top: 0;
+    padding: 12px 14px;
+  }
+  .card-image {
+    width: 88px;
+    height: 76px;
+  }
+}
+/* --- 移动端 ≤768：单列上下排列，卡片铺满整行 --- */
+@media (max-width: 767.98px) {
+  .feature-section {
+    gap: 10px;
+  }
+  .feature-card {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    height: 116px;
+    padding: 12px;
+  }
+  .card-image {
+    width: 80px;
+    height: 68px;
+    right: -4px;
+    bottom: -4px;
+  }
+  .card-title { font-size: 15px; }
+  .card-desc { font-size: 10px; }
+  .tag { font-size: 8px; padding: 2px 6px; }
 }
 </style>

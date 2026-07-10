@@ -102,7 +102,7 @@ const costData = computed(() => {
   gap: 8px;
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   margin-bottom: 14px;
   width: 100%;
 }
@@ -141,7 +141,7 @@ const costData = computed(() => {
   padding: 0 12px;
   height: 36px;              /* 固定高度 36px */
   border-radius: 6px;        /* 统一圆角 6px */
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   font-size: 14px;
   line-height: 1;
   font-weight: 600;
@@ -190,12 +190,12 @@ const costData = computed(() => {
 }
 .cost-row__value {
   flex: 0 0 auto;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   font-weight: 500;
   text-align: right;
 }
 .cost-row--total .cost-row__label {
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   font-weight: 600;
 }
 .cost-formula {
@@ -206,7 +206,7 @@ const costData = computed(() => {
   font-size: 12px;
 }
 .cost-row__value--strong {
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   font-weight: 700;
 }
 </style>

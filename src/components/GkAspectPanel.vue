@@ -178,7 +178,7 @@ const getRatioRectStyle = ([w, h]) => {
   border-radius: 6px;
   border: 1px solid var(--border-base, rgba(255,255,255,0.06));
   background: transparent;
-  color: var(--text-primary, #1F2329);
+  color: var(--text-primary, #ffffff);
   cursor: pointer;
   display: inline-flex;
   flex-direction: column;
@@ -222,5 +222,19 @@ const getRatioRectStyle = ([w, h]) => {
 .aspect-btn--active .aspect-btn__sub { color: rgba(255,255,255,0.85); }
 .aspect-btn--classic.aspect-btn--active .ratio-rect {
   background: rgba(255, 255, 255, 0.22);
+}
+
+/* 窄屏(≤1000)单列：按钮原固定像素宽会比 1fr 分到的宽度大，
+   向右溢出把最右列（16:9）的右边框裁掉（用户截图右边缺失一点点）。
+   重置成 width:100% 填柱 + 缩小 gap，永不溢出 */
+@media (max-width: 999.98px) {
+  .aspect-grid--g15 { gap: 6px; }
+  .aspect-btn--g15 { flex: 0 0 auto; width: 100%; }
+  .aspect-grid--classic { gap: 6px; }
+  .aspect-btn--classic { flex: 0 0 auto; width: 100%; }
+}
+@media (max-width: 767.98px) {
+  .aspect-btn--g15 { height: 68px; }
+  .aspect-btn--classic { height: 68px; }
 }
 </style>

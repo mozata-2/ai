@@ -134,4 +134,12 @@ function onFileChange(e) {
 }
 
 .hidden-file { display: none; }
+
+/* 窄屏(≤1000)单列：audio-row 原 291+5+60=356 锁死 + max-width:356，
+   手机内宽 343 → 向右溢出 13px，选择按钮右边框被微裁 */
+@media (max-width: 999.98px) {
+  .audio-row { max-width: 100%; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; }
+  .audio-input { width: 100%; }
+  /* 选择按钮保持 60 宽足够，不撑变形 */
+}
 </style>

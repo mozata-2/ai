@@ -839,8 +839,8 @@ const onStartAnalyze = () => {
 /* ==================================================================
    ✏️ 局部编辑（localedit）：数据 / 尺寸 / 事件
    ================================================================== */
-// 引导卡片：700 × 500 圆角 24
-const ledCardSize  = computed(() => ({ width: '700px', height: '500px', borderRadius: '24px' }))
+// 引导卡片：700 宽，高度 auto（纵向排布 3 图 + 2 箭头后超过原 500，随内容撑开，圆角仍 24）
+const ledCardSize  = computed(() => ({ width: '700px', height: 'auto', borderRadius: '24px' }))
 // 三图：160 × 213 圆角 12
 const ledImgSize   = computed(() => ({ width: '160px', height: '213px', borderRadius: '12px' }))
 // 圆圈箭头：40 × 40
@@ -862,12 +862,13 @@ const onLocalEditGen = () => {
   width: 100%;
   height: 100%;
   min-height: 0;
-  padding: 12px 16px;
+  padding: clamp(8px, 0.8vw, 12px) clamp(10px, 1.1vw, 16px);
   box-sizing: border-box;
   background: var(--bg-base, #FFFFFF);
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   overflow: hidden;
-  margin-left: -30px;
+  /* 抵消 Layout.content-scroll padding-left：自适应 */
+  margin-left: calc(var(--layout-left-pad, 36px) * -0.8333);
 }
 
 /* =====================================================================
@@ -895,7 +896,7 @@ const onLocalEditGen = () => {
 .claw-head__ico { width: 40px; height: 40px; flex: 0 0 auto; }
 .claw-head__title {
   margin: 0; font-size: 24px; font-weight: 700; line-height: 1.2;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
 }
 .claw-head__desc {
   margin: 8px 0 0; font-size: 14px; line-height: 1.55;
@@ -949,7 +950,7 @@ const onLocalEditGen = () => {
   font-size: 14px;                                 /* ⭐ 所有标题字号 14 */
   font-weight: 700;
   line-height: 1.4;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
 }
 .cmod__tip {
   margin: 0;
@@ -989,7 +990,7 @@ const onLocalEditGen = () => {
   text-overflow: ellipsis;
   font-family: ui-monospace, Consolas, Menlo, monospace;
   font-size: 12px;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   line-height: 32px;
 }
 .cmod-ep__copy {
@@ -1042,7 +1043,7 @@ const onLocalEditGen = () => {
   border-radius: 4px;
   font-family: ui-monospace, Consolas, Menlo, monospace;
   letter-spacing: 0.3px;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   outline: none;
 }
 .cmod-tok__input:focus { border-color: #FF5677; }
@@ -1051,7 +1052,7 @@ const onLocalEditGen = () => {
   padding: 0;
   background: var(--bg-surface, #FFFFFF);
   border: 1px solid var(--border-base, #E5E6EA);
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -1132,7 +1133,7 @@ const onLocalEditGen = () => {
   font-size: 14px;                                  /* ⭐ 下拉框内文字大小 14 */
   line-height: 1.1;
   text-align: left;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1190,7 +1191,7 @@ const onLocalEditGen = () => {
 .cmod-sel__opt-label {
   font-size: 14px;
   line-height: 1.4;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
@@ -1260,7 +1261,7 @@ const onLocalEditGen = () => {
   gap: 4px;                                          /* AI 与 对话之间小间距 */
   font-size: 14px;                                   /* ⭐ 标题文字大小 14 */
   line-height: 1.4;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
 }
 .claw-chat__title-ai  { font-weight: 400; }          /* ⭐ AI 不加粗 */
 .claw-chat__title-chat{ font-weight: 700; }          /* ⭐ 对话 加粗 */
@@ -1329,7 +1330,7 @@ const onLocalEditGen = () => {
   border: none; outline: none;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
 }
 .claw-chat__input::placeholder { color: var(--text-faint, #C0C4CC); }
 
@@ -1346,11 +1347,12 @@ const onLocalEditGen = () => {
 .claw-chat__send:hover { background: #FF3A60; }
 
 /* =====================================================================
-   🎬 视频反推原有样式（保留）
+   🎬 视频反推原有样式（保留）+ 自适应改造
    ===================================================================== */
 .tool-grid {
   display: grid;
-  grid-template-columns: 400px 600px 320px;
+  /* 自适应三列：左/预览/右都使用流体变量，保证 1440 基准 / 缩放到任意屏都不溢出 */
+  grid-template-columns: var(--col-left, 400px) var(--col-preview, 598px) var(--col-tool-right, 320px);
   grid-template-rows: 1fr;
   align-items: stretch;
   justify-content: start;
@@ -1359,13 +1361,14 @@ const onLocalEditGen = () => {
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
-  margin-left: -30px;
+  /* 抵消 Layout.content-scroll padding-left：随变量自适应 */
+  margin-left: calc(var(--layout-left-pad, 36px) * -0.8333);
 }
 
 .col-left {
-  width: 400px; max-width: 400px; height: 100%;
+  width: var(--col-left, 400px); max-width: var(--col-left, 400px); height: 100%;
   box-sizing: border-box; display: flex; flex-direction: column; gap: 14px;
-  min-width: 0; min-height: 0; flex: 0 0 400px; overflow: hidden;
+  min-width: 0; min-height: 0; flex: 0 0 var(--col-left, 400px); overflow: hidden;
   border-right: 1px solid var(--border-base, #E5E6EA);
 }
 /* 视频反推（通用 tool-grid）：左列相对基准往左移 2px（原 -5px 回调 3px）；局部编辑保持原对齐不动 */
@@ -1376,18 +1379,22 @@ const onLocalEditGen = () => {
   flex: 1 1 auto; min-height: 0;
   overflow-y: auto; overflow-x: hidden;
   display: flex; flex-direction: column; align-items: flex-start;
-  /* 原 padding-bottom:100px 导致滚动条到底时底部一大片空白，去掉；
-     底部按钮 .gen-panel 已在 .col-left 里紧贴滚动容器，通过 .col-left gap:14px 保持间距 */
-  padding: 4px 22px 0; gap: 10px;
+  padding: 4px clamp(14px, 1.6vw, 22px) 0; gap: 10px;
   box-sizing: border-box;
   scrollbar-width: none; -ms-overflow-style: none;
 }
 .col-left__scroll::-webkit-scrollbar { width: 0; height: 0; display: none; }
+/* 内部模块默认宽度：左列 359 基准 → 流体自适应，窄屏自动 100% */
 .col-left__scroll > section,
-.col-left__scroll > div { width: 359px; max-width: 359px; box-sizing: border-box; flex: 0 0 auto; }
+.col-left__scroll > div {
+  width: min(var(--col-inner, 359px), 100%);
+  max-width: 100%;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
 
 .vrev-head { padding: 4px 0 6px; }
-.vrev-head__title { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.3; color: var(--text-primary, #1A1C20); }
+.vrev-head__title { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.3; color: var(--text-primary, #ffffff); }
 .vrev-head__desc { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--text-secondary, #606266); }
 
 .vrev-tabs { display: inline-flex; align-items: center; gap: 0; padding: 0; }
@@ -1408,12 +1415,12 @@ const onLocalEditGen = () => {
 .vrev-field__head--single { justify-content: flex-start; }
 .vrev-field__title {
   margin: 0; font-size: 14px; font-weight: 700; line-height: 22px;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   display: inline-flex; align-items: center; gap: 4px;
 }
 .vrev-field__icon { flex: 0 0 auto; color: #FF5677; }
 .vrev-switch-row { display: inline-flex; align-items: center; gap: 8px; height: 22px; }
-.vrev-switch-row__label { font-size: 12px; line-height: 16px; color: var(--text-primary, #1A1C20); white-space: nowrap; }
+.vrev-switch-row__label { font-size: 12px; line-height: 16px; color: var(--text-primary, #ffffff); white-space: nowrap; }
 .vrev-toggle { position: relative; padding: 0; border: none; border-radius: 999px; background: var(--border-base, #D9DBDE); cursor: pointer; transition: background 0.2s ease; }
 .vrev-toggle.is-on { background: #FF5677; }
 .vrev-toggle__dot {
@@ -1439,7 +1446,7 @@ const onLocalEditGen = () => {
 .vrev-input__ctrl {
   width: 100%; height: 100%;
   border: none; background: transparent; outline: none;
-  font-size: 13px; line-height: 1.5; color: var(--text-primary, #1A1C20);
+  font-size: 13px; line-height: 1.5; color: var(--text-primary, #ffffff);
   padding: 0; box-sizing: border-box;
 }
 .vrev-input__ctrl::placeholder { color: var(--text-faint, #A8ABB0); }
@@ -1458,8 +1465,8 @@ const onLocalEditGen = () => {
   box-sizing: border-box; display: flex; align-items: stretch;
   z-index: 20;
   transition: border-color 0.15s ease;
-  /* ⭐ 复用 龙虾栏 的 modelOpen → 保证选择模型的全局样式不冲突：仅视频反推 这一个 class */
-  width: 359px; height: 32px;
+  /* 自适应：基准 359 → 流体变量 */
+  width: var(--col-inner, 359px); max-width: 100%; height: 32px;
 }
 .vrev-select:hover { border-color: var(--border-strong, #D0D2D6); }
 .vrev-select.is-open { border-color: #FF5677; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
@@ -1488,7 +1495,7 @@ const onLocalEditGen = () => {
 }
 .vrev-select__option:hover { background: #FFF0F3; }
 .vrev-select__option.is-selected { background: #FE2C55; color: #fff; }
-.vrev-select__opt-label { font-size: 14px; line-height: 1.4; font-weight: 700; color: var(--text-primary, #1A1C20); }
+.vrev-select__opt-label { font-size: 14px; line-height: 1.4; font-weight: 700; color: var(--text-primary, #ffffff); }
 .vrev-select__opt-desc { font-size: 13px; line-height: 1.4; color: var(--text-secondary, #606266); text-align: right; justify-self: end; }
 
 .gen-panel {
@@ -1499,7 +1506,7 @@ const onLocalEditGen = () => {
   background: var(--bg-surface, #FFFFFF);
 }
 .gen-btn {
-  width: 100%; height: 40px; border-radius: 6px;
+  width: 100%; height: 40px; border-radius: 9999px;   /* ⭐ 完全圆角/胶囊形，原 6px 太方 */
   background: #FF5677; color: var(--text-primary, #FFFFFF);
   border: 1px solid #FF5677;
   font-size: 14px; font-weight: 700; cursor: pointer;
@@ -1510,25 +1517,25 @@ const onLocalEditGen = () => {
 .gen-btn:hover { background: #FF3A60; }
 
 .vrev-empty-tab {
-  width: 359px; max-width: 359px;
+  width: var(--col-inner, 359px); max-width: 100%;
   padding: 40px 0; text-align: center;
   color: var(--text-secondary, #606266); font-size: 14px;
 }
 
 .col-preview {
-  width: 600px; height: 100%;
-  box-sizing: border-box; flex: 0 0 600px;
+  width: var(--col-preview, 600px); height: 100%;
+  box-sizing: border-box; flex: 0 0 var(--col-preview, 600px);
   min-width: 0; min-height: 0;
   background: var(--bg-surface, #FFFFFF);
   border-right: 1px solid var(--border-base, #E5E6EA);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 18px; padding: 24px; margin-left: -20px;
 }
-/* 视频反推：中间预览列左边减少 2px 宽度（600→598，左边向右回 2px 保持右边对齐），并加左边框 */
+/* 视频反推：中间预览列宽度 598 基准，流体自适应；左移距离等比缩小 */
 .tool-grid:not(.tool-grid--localedit) > .col-preview {
-  width: 598px;
-  flex: 0 0 598px;
-  max-width: 598px;
+  width: var(--col-preview, 598px);
+  flex: 0 0 var(--col-preview, 598px);
+  max-width: var(--col-preview, 598px);
   margin-left: -18px; /* -20px + 2px：左边向右挪 2px，对应宽度减少的 2px 来源于左侧 */
   border-left: 1px solid var(--border-base, #E5E6EA);
 }
@@ -1540,14 +1547,14 @@ const onLocalEditGen = () => {
 }
 
 .record-panel {
-  width: 320px; max-width: 320px; height: 100%;
-  box-sizing: border-box; flex: 0 0 320px;
+  width: var(--col-tool-right, 320px); max-width: var(--col-tool-right, 320px); height: 100%;
+  box-sizing: border-box; flex: 0 0 var(--col-tool-right, 320px);
   min-width: 0; min-height: 0;
   background: var(--bg-surface, #FFFFFF);
   border-left: 1px solid var(--border-base, #E5E6EA);
   margin-left: -20px;
   display: flex; flex-direction: column; gap: 12px;
-  padding: 16px 18px 20px; overflow: hidden;
+  padding: 16px clamp(12px, 1.25vw, 18px) 20px; overflow: hidden;
 }
 .record-panel__head {
   display: flex; align-items: center; justify-content: flex-start;
@@ -1555,7 +1562,7 @@ const onLocalEditGen = () => {
 }
 .record-panel__head h2 {
   margin: 0; font-size: 18px; font-weight: 700; line-height: 1.4;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   display: inline-flex; align-items: center; gap: 8px;
 }
 .record-panel__cam { color: var(--text-muted, #606266); }
@@ -1573,33 +1580,33 @@ const onLocalEditGen = () => {
   gap: 12px; padding: 12px 0; box-sizing: border-box;
 }
 .record-empty__box { flex: 0 0 auto; }
-.record-empty__title { font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--text-primary, #1A1C20); }
+.record-empty__title { font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--text-primary, #ffffff); }
 .record-empty__sub { font-size: 12px; line-height: 1.5; color: var(--text-secondary, #606266); }
 
 /* =====================================================================
-   ✏️ 局部编辑（localedit）样式
+   ✏️ 局部编辑（localedit）样式 + 自适应
    ===================================================================== */
 /* 局部编辑：两列布局，去除原右列 320，改右列为 1fr，横向可容纳 700 卡片
-   注意：margin-left:-30px 会让整体左移，必须把宽度扩展 30px，否则右边会露出 .tool-page 底色造成"白屏" */
+   宽度自适应跟随 --layout-left-pad 抵消左边缩进与右边 padding */
 .tool-grid--localedit {
-  grid-template-columns: 400px 1fr;
+  grid-template-columns: var(--col-left, 400px) 1fr;
   grid-template-rows: 1fr;
   align-items: stretch;
   justify-content: start;
   gap: 0;
-  /* 向左 -30 抵消左边缩进，向右 +16 吃进 .tool-page padding-right，全程灰底不露白 */
-  width: calc(100% + 46px);
+  /* 向左抵消左边缩进 + 吃进右侧 padding-right（全程灰底不露白） */
+  width: calc(100% + var(--layout-left-pad, 36px) + calc(var(--layout-left-pad, 36px) * 0.5));
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
-  margin-left: -30px;
+  margin-left: calc(var(--layout-left-pad, 36px) * -0.8333);
 }
 .tool-grid--localedit .col-preview--localedit {
   width: auto; max-width: none; height: 100%;
   box-sizing: border-box; flex: 1 1 auto;
   min-width: 0; min-height: 0;
   display: flex; align-items: center; justify-content: center;
-  padding: 24px;
+  padding: clamp(12px, 1.8vw, 24px);
   background: var(--bg-elevated, #F5F7FA);
   border-right: none;
   border-left: 1px solid var(--border-base, #E5E6EA);
@@ -1608,13 +1615,13 @@ const onLocalEditGen = () => {
 
 /* 左列：标题（仍保留 20 加粗 与 14 辅助描述） */
 .led-head { padding: 4px 0 6px; box-sizing: border-box; width: 100%; flex: 0 0 auto; }
-.led-head__title { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.3; color: var(--text-primary, #1A1C20); }
+.led-head__title { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.3; color: var(--text-primary, #ffffff); }
 .led-head__desc  { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--text-secondary, #606266); }
 
 /* 原始图片 / 要替换的图片 通用模块 */
 .led-up {
   display: flex; flex-direction: column; gap: 6px;
-  width: 359px; box-sizing: border-box; flex: 0 0 auto;
+  width: min(var(--col-inner, 359px), 100%); box-sizing: border-box; flex: 0 0 auto;
   padding: 6px 0;
 }
 .led-up__head {
@@ -1623,7 +1630,7 @@ const onLocalEditGen = () => {
 .led-up__ico { flex: 0 0 auto; }
 .led-up__title {
   margin: 0; font-size: 14px; font-weight: 700; line-height: 22px;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
 }
 .led-up__box {
   position: relative;
@@ -1690,7 +1697,7 @@ const onLocalEditGen = () => {
   display: flex; align-items: center; justify-content: center;
 }
 .gen-btn--primary {
-  width: 367px; height: 40px; border-radius: 20px;
+  width: clamp(280px, 92%, 367px); height: 40px; border-radius: 20px;
   background: #FE2C55; color: var(--text-primary, #FFFFFF);
   border: 1px solid #FE2C55;
   font-family: inherit;
@@ -1720,17 +1727,20 @@ const onLocalEditGen = () => {
   opacity: 0.92;
 }
 
-/* ---------- 引导卡片：700×500 圆角24 ---------- */
+/* ---------- 引导卡片：700×500 基准，流体自适应 ≤700 宽的容器 ---------- */
 .led-card {
   box-sizing: border-box;
   background: var(--bg-surface, #FFFFFF);
   box-shadow: 0 16px 48px rgba(26,28,32,0.08);
-  padding: 28px 36px 24px;
+  /* 宽高随容器缩放，保证 700:500 比例的卡片在窄屏可用（使用 min + 固定比例关系简化）*/
+  width: min(700px, 90%);
+  max-width: 100%;
+  padding: clamp(14px, 2vw, 28px) clamp(18px, 2.5vw, 36px) clamp(12px, 1.6vw, 24px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 22px;
+  gap: clamp(10px, 1.6vw, 22px);
   flex: 0 0 auto;
 }
 
@@ -1740,20 +1750,23 @@ const onLocalEditGen = () => {
   font-size: 24px;
   font-weight: 700;
   line-height: 1.25;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   text-align: center;
   width: 100%;
 }
 .led-card__title--red { color: #FE2C55; }
 
-/* 三图 + 两箭头一行排列 */
+/* 三图 + 两箭头：⭐ 用户要求「大屏默认横向排列；只有小屏(≤999.98)才竖向排列」
+   - 大屏 (默认)：row 左→右横排，居中，间隙 20px（3 图 480 + 2 箭头 80 + 间隙 4*20=80 → 总 640，ledCard 700px 正好装下）
+   - 小屏 (≤999.98 MQ 内覆盖恢复)：column 上→下竖排，配合箭头向下 rotate(90deg)。*/
 .led-card__row {
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  flex-direction: row;         /* ⭐ 大屏：横向排列（图1→▶→图2→▶→图3） */
+  align-items: center;         /* ⭐ 横向时垂直居中对齐（图 213 + 下方 label 16 + gap 8 = 237；箭头 40 垂直居中） */
+  justify-content: center;     /* ⭐ 横向时在 700 卡片里居中，左右留白呼吸感 */
+  gap: 20px;                   /* ⭐ 卡片之间/箭头与卡片之间留 20px 空隙（横向视觉密度合适）*/
   flex: 0 0 auto;
   padding: 6px 0 0;
 }
@@ -1784,15 +1797,17 @@ const onLocalEditGen = () => {
 .led-card__label {
   margin: 0;
   font-size: 16px; font-weight: 500; line-height: 1.4;
-  color: var(--text-primary, #1A1C20);
+  color: var(--text-primary, #ffffff);
   text-align: center;
 }
-/* 圆圈箭头图标 40×40 */
+/* 圆圈箭头图标 40×40：
+   ⭐ 大屏(默认)：横向排列时箭头朝右 ▶（原 SVG path 本身就是朝右三角形，直接用，不加 rotate）
+   ⭐ 小屏(≤999.98 MQ 覆盖)：纵向排列时箭头向下 ▼，把右箭头顺时针转 90° */
 .led-card__arrow {
   flex: 0 0 40px;
   display: inline-flex; align-items: center; justify-content: center;
 }
-.led-card__arrow svg { display: block; width: 40px; height: 40px; }
+.led-card__arrow svg { display: block; width: 40px; height: 40px; transform: none; }
 
 /* 说明文字：14 号，颜色 #909399 */
 .led-card__desc {
@@ -1815,5 +1830,110 @@ const onLocalEditGen = () => {
   display: inline-flex; align-items: center; justify-content: center;
   flex: 0 0 auto;
   margin-top: 2px;
+}
+
+/* =====================================================================
+   中屏(1000–1280)：三列仍保留，但收紧预览列/记录列内边距 & 按钮微缩
+   ===================================================================== */
+@media (max-width: 1279.98px) {
+  .col-preview { padding: 16px; gap: 14px; }
+  .record-panel { padding: 12px 14px 16px; gap: 10px; }
+  .col-left__scroll { padding: 4px 16px 0; gap: 8px; }
+  .gen-btn { height: 38px; font-size: 14px; }
+  .gen-btn--primary { height: 38px; }
+  .led-card__title { font-size: 20px; }
+}
+
+/* =====================================================================
+   窄屏(≤1000)：三列变两列 → 左列 + 预览/记录堆叠；局部编辑保持两列
+   ===================================================================== */
+@media (max-width: 999.98px) {
+  /* ⭐ 窄屏单列堆叠：滚动交给外层 Layout.content-scroll，本页不嵌套滚；
+       边距统一由 content-scroll 承担（左右对称 16/12px）。*/
+  .tool-page {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
+  .tool-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    height: auto;
+    gap: 0;
+    margin-left: 0;         /* ⭐ 不再抵消 Layout padding — 内容左右自然对称 */
+    width: 100%;
+  }
+  .tool-grid > .col-left,
+  .tool-grid > .col-preview,
+  .tool-grid > .record-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    height: auto;
+    margin-left: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-base, #E5E6EA);
+  }
+  .col-left__scroll {
+    padding: 4px 16px 0;
+    overflow-y: visible;
+    align-items: stretch;
+  }
+  .col-left__scroll > section,
+  .col-left__scroll > div {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .record-panel { max-height: 480px; }
+  .vrev-select { width: 100%; max-width: 100%; }
+  .vrev-empty-tab { width: 100%; max-width: 100%; }
+  .gen-btn { width: calc(100% - 30px); margin: 0 15px; height: 44px; }
+
+  /* 局部编辑：保持两列，但列宽收紧 */
+  .tool-grid--localedit {
+    grid-template-columns: minmax(280px, 360px) 1fr;
+    width: 100%;           /* ⭐ 不再 calc(100% + pad) 溢出，保持与外层对称 */
+    margin-left: 0;
+  }
+  .led-card { width: min(100%, 620px); }
+
+  /* 局部编辑引导卡：小屏(≤999.98) 才纵向排列，保持截图里的上→下堆叠 + 箭头向下 */
+  .led-card__row {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .led-card__arrow svg { transform: rotate(90deg); }   /* 箭头▶️顺时针90°→▼向下 */
+}
+
+/* =====================================================================
+   移动端(≤768)：所有列全部单列，按钮贴边 + 手指尺寸友好
+   ===================================================================== */
+@media (max-width: 767.98px) {
+  .tool-grid--localedit {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    height: auto;
+  }
+  .tool-grid--localedit > .col-left,
+  .tool-grid--localedit > .col-preview--localedit {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    height: auto;
+    border-left: none !important;
+    border-bottom: 1px solid var(--border-base, #E5E6EA);
+  }
+  .col-left__scroll { padding: 0; gap: 6px; }
+  .gen-btn { width: 100%; margin: 0; height: 46px; font-size: 15px; border-radius: 9999px; }
+  .gen-btn--primary { width: 100%; height: 46px; font-size: 15px; border-radius: 9999px; }
+  .led-card { width: 100%; padding: 16px; gap: 14px; border-radius: 14px; }
+  .led-card__title { font-size: 18px; }
+  .led-card__label { font-size: 14px; }
+  .record-panel__head h2 { font-size: 16px; }
 }
 </style>

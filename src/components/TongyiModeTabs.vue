@@ -87,4 +87,11 @@ defineEmits(['update:modelValue'])
   color: #fff;
   font-weight: 500;
 }
+
+/* 窄屏(≤1000)单列：容器原 width:356px 锁死 + 4×81.75 + 3×9.67 = 356，向右溢出 13px，
+   最右「3.5」按钮被微裁 */
+@media (max-width: 999.98px) {
+  .seg-row { width: 100%; height: auto; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .seg-btn { width: 100%; }
+}
 </style>

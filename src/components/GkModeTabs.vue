@@ -96,4 +96,15 @@ defineEmits(['update:modelValue'])
   color: #fff;
   border-color: #FE2C55;
 }
+
+/* 窄屏(≤1000)单列：
+   · 根容器 margin-left:-7px 把 tabs 向左拉 7px → G1.5 左圆角被父面板裁 7px（截图红框左边）
+   · tabs-row 原 368×44 + 2×176 按钮 + margin-left:4px → 整体 368+4=372 > 手机 343 内宽
+     → 经典模式右圆角向右溢出 29px 被裁（截图红框右边）
+   双重 reset：根容器 margin-left 归零 + tabs-row 改 grid 两列均分 100% */
+@media (max-width: 999.98px) {
+  .gk-mode-tabs { margin-left: 0; }
+  .tabs-row { width: 100%; height: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-left: 0; padding: 4px; }
+  .tab-btn { width: 100%; flex: 0 0 auto; }
+}
 </style>

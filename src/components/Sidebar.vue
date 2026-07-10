@@ -98,24 +98,70 @@
           <div
             v-for="item in menuItems"
             :key="item.name"
-            class="drawer-menu-item"
-            :class="{ active: isActive(item.path) }"
-            @click="goMenu(item)"
+            class="drawer-menu-block"
           >
-            <img class="drawer-menu-icon" :src="item.icon" :alt="item.name" />
-            <div class="drawer-menu-body">
-              <div class="drawer-menu-title">{{ item.name }}</div>
-              <div v-if="item.desc" class="drawer-menu-desc">{{ item.desc }}</div>
-            </div>
-            <svg
-              v-if="item.expandable"
-              class="drawer-menu-caret"
-              width="16" height="16" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round"
+            <!-- 一级菜单项：与原图一视觉（68×260 / 圆角12 / 粉色激活态）一致，
+                 点击 expandable 项 → toggle 展开 +（若非当前页）跳转父路径；
+                 非 expandable 项 → 原 goMenu 逻辑 -->
+            <div
+              class="drawer-menu-item"
+              :class="{
+                active: isActive(item.path),
+                'is-expanded': expanded[item.path]
+              }"
+              @click="onDrawerItemClick(item)"
             >
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
+              <img class="drawer-menu-icon" :src="item.icon" :alt="item.name" />
+              <div class="drawer-menu-body">
+                <div class="drawer-menu-title">{{ item.name }}</div>
+                <div v-if="item.desc" class="drawer-menu-desc">{{ item.desc }}</div>
+              </div>
+              <!-- ⭐ 图二：图片/视频/工具行右侧有个箭头，点了向下展开 5/8 个子项
+                   只有 expandable=true（图片/视频/音乐/工具）才显示 -->
+              <svg
+                v-if="item.expandable"
+                class="drawer-menu-caret"
+                :class="{ 'is-open': expanded[item.path] && hasSubTools(item) }"
+                width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                @click.stop="onDrawerCaretClick(item)"
+              >
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+
+            <!-- 二级子项列表（expandable 且有 subTools 且已展开时显示） -->
+            <transition name="drawer-sub">
+              <div
+                v-if="item.expandable && hasSubTools(item) && expanded[item.path]"
+                class="drawer-sub-list"
+              >
+                <router-link
+                  v-for="sub in item.subTools"
+                  :key="sub.key"
+                  :to="{ path: item.path, query: { tool: (sub.routeKey || sub.key) } }"
+                  class="drawer-sub-item"
+                  :class="{ 'is-active': isSubActive(item, sub) }"
+                  @click="onDrawerSubItemClick"
+                >
+                  <!-- 子项小图标：彩色渐变圆角方块（替代 SVG 图标，风格轻量与图二一致） -->
+                  <span class="drawer-sub-item__dot" :style="subDotStyle(item, sub)"></span>
+                  <span class="drawer-sub-item__name">{{ sub.name }}</span>
+                  <span v-if="sub.hot" class="drawer-sub-item__hot">HOT</span>
+                </router-link>
+              </div>
+            </transition>
+
+            <!-- 音乐类 expandable 但无 subTools → 展开后显示「敬请期待」提示，与图一描述一致 -->
+            <transition name="drawer-sub">
+              <div
+                v-if="item.expandable && !hasSubTools(item) && expanded[item.path]"
+                class="drawer-soon"
+              >
+                敬请期待 ✨
+              </div>
+            </transition>
           </div>
         </nav>
 
@@ -160,7 +206,7 @@
 </template>
 
 <script setup>
-import { ref, toRef, onBeforeUnmount, nextTick } from 'vue'
+import { ref, toRef, onBeforeUnmount, nextTick, reactive, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import SubToolsPopup from './SubToolsPopup.vue'
 import ComingSoonPopup from './ComingSoonPopup.vue'  /* ⭐ 敬请期待气泡（音乐/画布等用） */
@@ -282,6 +328,99 @@ const setItemRef = (name, el) => {
 
 const hasSubTools = (item) => item && Array.isArray(item.subTools) && item.subTools.length > 0
 
+/* =========================================================
+   ⭐ 窄屏抽屉：二级菜单（展开/收起）逻辑
+   · expanded：按 item.path 记录展开状态（响应式）
+   · 初始化 & 路由变化时：当前所在页面自动展开（如进入 /image 自动展开图片的 5 个子项）
+   · onDrawerItemClick：
+       - 非 expandable 项 → goMenu（原逻辑，关抽屉）
+       - expandable 项：
+           * 画布菜单（/canvas）：新开 tab，不关
+           * 其它：toggle 展开状态；若当前不在该页则跳转父路径；不自动关抽屉（用户要选子）
+   · onDrawerCaretClick：单独点右箭头 → 只 toggle 展开，不跳转
+   · isSubActive：父路径一致 + query.tool === sub.routeKey 时高亮
+   · onDrawerSubItemClick：选完子项自动关抽屉
+   · subDotStyle：子项前面小彩色方块（颜色随 item + sub idx 变化，避免全部一个色）
+   ========================================================= */
+const expanded = reactive({})
+const syncExpandedWithRoute = () => {
+  const cur = menuItems.value.find(m => m.path === route.path)
+  if (cur && cur.expandable) {
+    // 进入该页面首次自动展开
+    expanded[cur.path] = true
+  }
+}
+// 立即初始化一次（挂载 / 首屏）
+syncExpandedWithRoute()
+watch(
+  () => route.path,
+  () => syncExpandedWithRoute(),
+  { immediate: false }
+)
+
+const onDrawerItemClick = (item) => {
+  if (!item) return
+  // 画布菜单：新开 tab（与 goMenu 原逻辑一致）
+  if (item.path === '/canvas') {
+    window.open('/#/canvas-landing', '_blank', 'noopener,noreferrer')
+    emit('menu-item-clicked')
+    if (isNarrowRef.value) onClose()
+    return
+  }
+  // expandable 项：toggle 展开；不在该页时顺便跳父路径；不关抽屉（等用户选子项）
+  if (item.expandable) {
+    expanded[item.path] = !expanded[item.path]
+    if (route.path !== item.path) {
+      router.push(item.path).catch(() => {})
+      emit('menu-item-clicked')
+    }
+    return
+  }
+  // 普通项（首页/资产/画布等）：原 goMenu 逻辑 → 跳转 + 关抽屉
+  goMenu(item)
+}
+
+const onDrawerCaretClick = (item) => {
+  // 只切展开态，不跳转
+  if (item && item.expandable) {
+    expanded[item.path] = !expanded[item.path]
+  }
+}
+
+const isSubActive = (item, sub) => {
+  if (!item || !sub) return false
+  const k = sub.routeKey || sub.key
+  return route.path === item.path && route.query.tool === k
+}
+
+const onDrawerSubItemClick = () => {
+  // 子项 router-link 已处理跳转；此处同步事件 + 关抽屉
+  emit('menu-item-clicked')
+  if (isNarrowRef.value) onClose()
+}
+
+// 色板（8 色循环）+ 按 (菜单项 + sub 下标) 取色，保证每个子项视觉稳定可区分
+const _DOT_PALETTE = [
+  ['#FF9A9E', '#FECFEF'],
+  ['#A1C4FD', '#C2E9FB'],
+  ['#FFD3A5', '#FD6585'],
+  ['#84FAB0', '#8FD3F4'],
+  ['#A18CD1', '#FBC2EB'],
+  ['#F6D365', '#FDA085'],
+  ['#FBC2EB', '#A6C1EE'],
+  ['#FFB199', '#FF0844'],
+]
+const subDotStyle = (item, sub) => {
+  const list = (item && item.subTools) || []
+  const i = list.indexOf(sub)
+  const seed = (i >= 0 ? i : 0) + Math.abs((item && item.path ? item.path.length : 0) * 3)
+  const [c1, c2] = _DOT_PALETTE[seed % _DOT_PALETTE.length]
+  return {
+    background: `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`,
+    boxShadow: '0 1px 3px rgba(0,0,0,0.22)'
+  }
+}
+
 const clearHideTimer = () => {
   if (_hideTimer) {
     clearTimeout(_hideTimer)
@@ -367,10 +506,10 @@ onBeforeUnmount(() => clearHideTimer())
    宽屏形态
    ================================================================== */
 .sidebar.is-persistent {
-  width: 180px;
-  min-width: 180px;
+  width: var(--sidebar-expanded, 180px);
+  min-width: var(--sidebar-expanded, 180px);
   height: 100vh;
-  padding: 16px 0;
+  padding: clamp(10px, 1.1vw, 16px) 0;
   position: sticky;
   top: 0;
   left: 0;
@@ -456,7 +595,8 @@ onBeforeUnmount(() => clearHideTimer())
 /* 菜单项外层 wrap：负责捕获 hover 事件 + 提供定位锚点（popup 挂 body 后根据它的 rect 算坐标） */
 .menu-item-wrap {
   box-sizing: border-box;
-  width: 180px;
+  width: 100%;
+  max-width: var(--sidebar-expanded, 180px);
   min-height: 52px;
   display: flex;
   align-items: center;
@@ -465,7 +605,8 @@ onBeforeUnmount(() => clearHideTimer())
 
 .menu-item {
   box-sizing: border-box;
-  width: 180px;
+  width: 100%;
+  max-width: var(--sidebar-expanded, 180px);
   height: 52px;
   min-height: 52px;
   padding: 10px 16px;
@@ -529,13 +670,13 @@ onBeforeUnmount(() => clearHideTimer())
 .bottom-menu .menu-item.active .menu-icon { color: var(--text-primary, #ffffff); }
 
 /* ==================================================================
-   窄屏形态：抽屉
+   窄屏形态：抽屉（宽度使用 --sidebar-drawer 流体变量，默认 320px）
    ================================================================== */
 .sidebar.is-drawer {
   position: fixed;
   top: 0;
   left: 0;
-  width: 320px;
+  width: var(--sidebar-drawer, 320px);
   height: 100vh;
   min-height: 100vh;
   z-index: 200;
@@ -551,11 +692,11 @@ onBeforeUnmount(() => clearHideTimer())
 .sidebar.is-drawer.drawer-open { transform: translateX(0); }
 
 .drawer-inner {
-  width: 280px;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 20px 0 20px 20px;
+  padding: clamp(12px, 1.5vw, 20px) 0 clamp(12px, 1.5vw, 20px) clamp(12px, 1.5vw, 20px);
   box-sizing: border-box;
   /* ⭐ 亮/暗主题统一：用 --bg-base 替代硬编码 #121212 */
   background: var(--bg-base, #121212);
@@ -722,12 +863,130 @@ onBeforeUnmount(() => clearHideTimer())
 }
 
 /* ==================================================================
-   宽屏折叠态（仅图标窄列 80px）
+   ⭐ 窄屏抽屉：二级菜单（图片/视频/工具点展开后显示 5/8 个子项）
+   与用户截图一/二一致：点箭头 → 子项列在主菜单下；选中粉色高亮
+   ================================================================== */
+/* 每个菜单项 + 二级列表的外层 */
+.drawer-menu-block { width: 100%; }
+
+/* 展开时 caret 旋转 180°（原默认指向右 → 展开后指向下；但我们用 90° 更自然：右→下） */
+.drawer-menu-caret.is-open { transform: rotate(90deg); }
+
+/* 二级菜单过渡：max-height + opacity，平滑展开/收起 */
+.drawer-sub-enter-active,
+.drawer-sub-leave-active {
+  overflow: hidden;
+  transition:
+    max-height 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity    180ms ease,
+    margin     180ms ease;
+}
+.drawer-sub-enter-from,
+.drawer-sub-leave-to {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.drawer-sub-enter-to,
+.drawer-sub-leave-from {
+  max-height: 700px;    /* 足够容纳 8 个子项 */
+  opacity: 1;
+}
+
+/* 二级子项容器：左侧缩进 = 44(icon) + 14(gap) = 58px，与主菜单 title 垂直对齐 */
+.drawer-sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 2px 0 8px;
+  padding-left: 58px;
+  padding-right: 16px;
+  box-sizing: border-box;
+}
+
+.drawer-sub-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: var(--text-secondary, rgba(255,255,255,0.72));
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--interact-dur, 160ms) var(--interact-ease),
+    color var(--theme-dur) var(--theme-ease);
+}
+.drawer-sub-item:hover {
+  background: var(--hover-bg, rgba(255,255,255,0.05));
+  color: var(--text-primary, #ffffff);
+}
+.drawer-sub-item.is-active {
+  /* ⭐ 选中态：粉色透明底 + 主文字色加粗，呼应图二高亮样式 */
+  background: rgba(255, 77, 141, 0.14);
+  color: var(--text-primary, #ffffff);
+  font-weight: 600;
+}
+
+/* 每个子项前面的彩色小方块（替代 SVG 图标，视觉轻量） */
+.drawer-sub-item__dot {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.drawer-sub-item__name {
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: inherit;
+}
+
+/* HOT 徽章（香蕉作图）：与 HeaderBar 同款但缩小一号 */
+.drawer-sub-item__hot {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  height: 18px;
+  min-width: 34px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #FF6A88 0%, #FE2C55 100%);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: 0 1px 2px rgba(254, 44, 85, 0.4);
+}
+
+/* 音乐类 expandable 但无 subTools → 展开显示「敬请期待」占位 */
+.drawer-soon {
+  margin: 2px 0 8px;
+  padding: 6px 16px 6px 58px;
+  font-size: 12px;
+  color: var(--text-extra-faint, rgba(255,255,255,0.5));
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ==================================================================
+   宽屏折叠态（仅图标窄列 80px 基准 → --sidebar-collapsed 流体变量）
    ================================================================== */
 .sidebar.is-persistent.is-collapsed {
-  width: 80px;
-  min-width: 80px;
-  padding: 12px 0 20px;
+  width: var(--sidebar-collapsed, 80px);
+  min-width: var(--sidebar-collapsed, 80px);
+  padding: clamp(8px, 0.9vw, 12px) 0 clamp(12px, 1.4vw, 20px);
   align-items: center;
   transition:
     width 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -767,8 +1026,8 @@ onBeforeUnmount(() => clearHideTimer())
 .sidebar.is-persistent.is-collapsed .nav-menu {
   width: 100%; align-items: center; gap: 8px;
 }
-/* 折叠态 wrap 宽度改 80（居中放 52 的图标块） */
-.sidebar.is-persistent.is-collapsed .menu-item-wrap { width: 80px; }
+/* 折叠态 wrap 宽度跟随 --sidebar-collapsed（居中放 52 的图标块） */
+.sidebar.is-persistent.is-collapsed .menu-item-wrap { width: var(--sidebar-collapsed, 80px); max-width: var(--sidebar-collapsed, 80px); }
 .sidebar.is-persistent.is-collapsed .menu-item {
   flex-direction: column; justify-content: center; align-items: center;
   width: 52px; min-width: 52px; height: 52px; min-height: 52px;

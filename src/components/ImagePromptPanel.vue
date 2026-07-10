@@ -68,12 +68,12 @@ const onAppend = (t) => {
 </script>
 
 <style scoped>
+/* ================ 默认（窄屏/单列）：全量自适应，零硬编码 ================ */
 .image-prompt {
   width: 100%;
   box-sizing: border-box;
   background: transparent;
-  margin-top: -10px;
-  margin-left: -169px;
+  /* margin-left:-169 / margin-top:-10 是「宽屏向 subTools 区伸出」的 hack，仅 ≥1000 生效 */
 }
 .panel-title {
   display: inline-flex;
@@ -125,7 +125,9 @@ const onAppend = (t) => {
 }
 
 .prompt-textarea {
-  width: 363px;
+  /* 默认窄屏：width:100%，不锁 363px */
+  width: 100%;
+  max-width: 100%;
   min-height: 140px;
   resize: vertical;
   background: var(--bg-surface, #FFFFFF);     /* 深色=深灰/黑色；浅色=白底 */
@@ -140,9 +142,10 @@ const onAppend = (t) => {
   transition: border-color 180ms ease, background-color 180ms ease;
   font-family: inherit;
 }
-/* SR：提示词框 359×166 */
+/* SR：窄屏也自适应，只锁高度（按用户要求 166px） */
 .image-prompt--sr .prompt-textarea {
-  width: 359px;
+  width: 100%;
+  max-width: 100%;
   min-height: 166px;
   height: 166px;
   resize: none;
@@ -158,6 +161,7 @@ const onAppend = (t) => {
   background: var(--bg-elevated-3, #0F1012);
 }
 
+/* 默认窄屏：底部栏不做 203% 溢出，严格 100% + 折行，标签 + 计数分别占行 */
 .prompt-panel__foot {
   margin-top: 10px;
   display: flex;
@@ -165,14 +169,16 @@ const onAppend = (t) => {
   justify-content: space-between;
   gap: 14px;
   min-height: 0;
-  width: 203%;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: flex-end;
 }
 .prompt-tags {
   display: flex;
   flex-wrap: wrap;
-  width: 363px;
+  width: 100%;
   gap: 4px;
-  flex: 1 1 363;
+  flex: 1 1 100%;
   min-width: 0;
 }
 .prompt-tag {
@@ -206,6 +212,25 @@ const onAppend = (t) => {
   font-variant-numeric: tabular-nums;
   line-height: 1;
   transition: color 160ms ease;
+}
+
+/* =====================================================================
+   宽屏(≥1000)双列布局：保持与窄屏一致的 width:100% 自适应，
+   不再使用过期的「向左侧 subTools 列伸出」 hack（-169px 左移/203%宽/363px 锁宽）
+   —— 该 hack 会导致标题/左边框/左侧文字被 .col-left overflow:hidden 裁掉。
+   ===================================================================== */
+@media (min-width: 1000px) {
+  .prompt-textarea { min-height: 160px; }   /* 仅把桌面 textarea 加高 20px，体验更舒展 */
+}
+
+/* 移动端(≤768)进一步紧凑：输入框尺寸更贴手指点击区 */
+@media (max-width: 767.98px) {
+  .prompt-textarea,
+  .image-prompt--sr .prompt-textarea {
+    padding: 10px 12px;
+    min-height: 120px;
+  }
+  .prompt-tag { height: 28px; padding: 0 12px; }
 }
 
 </style>

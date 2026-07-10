@@ -98,4 +98,10 @@ defineEmits(['update:modelValue'])
   border-color: #FE2C55;
   color: #fff;
 }
+
+/* 窄屏(≤1000)单列：82.75×4 + gap10×3 总 361 > 手机内宽 343，最右「4 条」被微裁 */
+@media (max-width: 999.98px) {
+  .count-row { gap: 6px; }
+  .count-btn { flex: 0 0 auto; width: 100%; }
+}
 </style>

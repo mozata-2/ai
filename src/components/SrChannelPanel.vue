@@ -97,4 +97,10 @@ defineEmits(['update:modelValue'])
   border-color: #FE2C55;
   color: #fff;
 }
+
+/* 窄屏(≤1000)单列：2×173.5 + 10 = 357px > 手机内宽 343，右边被微裁 */
+@media (max-width: 999.98px) {
+  .channel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .channel-btn { flex: 0 0 auto; width: 100%; }
+}
 </style>

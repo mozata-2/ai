@@ -422,33 +422,34 @@ const onGenerate = () => {
 
 <style scoped>
 
-.video-prompt{
-  margin-left: 1px;
-}
 .video-page {
   width: 100%;
-  height: calc(100vh - 60px);       /* ✅ 93vh→100vh：更合理的高度 = 整个视口 - Header（60px） */
+  /* 自适应高度：100dvh - 顶部Header高，兼容手机地址栏伸缩 */
+  height: calc(100dvh - 60px);
   min-height: 0;
-  padding: 12px 16px;                   /* ✅ 减少内部 padding：上下12，左右16（原上下左右20浪费空间） */
+  padding: clamp(8px, 0.8vw, 12px) clamp(10px, 1.1vw, 16px);
   box-sizing: border-box;
   background: var(--bg-base, #121212);
   color: var(--text-primary, #E5EAF3);
   overflow: hidden;
   transition: background-color var(--theme-dur) var(--theme-ease);
-  margin-left: -30px;
+  /* 抵消 Layout.content-scroll padding-left 带来的偏右：自适应对齐 */
+  margin-left: calc(var(--layout-left-pad, 36px) * -0.8333);
 }
 
 .video-grid {
   display: grid;
-  grid-template-columns: 400px minmax(320px, 1fr);
+  /* 自适应：左列使用 --col-left 流体变量；右列自适应剩余空间 */
+  grid-template-columns: var(--col-left, 400px) minmax(260px, 1fr);
   grid-auto-rows: minmax(0, auto);
   align-items: stretch;
-  gap: 18px;
+  gap: clamp(8px, 1.25vw, 18px);
   width: 100%;
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
-  margin-left: -30px;
+  /* 跟随 Layout 左边距自适应偏移 */
+  margin-left: calc(var(--layout-left-pad, 36px) * -0.8333);
 }
 
 .panel {
@@ -476,8 +477,8 @@ const onGenerate = () => {
 }
 
 .col-left {
-  width: 400px;
-  max-width: 400px;
+  width: var(--col-left, 400px);
+  max-width: var(--col-left, 400px);
   height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -485,7 +486,7 @@ const onGenerate = () => {
   gap: 14px;
   min-width: 0;
   min-height: 0;
-  flex: 0 0 400px;
+  flex: 0 0 var(--col-left, 400px);
   overflow: hidden;
 }
 
@@ -515,11 +516,12 @@ const onGenerate = () => {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+/* 内部子元素：默认宽度跟随 --col-inner 流体变量 */
 .col-left__scroll > .panel,
 .col-left__scroll > section,
 .col-left__scroll > * {
-  width: 356px;
-  max-width: 356px;
+  width: var(--col-inner, 356px);
+  max-width: var(--col-inner, 356px);
   box-sizing: border-box;
   flex: 0 0 auto;
 }
@@ -646,11 +648,29 @@ const onGenerate = () => {
   line-height: 1.45;
 }
 
-@media (max-width: 1000px) {
-  .video-page { height: auto; min-height: calc(100vh - 60px); overflow-y: auto; }
+/* --- 中屏(1000–1280)：仍为两列，收紧间距与按钮高度 --- */
+@media (max-width: 1279.98px) {
+  .video-grid { gap: 10px; }
+  .col-left__scroll { padding: 4px 18px 80px; }
+  .gen-btn { height: 38px; font-size: 14px; }
+}
+
+@media (max-width: 999.98px) {
+  /* ⭐ 窄屏单列堆叠：滚动交给外层 Layout.content-scroll，本页不嵌套滚；
+       边距统一由 content-scroll 承担（左右对称 16/12px）。*/
+  .video-page {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
   .video-grid {
     grid-template-columns: 1fr;
     height: auto;
+    gap: 12px;
+    margin-left: 0;        /* ⭐ 不再抵消 Layout padding — 内容左右自然对称 */
+    width: 100%;
   }
   .col-left {
     width: 100%;
@@ -672,7 +692,15 @@ const onGenerate = () => {
     max-width: 100%;
   }
   .col-right.record-panel { min-height: 0; }
-  .gen-btn { width: calc(100% - 30px); margin: 0 15px; }
+  .gen-btn { width: calc(100% - 30px); margin: 0 15px; height: 44px; }
+}
+
+/* --- 移动端 ≤768：进一步压缩间距与字号，按钮尺寸贴合手指点击 --- */
+@media (max-width: 767.98px) {
+  .video-grid { gap: 8px; }
+  .col-left__scroll { padding: 0; gap: 6px; }
+  .gen-btn { width: 100%; margin: 0; height: 46px; font-size: 15px; border-radius: 12px; }
+  .gen-tips { font-size: 11px; }
 }
 
 /* ========== 通义万象专属样式（严格按用户规格） ========== */
@@ -683,22 +711,22 @@ const onGenerate = () => {
   padding-top: 4px !important;
 }
 .ty-head :deep(.page-title) {
-  font-size: 20px !important;
+  font-size: clamp(18px, 1.4vw, 20px) !important;
   font-weight: 700 !important;
 }
 .ty-head :deep(.page-desc) {
-  font-size: 14px !important;
+  font-size: clamp(13px, 1vw, 14px) !important;
   font-weight: 400 !important;
   margin-top: 8px !important;
 }
 
-/* ③ 提示词上方"输入文字描述..."：字号 14 颜色 #（严格要求） */
+/* ③ 提示词上方"输入文字描述..."：使用自适应内宽变量 */
 .ty-prompt-intro {
-  width: 356px;
-  max-width: 356px;
+  width: var(--col-inner, 356px);
+  max-width: var(--col-inner, 356px);
   margin: 2px 0 8px;
   padding: 0;
-  font-size: 14px;
+  font-size: clamp(13px, 1vw, 14px);
   line-height: 1.6;
   font-weight: 400;
   box-sizing: border-box;

@@ -693,17 +693,17 @@ const onUseModalTemplate = (tpl) => {
    ===================================================================== */
 .image-page {
   width: 100%;
-  height: calc(100vh - 60px);       /* ✅ 93vh→100vh：更合理的高度 = 整个视口 - Header（60px） */
+  /* 自适应高度：100dvh - 顶部Header高，兼容手机地址栏伸缩 */
+  height: calc(100dvh - 60px);
   min-height: 0;
-  padding: 12px 16px;                   /* ✅ 减少内部 padding：上下12，左右16（原上下左右20浪费空间） */
+  padding: clamp(8px, 0.8vw, 12px) clamp(10px, 1.1vw, 16px);
   box-sizing: border-box;
   background: var(--bg-base, #121212);
   color: var(--text-primary, #E5EAF3);
   overflow: hidden;                  /* ⭐ 整页禁滚，滚动只发生在左列内部 */
   transition: background-color var(--theme-dur) var(--theme-ease);
-  /* ⚠ 去掉之前的 -60px 负 margin：父 .content-scroll 默认 32px padding，
-        真要"整体左移 30px"请改 .image-grid 的 margin-left（下一处） */
-  margin-left: -30px;
+  /* 抵消 Layout.content-scroll padding-left 带来的偏右：自适应对齐 */
+  margin-left: calc(var(--layout-left-pad, 36px) * -0.8333);
 }
 
 /* =====================================================================
@@ -713,17 +713,17 @@ const onUseModalTemplate = (tpl) => {
    ===================================================================== */
 .image-grid {
   display: grid;
-  grid-template-columns: 400px minmax(320px, 1fr);
+  /* 自适应：左列使用 --col-left 流体变量（400@1440，320 下限）；右列自适应剩余空间 */
+  grid-template-columns: var(--col-left, 400px) minmax(260px, 1fr);
   grid-auto-rows: minmax(0, auto);
   align-items: stretch;             /* ⭐ 两列等高：右列与左列拉伸一致，亮主题不再错位 */
-  gap: 18px;
+  gap: clamp(8px, 1.25vw, 18px);
   width: 100%;
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
-  /* ⭐ 用户要求：页面（左列+右列）整体左移 30px。
-        父级 .content-scroll 默认有 32px 左右 padding，-30px 仍保留 2px 安全边距，不会被裁切 */
-  margin-left: -30px;
+  /* ⭐ 页面整体左移：跟随 Layout 左边距自适应（抵消 content-scroll padding-left） */
+  margin-left: calc(var(--layout-left-pad, 36px) * -0.8333);
 }
 
 /* ---- 通用面板（卡片）：取消灰色背景（用户要求），保留内边距与排版 ---- */
@@ -753,7 +753,7 @@ const onUseModalTemplate = (tpl) => {
 }
 
 /* =====================================================================
-   左列：外层容器（400px 宽，固定视口高度），内部结构：
+   左列：外层容器（跟随 --col-left 流体宽，固定视口高度），内部结构：
    ┌─────────────────────────────┐
    │  gen-panel（顶部固定，不滚）│
    ├─────────────────────────────┤
@@ -764,8 +764,8 @@ const onUseModalTemplate = (tpl) => {
    └─────────────────────────────┘
    ===================================================================== */
 .col-left {
-  width: 400px;
-  max-width: 400px;
+  width: var(--col-left, 400px);
+  max-width: var(--col-left, 400px);
   height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -773,7 +773,7 @@ const onUseModalTemplate = (tpl) => {
   gap: 14px;                          /* 生成按钮区与滚动区之间的间距 */
   min-width: 0;
   min-height: 0;
-  flex: 0 0 400px;
+  flex: 0 0 var(--col-left, 400px);
   overflow: hidden;                   /* ⭐ 外层禁滚，只让内层 scroll 滚动 */
 }
 
@@ -813,20 +813,22 @@ const onUseModalTemplate = (tpl) => {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-/* 滚动区内部所有面板：默认宽度 356px（用户此前要求） */
+/* 滚动区内部所有面板：默认宽度跟随 --col-inner 流体变量（356@1440，288 下限） */
 .col-left__scroll > .panel,
 .col-left__scroll > section,
 .col-left__scroll > * {
-  width: 356px;                       /* ⭐ 内部元素统一 356 宽度 */
-  max-width: 356px;
+  width: var(--col-inner, 356px);                       /* ⭐ 内部元素统一自适应内宽 */
+  max-width: var(--col-inner, 356px);
   box-sizing: border-box;
   flex: 0 0 auto;
 }
 
-/* ⭐ 用户要求：仅「提示词」面板（ImagePromptPanel 根类 .image-prompt）宽度为 180px */
+/* 提示词面板：跟随 .col-left__scroll > * 的默认宽度（--col-inner = 356px），
+   与上方参考图、下方分辨率/生成按钮严格对齐，不再出现"提示词比上下窄一截"的视觉断层。
+   — 之前的 180px !important 锁宽是过期 hack，会让 GK/G2/Qwen 等图生页的提示词框明显缩成一小条。 */
 .col-left__scroll :deep(.image-prompt) {
-  width: 180px !important;
-  max-width: 180px !important;
+  width: var(--col-inner, 356px) !important;
+  max-width: var(--col-inner, 356px) !important;
 }
 
 /* ⭐ 隐藏滚动条（Chrome / Safari / Edge） */
@@ -917,7 +919,7 @@ const onUseModalTemplate = (tpl) => {
   -webkit-appearance: none;
   /* ⭐ 补背景/文字色，接入主题：深色=深灰描边+浅字；浅色=白底+黑字 */
   background: var(--bg-elevated, #F5F7FA);
-  color: var(--text-primary, #111318);
+  color: var(--text-primary, #ffffff);
   border: 1px solid var(--border-base, #E5E6EA);
   text-align: center;
   padding: 0 16px;
@@ -972,13 +974,35 @@ const onUseModalTemplate = (tpl) => {
 }
 
 /* =====================================================================
-   响应式：窄屏 2 列改单列（此时滚动由页面承担，不使用左列内部滚动）
+   中屏(1000–1280)：两列仍保留，但左右边距收紧、按钮/内宽微缩
    ===================================================================== */
-@media (max-width: 1000px) {
-  .image-page { height: auto; min-height: calc(100vh - 60px); overflow-y: auto; }
+@media (max-width: 1279.98px) {
+  .image-grid { gap: 10px; }
+  .col-left__scroll { padding: 4px 0 80px; }
+  .gen-btn { height: 38px; font-size: 14px; }
+}
+
+/* =====================================================================
+   响应式：窄屏 ≤1000 两列改单列（此时滚动由页面承担，不使用左列内部滚动）
+   ===================================================================== */
+@media (max-width: 999.98px) {
+  /* ⭐ 窄屏单列堆叠：滚动交给外层 Layout.content-scroll，本页不嵌套滚；
+       边距统一由 content-scroll 承担（左右对称 16/12px），
+       所以本页清空 margin/padding，并把 grid 的 margin-left 负值抵消也删掉 →
+       避免「左边贴边右边还空」的左右不对称（用户反馈）*/
+  .image-page {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
   .image-grid {
     grid-template-columns: 1fr;
     height: auto;
+    gap: 12px;
+    margin-left: 0;          /* ⭐ 不再抵消 Layout padding — 内容左右自然对称 */
+    width: 100%;
   }
   .col-left {
     width: 100%;
@@ -999,9 +1023,26 @@ const onUseModalTemplate = (tpl) => {
     width: 100%;
     max-width: 100%;
   }
+  /* ⭐ 窄屏单列：取消「宽屏时提示词面板单独限 180px」的硬约束
+     必须跟默认规则同样的选择器 + !important 才能覆盖，否则提示词框在单列里
+     就只有 160–180px 宽（用户说「为什么这么大点」），右边全空黑。*/
+  .col-left__scroll :deep(.image-prompt) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
   .col-right.record-panel { min-height: 0; }
   .page-title { font-size: 22px; }
-  .gen-btn { width: calc(100% - 30px); margin: 0 15px; }
+  .gen-btn { width: calc(100% - 30px); margin: 0 15px; height: 44px; }
+}
+
+/* =====================================================================
+   移动端 ≤768：进一步压缩间距与字号，按钮尺寸贴合手指点击
+   ===================================================================== */
+@media (max-width: 767.98px) {
+  .image-grid { gap: 8px; }
+  .col-left__scroll { padding: 0; gap: 6px; }
+  .gen-btn { width: 100%; margin: 0; height: 46px; font-size: 15px; border-radius: 12px; }
+  .gen-tips { font-size: 11px; }
 }
 
 /* ==============================
@@ -1040,7 +1081,7 @@ const onUseModalTemplate = (tpl) => {
   line-height: 1.15;
   font-weight: 700;
   letter-spacing: 0.2px;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   flex: 0 0 auto;
 }
 .banana-head__row2 {
@@ -1088,7 +1129,7 @@ const onUseModalTemplate = (tpl) => {
   line-height: 1.15;
   font-weight: 700;
   letter-spacing: 0.2px;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   flex: 0 0 auto;
 }
 .qwen-head__row2 {
@@ -1120,7 +1161,7 @@ const onUseModalTemplate = (tpl) => {
   line-height: 1.15;
   font-weight: 700;
   letter-spacing: 0.2px;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
 }
 .g2-head__row2 {
   margin: 9px 0 0;
@@ -1167,7 +1208,7 @@ const onUseModalTemplate = (tpl) => {
   line-height: 1.15;
   font-weight: 700;
   letter-spacing: 0.2px;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   flex: 0 0 auto;
 }
 .jimeng-head__row2 {
@@ -1206,7 +1247,7 @@ const onUseModalTemplate = (tpl) => {
   height: 36px;                     /* ⭐ 高度 36 */
   border-radius: 6px;               /* ⭐ 圆角 6 */
   border: none;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   background: transparent;          /* 未选中：透明（外框已有背景） */
   font-size: 12px;                  /* ⭐ 字号 12 */
   font-weight: 400;                 /* 取消加粗 */
@@ -1265,7 +1306,7 @@ const onUseModalTemplate = (tpl) => {
   line-height: 1.25;
   font-weight: 700;
   letter-spacing: 0.2px;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   flex: 0 0 auto;
 }
 /* ---------- 行2：按钮区（2K 左 / 4K 右）⭐ 统一尺寸：173.5 × 36 ---------- */
@@ -1304,12 +1345,28 @@ const onUseModalTemplate = (tpl) => {
   box-shadow: none !important;    /* 零 box-shadow（禁令） */
   transition: background-color 140ms ease, color 140ms ease;
 }
-/* 选中态：粉红底白字（尺寸字号圆角完全继承 .jimeng-resolution__btn） */
+/* 选中态：粉红底白字（尺寸字号圆角完全继承 .jimeng-resolution__btn）
+   ⭐ 补上之前注释里写了但没实现的样式 —— 缺它会导致选中按钮文字颜色错乱 */
+.jimeng-resolution__btn--capsule-active {
+  background: #FE2C55;       /* 主色：朋探粉 */
+  color: #ffffff;            /* ⭐ 选中态白字（永远白，不随主题变） */
+}
 
-/* 未选中态：⭐ 取消背景色（transparent）+ 主文字色 */
+/* 未选中态：透明背景 + 按主题切换的文字色
+   · 深色/默认（:root / .dark）：白字
+   · 浅色（[data-theme='light']）：黑字
+   ⭐ fallback 不要是 #2A2C2E（黑底黑字完全看不见），
+     而是直接用「浅色主题覆盖器」写死，保证两种模式都可读 */
 .jimeng-resolution__btn--plain {
   background: transparent;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);   /* 默认深色：白字 */
+}
+:global(:root[data-theme='light']) .jimeng-resolution__btn--plain {
+  color: var(--text-primary, #ffffff);   /* 浅色主题：黑字 */
+}
+/* 另一种深色触发路径（EP 会把 .dark 挂在 <html>）—— 也保证白字 */
+:global(.dark) .jimeng-resolution__btn--plain {
+  color: #ffffff !important;
 }
 
 /* ---------- 行3：💡 灯泡提示行 ---------- */

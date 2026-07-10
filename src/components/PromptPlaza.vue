@@ -45,6 +45,7 @@
         :key="item.id"
         class="work-card"
         :class="{ large: index === 0 && activeCategory === '全部' && item.specialType === 'lingtu' }"
+        @click="openDetail(item)"
       >
           <div
             class="work-image-wrap"
@@ -194,14 +195,128 @@
       </svg>
       <p>没有找到相关提示词，换个关键词试试～</p>
     </div>
+
+    <!-- ================== 详情悬浮框（1200 × 700）================== -->
+    <Teleport to="body">
+      <div v-if="selectedWork" class="modal-mask" @click.self="closeDetail">
+        <div class="modal-card" :style="modalCardSize">
+          <!-- 顶部标题栏 -->
+          <div class="modal-header">
+            <div class="modal-title">AI 提示词详情</div>
+            <button class="modal-close" @click="closeDetail" aria-label="关闭">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- 主体：左预览 + 右信息 -->
+          <div class="modal-body">
+            <!-- 左栏：预览图 -->
+            <div class="modal-left">
+              <div class="modal-preview" :style="{ aspectRatio: selectedWork.ratio || '4 / 3' }">
+                <img
+                  :src="selectedWork.image"
+                  :alt="selectedWork.title"
+                  referrerpolicy="no-referrer"
+                  @error="onImgError"
+                />
+              </div>
+            </div>
+
+            <!-- 右栏：元信息 + 提示词卡 + 标签 + 按钮 -->
+            <div class="modal-right">
+              <!-- 标题 -->
+              <h3 class="detail-title">案例{{ selectedWork.id }}：{{ selectedWork.title }}</h3>
+
+              <!-- 工具 / 模型 chip -->
+              <div class="detail-chips">
+                <span class="chip chip-tool">{{ selectedWork.category === '商业创作' ? 'Veo' : (selectedWork.badgeType === 'video' ? 'Veo' : 'Lingtu') }}</span>
+                <span class="chip chip-model">veo3.1</span>
+              </div>
+
+              <!-- 使用产品 -->
+              <div class="detail-row detail-row--meta">
+                <span class="detail-icon">🏠</span>
+                <span>使用产品：<b>1 个</b></span>
+              </div>
+
+              <!-- 完整提示词卡（未登录时叠登录蒙层）-->
+              <div class="detail-section">
+                <div class="detail-section__label">完整提示词：</div>
+                <div class="prompt-card">
+                  <div class="prompt-card__blur">
+                    专业电影质感的室内漫游长镜头，采用 4K 超清分辨率，丝滑运镜从客厅缓缓推进至阳台，景深虚化自然过渡，柔和的暖色调日光透过落地窗在地板投射出长条光斑，环境光遮蔽真实细腻，材质贴图 PBR 级别，家具布料纤维与大理石纹理清晰可见，搭配温柔的环境背景音乐，整体氛围宁静治愈，画面帧率 60fps，HDR 高动态范围，无任何画面抖动与噪点。
+                  </div>
+                  <!-- 登录蒙层（蓝底 + 按钮） -->
+                  <div class="prompt-login-overlay">
+                    <svg class="prompt-login__lock" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    <div class="prompt-login__title">登录后可见完整提示词</div>
+                    <button class="prompt-login__btn">立即登录</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 输入资源 -->
+              <div class="detail-section detail-section--inputs">
+                <div class="detail-section__label with-count">
+                  <span>输入资源：</span>
+                  <span class="input-count">2 个</span>
+                </div>
+                <div class="input-grid">
+                  <div v-for="n in 2" :key="n" class="input-thumb">
+                    <img :src="selectedWork.image" referrerpolicy="no-referrer" @error="onImgError" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- 标签 -->
+              <div class="detail-section">
+                <div class="detail-section__label">标签：</div>
+                <div class="detail-tags">
+                  <span
+                    v-for="(t, i) in (selectedWork.tags && selectedWork.tags.length ? selectedWork.tags : ['效果图', '室内设计', '运动场', '装修', '运动画面', '装修画面', '施工动画'])"
+                    :key="i"
+                    class="detail-tag"
+                  >{{ t }}</span>
+                </div>
+              </div>
+
+              <!-- 底部粉色大按钮 -->
+              <button class="detail-use-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                登录后使用此提示词创作
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </section>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const searchKey = ref('')
 const activeCategory = ref('全部')
+const selectedWork = ref(null)
+
+const modalCardSize = computed(() => ({
+  width: '1200px',
+  height: '700px',
+  borderRadius: '24px'
+}))
+
+const openDetail = (item) => { selectedWork.value = item }
+const closeDetail = ()   => { selectedWork.value = null }
+const onEsc = (e) => { if (e.key === 'Escape') closeDetail() }
+onMounted(() => window.addEventListener('keydown', onEsc))
+onBeforeUnmount(() => window.removeEventListener('keydown', onEsc))
 
 const categories = ref([
   '全部', '装修设计', '服饰换装', '餐饮美食', '人像摄影',
@@ -794,8 +909,9 @@ const categoryCount = (cat) => {
 
 .tabs-scroll {
   display: flex;
-  gap: 24px;
-  overflow-x: auto;
+  flex-wrap: wrap;                  /* ⭐ 分类全显示 + 可换行（替换原来 overflow-x:auto 横向滚动切后面 9 个分类） */
+  gap: 10px 18px;                    /* ⭐ 行10px/列18px 换行紧凑 */
+  overflow: visible;
   padding-bottom: 4px;
   margin-top: -7px;
 }
@@ -806,11 +922,11 @@ const categoryCount = (cat) => {
 
 .tab-btn {
   flex-shrink: 0;
-  padding: 0;
-  background: transparent;
+  padding: 0;                     /* ⭐ 纯文字：去掉胶囊 padding */
+  background: transparent;        /* ⭐ 去掉背景 */
   color: var(--text-muted);
-  border: none;
-  border-radius: 0;
+  border: none;                   /* ⭐ 去掉边框 */
+  border-radius: 0;               /* ⭐ 去掉圆角 */
   font-size: 15px;
   white-space: nowrap;
   display: inline-flex;
@@ -824,7 +940,7 @@ const categoryCount = (cat) => {
 }
 
 .tab-btn.active {
-  color: var(--text-primary);
+  color: var(--text-primary);    /* ⭐ 选中态只加粗 + 主色文字，不做渐变胶囊 */
   font-weight: 600;
 }
 
@@ -1614,5 +1730,408 @@ const categoryCount = (cat) => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* =====================================================================
+   响应式：窄屏标题搜索行 → 上下排列；瀑布流列宽适配
+   ===================================================================== */
+/* --- 中屏 ≤1280：搜索框缩窄，标题行轻微收紧 --- */
+@media (max-width: 1279.98px) {
+  .plaza-header {
+    gap: 16px;
+    margin-left: 8px;
+  }
+  .search-box {
+    width: clamp(240px, 25vw, 300px);
+  }
+  .waterfall {
+    column-width: 240px;
+    column-gap: 16px;
+  }
+  .work-card {
+    margin: 0 0 16px;
+  }
+}
+/* --- 窄屏 ≤1000：plaza-header → 上下排列（标题一行、搜索独占一行） --- */
+@media (max-width: 999.98px) {
+  .plaza-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-left: 0;
+    margin-bottom: 16px;
+  }
+  .plaza-title {
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+  .plaza-title h2 {
+    margin-bottom: 0;
+    font-size: 18px;
+  }
+  .search-box {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .waterfall {
+    column-width: 220px;
+    column-gap: 14px;
+  }
+  .work-card {
+    margin: 0 0 14px;
+  }
+  .category-tabs { margin-bottom: 18px; }
+  .tabs-scroll { gap: 8px 18px; }
+  .tab-btn { font-size: 14px; padding: 0; }
+}
+/* --- 移动端 ≤768：瀑布流列宽 180px（更小设备可能 2 列）；特色卡尺寸缩小 --- */
+@media (max-width: 767.98px) {
+  .plaza-title h2 { font-size: 17px; }
+  .more-link { font-size: 11px; }
+  .search-box { height: 36px; }
+  .search-btn { height: 36px; }
+  .waterfall {
+    column-width: clamp(150px, 46vw, 220px);
+    column-gap: 10px;
+  }
+  .work-card {
+    margin: 0 0 10px;
+    border-radius: 12px;
+  }
+  .work-info { padding: 10px 12px 12px; }
+  .work-title { font-size: 13px; }
+  .work-tag { font-size: 10px; padding: 2px 6px; }
+  .work-meta { font-size: 11px; }
+  .tabs-scroll { gap: 7px 14px; padding-bottom: 6px; }
+  .tab-btn { font-size: 13px; padding: 0; }
+  .lt-main { font-size: clamp(28px, 9vw, 44px); letter-spacing: 2px; }
+  .lt-sub { font-size: clamp(18px, 5.5vw, 28px); letter-spacing: 3px; }
+  .lt-cards { gap: 6px; }
+  .lt-mini-card { width: 80px; padding: 6px; }
+  .food-bg { width: 50%; }
+  .food-title span { font-size: 18px; }
+  .food-subtitle { font-size: 16px; }
+  .god-head { width: 60%; }
+  .corner-badge { font-size: 10px; padding: 2px 7px; top: 8px; left: 8px; }
+}
+@media (max-width: 479.98px) {
+  .waterfall {
+    column-width: 100%;
+    column-count: 1;
+    column-gap: 12px;
+  }
+}
+
+/* =====================================================================
+   详情悬浮层 1200×700（参考截图：AI 提示词详情 Modal）
+   ===================================================================== */
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 24, 0.82);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+.modal-card {
+  background: #121316;
+  color: #f5f5f7;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: popIn 0.22s cubic-bezier(.16,.84,.44,1);
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.96) translateY(6px) }
+  to   { opacity: 1; transform: scale(1) translateY(0) }
+}
+
+/* 顶部 header */
+.modal-header {
+  height: 56px;
+  min-height: 56px;
+  padding: 0 20px 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: #121316;
+}
+.modal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e5e7eb;
+  letter-spacing: 0.2px;
+}
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+/* body 左右分栏 */
+.modal-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 44fr 56fr;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* 左栏：预览图 */
+.modal-left {
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0d0e11 0%, #121316 100%);
+  border-right: 1px solid rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+.modal-preview {
+  width: 100%;
+  max-height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  background: #000;
+  display: flex;
+}
+.modal-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 右栏：信息 + 操作 */
+.modal-right {
+  padding: 24px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  color: #e5e7eb;
+  min-height: 0;
+  scrollbar-width: none;          /* ⭐ Firefox：隐藏滚动条本体，取消"白色竖线" */
+}
+/* ⭐ Webkit（Chrome/Edge/Safari）：整条滚动条 + thumb 全部隐藏（滚轮仍能滚） */
+.modal-right::-webkit-scrollbar { width: 0; height: 0; display: none; }
+.modal-right::-webkit-scrollbar-thumb { background: transparent; }
+
+.detail-title {
+  margin: 4px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #fff;
+  letter-spacing: 0.2px;
+}
+
+/* 工具 / 模型 chip */
+.detail-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.chip {
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: 0.3px;
+}
+.chip-tool  { background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+.chip-model { background: rgba(244, 63, 94, 0.16); color: #fb7185; border: 1px solid rgba(244,63,94,0.22); }
+
+/* 使用产品 meta */
+.detail-row--meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #d1d5db;
+}
+.detail-row--meta b { color: #fff; font-weight: 600; }
+.detail-icon {
+  width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center;
+  color: #9ca3af; font-size: 14px;
+}
+
+/* 每个 section */
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.detail-section__label {
+  font-size: 13px;
+  color: #9ca3af;
+  font-weight: 500;
+  line-height: 1;
+}
+.detail-section__label.with-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.input-count { color: #9ca3af; font-size: 12px; font-weight: 400; }
+
+/* 提示词卡 + 登录蒙层 */
+.prompt-card {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+  min-height: 120px;
+  overflow: hidden;
+}
+.prompt-card__blur {
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: #9ca3af;
+  letter-spacing: 0.1px;
+  filter: blur(3px) saturate(0.6);
+  user-select: none;
+}
+.prompt-login-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.92), rgba(59, 130, 246, 0.92));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+.prompt-login__lock {
+  color: #fff;
+  opacity: 0.92;
+  margin-bottom: 2px;
+}
+.prompt-login__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  opacity: 0.96;
+}
+.prompt-login__btn {
+  margin-top: 8px;
+  height: 30px;
+  padding: 0 16px;
+  background: #fff;
+  color: #0ea5e9;
+  border: none;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+  transition: transform 0.15s;
+}
+.prompt-login__btn:hover { transform: translateY(-1px); }
+
+/* 输入资源 */
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.input-thumb {
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #000;
+}
+.input-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 标签 chips */
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.detail-tag {
+  height: 24px;
+  padding: 0 10px;
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.14), rgba(236, 72, 153, 0.14));
+  border: 1px solid rgba(244, 63, 94, 0.22);
+  color: #fda4af;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  cursor: default;
+}
+
+/* 底部主按钮（粉红 9999px 胶囊形） */
+.detail-use-btn {
+  margin-top: auto;
+  height: 44px;
+  width: 100%;
+  border-radius: 9999px;
+  border: none;
+  background: linear-gradient(135deg, #ff2d6f 0%, #ff4d8d 100%);
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 10px 24px rgba(255, 45, 111, 0.28);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.detail-use-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(255, 45, 111, 0.36);
+}
+
+/* 弹层响应式：屏幕 ≤ 1280 就自适应最大 94vw × 90vh */
+@media (max-width: 1279.98px) {
+  .modal-card { width: 94vw !important; height: min(700px, 88vh) !important; }
+  .modal-body { grid-template-columns: 42fr 58fr; }
+}
+@media (max-width: 959.98px) {
+  .modal-card { height: auto !important; max-height: 92vh; }
+  .modal-body { grid-template-columns: 1fr; overflow-y: auto; }
+  .modal-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 20px; }
+  .modal-preview { max-height: 48vh; }
+  .modal-right { padding: 20px; }
 }
 </style>

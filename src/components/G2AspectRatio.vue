@@ -230,7 +230,7 @@ onMounted(() => {
   gap: 8px;
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   margin-bottom: 18px;
   width: 100%;
 }
@@ -262,13 +262,13 @@ onMounted(() => {
 .custom-toggle__label {
   font-size: 12px;
   font-weight: 500;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
 }
 .custom-toggle input { display: none; }
 .custom-toggle__track {
   width: 30px;              /* 整体开关宽度：30 */
   height: 16px;             /* 整体开关高度：16 */
-  border-radius: 6px;       /* 圆角：6px */
+  border-radius: 12px;       /* 圆角：6px */
   background: #C8CCD3;
   display: inline-block;
   position: relative;
@@ -367,7 +367,7 @@ onMounted(() => {
   font-size: 12px;
   
   font-weight: 400;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   line-height: 1;
   transition: color 140ms ease;
 }
@@ -416,7 +416,7 @@ onMounted(() => {
 .size-field__label {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   line-height: 1;
   padding: 0 2px;
 }
@@ -444,7 +444,7 @@ onMounted(() => {
   width: 40px;
   font-size: 20px;
   font-weight: 500;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -471,7 +471,7 @@ onMounted(() => {
   text-align: center;
   font-size: 15px;
   font-weight: 600;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   font-family: inherit;
   line-height: 1;
   height: 100%;

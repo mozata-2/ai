@@ -134,4 +134,13 @@ const badgeText = computed(() => BADGE_MAP[props.modelValue] || '')
   color: #fff;
 }
 .model-btn--active .model-btn__sub { color: rgba(255,255,255,0.88); }
+
+/* 窄屏(≤1000)单列：3×111.66 + 2×10 = 355px > 手机内宽 343，右边被微裁 */
+@media (max-width: 999.98px) {
+  .model-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .model-btn { flex: 0 0 auto; width: 100%; }
+}
+@media (max-width: 767.98px) {
+  .model-btn { height: 52px; }
+}
 </style>

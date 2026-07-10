@@ -191,6 +191,71 @@
   --el-color-picker-bg-color: var(--bg-surface);
 }
 
+/* ============================================
+   自适应系统：流体字号 + 断点变量 + 容器最大宽
+   桌面优先（设计稿 1440–1920），等比缩放到窄屏
+   ============================================ */
+:root {
+  /* ---- 流体字号：1440px 基准 16px，随视口宽度等比缩放，夹在 12–18px ----
+     vw 公式：目标 1440px → 16px ≈ 1.111vw；下限 12px / 上限 18px */
+  --fs-root: clamp(12px, 1.111vw, 18px);
+
+  /* ---- 自适应容器 & 列宽变量（Image/Video/Tool/Home 统一消费）----
+     宽屏基准：左列 400 / 内宽 356 / 右记录列 320 / 工具中列 598 / 工具右列 320
+     Home 版心基准 1136 */
+  --max-home-content: min(1136px, 92vw);
+  --layout-left-pad: clamp(12px, 2.5vw, 36px);
+
+  --col-left: clamp(320px, 27.78vw, 400px);      /* 左列：400px@1440，窄屏最小 320 */
+  --col-inner: clamp(288px, 24.72vw, 356px);      /* 左列内宽：356px@1440 */
+  --col-right: clamp(280px, 22.22vw, 320px);      /* 右记录列：320px@1440 */
+  --col-preview: clamp(480px, 41.53vw, 598px);    /* 工具中预览列：598px@1440 */
+  --col-tool-right: clamp(280px, 22.22vw, 320px); /* 工具右列：320px@1440 */
+
+  --sidebar-expanded: clamp(140px, 12.5vw, 180px);/* 侧边栏展开：180px@1440 */
+  --sidebar-collapsed: clamp(64px, 5.56vw, 80px); /* 侧边栏折叠：80px@1440 */
+  --sidebar-drawer: clamp(260px, 22.22vw, 320px); /* 抽屉：320px@1440 */
+
+  /* ---- 断点标识：通过 0/1 让子组件在不同尺寸下拿到布尔（可选扩展用）---- */
+  --bp-lg: 1; /* ≥1280 默认桌面 */
+  --bp-md: 0;
+  --bp-sm: 0;
+  --bp-xs: 0;
+}
+
+/* --- 小笔记本/小桌面 1000–1280：中屏变量收紧 --- */
+@media (max-width: 1279.98px) {
+  :root {
+    --bp-lg: 0; --bp-md: 1;
+  }
+}
+/* --- 平板/窄屏 768–1000：启动单列布局 --- */
+@media (max-width: 999.98px) {
+  :root {
+    --bp-md: 0; --bp-sm: 1;
+    --col-left: 100%;
+    --col-inner: 100%;
+    --col-right: 100%;
+    --col-preview: 100%;
+    --col-tool-right: 100%;
+    --max-home-content: 100%;
+    --layout-left-pad: 16px;
+  }
+}
+/* --- 移动端 ≤768：进一步收紧 --- */
+@media (max-width: 767.98px) {
+  :root {
+    --bp-sm: 0; --bp-xs: 1;
+    --fs-root: clamp(11px, 3.2vw, 15px);
+    --layout-left-pad: 12px;
+  }
+}
+
+html {
+  /* 应用流体根字号：全站 rem/行高会等比跟随 */
+  font-size: var(--fs-root);
+}
+
 html, body, #app {
   height: 100%;
   width: 100%;

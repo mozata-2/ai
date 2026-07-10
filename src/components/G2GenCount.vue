@@ -62,7 +62,7 @@ defineEmits(['update:modelValue'])
   gap: 8px;
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   margin-bottom: 14px;
   width: 100%;
 }
@@ -101,7 +101,7 @@ defineEmits(['update:modelValue'])
   padding: 0 8px;
   height: 36px;              /* 固定高度 36px */
   border-radius: 6px;        /* 统一圆角 6px */
-  color: var(--text-primary, #2A2C2E);
+  color: var(--text-primary, #ffffff);
   font-size: 14px;
   line-height: 1;
   font-weight: 700;

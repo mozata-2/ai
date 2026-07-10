@@ -96,18 +96,23 @@ function ratioStyle(value) {
 }
 .panel-title__text { flex: 0 0 auto; }
 
-/* 3 行网格：5+5+4，单按钮 62.2×68，圆角 6，字号 12，未选中隐藏比例字（用户指定） */
+/* 3 行网格：5+5+4。
+   ⭐ 原来用固定列 (repeat(5, 62.2px) + gap 10/20) 总宽 351px，
+      但 --col-inner 流体变量下限 clamp(288px …)，视口 <1440 时内宽只有 288~356，
+      右列直接被父容器 overflow-x:hidden 裁掉（用户红框里 9:16 / 21:9 / 8:1 看不见）。
+      改成 5 等分 1fr + 缩小 gap，按钮自动按父容器 100% 分 5 份，永不溢出 */
 .ratio-grid {
   display: grid;
-  grid-template-columns: repeat(5, 62.2px);
-  column-gap: 16px;
-  row-gap: 20px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  column-gap: 6px;                  /* ⭐ 缩 gap：10 → 6，让 5 列在窄内宽下也能完全显示 */
+  row-gap: 12px;                    /* ⭐ 对应缩行 gap：20 → 12 */
   justify-content: flex-start;
+  width: 100%;                      /* 占满 banana-aspect panel 100% 内宽 */
 }
 
 .ratio-btn {
-  width: 62.2px;                 /* ⭐ 固定宽 62.2 */
-  height: 68px;                  /* ⭐ 固定高 68 */
+  width: 100%;                      /* ⭐ 按钮宽度填满分到的 1 列（不再锁 62.2） */
+  height: 68px;                     /* 高度保留用户之前指定的 68 */
   appearance: none;
   -webkit-appearance: none;
   /* ⭐ 对齐 Qwen：1px 描边 + 接入主题的字色，默认无背景 */

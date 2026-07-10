@@ -146,4 +146,14 @@ defineEmits(['update:modelValue'])
 .aspect-btn--active .aspect-btn__label { color: #fff; }
 .aspect-btn--active .aspect-btn__sub   { color: rgba(255,255,255,0.92); }
 .aspect-btn--active .aspect-icon__inner { border-color: #fff; opacity: 0.95; }
+
+/* 窄屏(≤1000)单列：容器原 width:356px 锁死 + 5×62.2 + 4×11.25 = 356px，
+   手机内宽只有 343，整体向右溢出 13px 导致最右「9:16/16:9」被微裁 */
+@media (max-width: 999.98px) {
+  .aspect-grid { width: 100%; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .aspect-btn { width: 100%; }
+}
+@media (max-width: 767.98px) {
+  .aspect-btn { height: 68px; }
+}
 </style>

@@ -71,7 +71,7 @@ const onRemove = () => {
   flex-direction: column;
   gap: 0;
   margin-top: -6px;
-  margin-left: 12px;
+  margin-left: 0;                    /* ⭐ 已修：去掉宽屏过期 +12px 补偿（-169px 伸左列 hack 已删，再 +12 就右偏 12px） */
 }
 .panel-title {
   display: inline-flex;
@@ -97,15 +97,15 @@ const onRemove = () => {
 
 .uploader {
   flex: 1 1 auto;
-  /* ⭐ 用户要求：虚线上传框高度固定 176（代码中是 180，保留原数） */
+  /* ⭐ 用户要求：虚线上传框高度固定 176（代码中是 180，保留原数）.uploader {
+  flex: 1 1 auto;
   height: 180px;
   min-height: 180px;
   max-height: 180px;
-  width: 101%;
+  width: 100%;                    /* ⭐ 已修：过期 101% 宽屏补偿（配合 +12 补偿），现在恢复 100% 与上下面板严格对齐 */
   /* ⭐ 亮/暗主题统一：用主题描边变量，亮主题下自动换成深色虚线 */
   border: 2px dashed var(--border-strong, rgba(255, 255, 255, 0.27));
-  border-radius: 12px;
-  /* ⭐ 亮/暗主题统一：使用 elevated-2（暗→深灰；亮→浅灰）替代硬编码 # */
+  border-radius: 12px;/* ⭐ 亮/暗主题统一：使用 elevated-2（暗→深灰；亮→浅灰）替代硬编码 # */
   /* background: var(--bg-elevated-2, #ffffff);  */
   display: flex;
   flex-direction: column;
@@ -221,5 +221,30 @@ const onRemove = () => {
   color: var(--text-primary, #E5EAF3);
   background: var(--hover-bg, rgba(255,255,255,0.03));
   transform: translateY(-1px);
+}
+
+/* =====================================================================
+   窄屏(≤1000)/单列堆叠：取消宽屏微调引入的偏移 hack
+   .image-ref { margin-left:12px } 是宽屏时为了配合 ImagePromptPanel
+   左伸 -169px 做的对齐；单列下提示词已经归位，这里再留 12px 就会
+   整体向右偏（用户说「又向右偏移了」）。uploader width:101% 同理。
+   ===================================================================== */
+@media (max-width: 999.98px) {
+  .image-ref {
+    margin-left: 0;
+    width: 100%;
+    padding: 12px 0;
+  }
+  .uploader {
+    width: 100%;
+  }
+}
+/* 移动端(≤768)：上传框高度降一点，给下面面板多留空间 */
+@media (max-width: 767.98px) {
+  .uploader {
+    height: 160px;
+    min-height: 160px;
+    max-height: 160px;
+  }
 }
 </style>

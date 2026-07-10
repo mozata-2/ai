@@ -119,4 +119,13 @@ const durOpts   = computed(() => isClassic.value ? CLASSIC_DUR_OPTS : G15_DUR_OP
   color: #fff;
 }
 .dur-btn--active .dur-btn__sub { color: rgba(255,255,255,0.85); }
+
+/* 窄屏(≤1000)单列：177.5×2 + gap10 总 365 > 手机内宽 343，右边被微裁 */
+@media (max-width: 999.98px) {
+  .dur-row { gap: 6px; }
+  .dur-btn { flex: 0 0 auto; width: 100%; }
+}
+@media (max-width: 767.98px) {
+  .dur-btn { height: 52px; }
+}
 </style>

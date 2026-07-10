@@ -99,7 +99,7 @@ const onMergeClick = () => {
   flex-direction: column;
   gap: 0;
   margin-top: -6px;
-  margin-left: 1px;
+  margin-left: 0px;
 }
 .panel-title {
   display: inline-flex;
@@ -243,5 +243,21 @@ const onMergeClick = () => {
 .pick-btn:hover {
   border-color: var(--border-extra, rgba(255,255,255,0.38));
   color: var(--text-primary, #E5EAF3);
+}
+
+/* 窄屏(≤1000)：单列下 uploader width:101% 会让右边溢出，左右不再对称 */
+@media (max-width: 999.98px) {
+  .gk-image-ref {
+    margin-left: 0;
+    width: 100%;
+  }
+  .uploader { width: 100%; }
+}
+@media (max-width: 767.98px) {
+  .uploader {
+    height: 160px;
+    min-height: 160px;
+    max-height: 160px;
+  }
 }
 </style>

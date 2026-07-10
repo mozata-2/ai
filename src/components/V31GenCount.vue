@@ -133,4 +133,10 @@ defineEmits(['update:modelValue'])
   border-color: #FE2C55;
   color: #fff;
 }
+
+/* 窄屏(≤1000)单列：4×80.75 + 3×12 = 359px > 手机内宽 343，最右「4 条」被微裁 */
+@media (max-width: 999.98px) {
+  .btn-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .count-btn { flex: 0 0 auto; width: 100%; }
+}
 </style>

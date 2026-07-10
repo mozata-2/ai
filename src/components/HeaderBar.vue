@@ -28,7 +28,10 @@
           <svg class="img-tab__icon" :viewBox="t.iconView || '0 0 24 24'" width="16" height="16" aria-hidden="true">
             <component :is="'g'" v-html="t.iconSvg" />
           </svg>
-          <span class="img-tab__name">{{ t.name }}<span v-if="t.hot" class="img-tab__hot">HOT</span></span>
+          <!-- ⭐ 按视频 tabs 统一写法：HOT 与 name 同级兄弟（不是嵌套在 name 内），小写 hot →
+               避免固定 106px 宽下 HOT 溢到 gap 里变成"第 4 个独立假 tab" -->
+          <span class="img-tab__name">{{ t.name }}</span>
+          <span v-if="t.hot" class="img-tab__hot">hot</span>
           
         </router-link>
       </nav>
@@ -337,7 +340,7 @@ const VIDEO_TOOLS = [
     `
   },
   {
-    key: 'sr',   name: 'SR视频', hot: false,
+    key: 'sr',   name: 'SR视频', hot: true,        /* ⭐ 用户要求：SR视频也加 HOT 标签（模板 L51 已支持 v-if="t.hot"） */
     iconView: '0 0 24 24',
     iconSvg: `
       <rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
@@ -482,7 +485,8 @@ const activeToolKey = computed(() => {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  width: 106px;
+  min-width: 106px;                      /* ⭐ 按视频 tabs：固定 106 → 最小 106，宽度自适应（香蕉作图+HOT塞不下会扩，不会把 HOT 挤到 gap 里变独立假 tab） */
+  width: auto;
   height: 36px;
   padding: 0 12px 0 10px;
   border-radius: 6px;
@@ -495,7 +499,9 @@ const activeToolKey = computed(() => {
   text-decoration: none;
   box-sizing: border-box;
   transition:
-    background-color 180ms ease,
+    /* ⭐ 已修：删除 background-color 180ms ease → 切 tab 时“粉色闪过”的根因是
+         旧 tab 粉淡出 180ms + 新 tab 粉淡入 180ms 叠 360ms 两块粉色过渡；
+         现在选中背景 0ms 瞬切，用户看不到两色过渡，不再闪 */
     color var(--theme-dur) var(--theme-ease),
     transform 120ms ease;
 }
@@ -717,5 +723,100 @@ const activeToolKey = computed(() => {
   letter-spacing: 0.3px;
   margin-left: auto;          /* 推到按钮最右侧（视频反推 161.89 有足够空间） */
   text-transform: lowercase;
+}
+
+/* =====================================================================
+   响应式：Header 头部在窄屏自适应
+   ===================================================================== */
+/* --- 中屏 1000–1280：收紧头部左右内边距、Tab 与 Tab 之间间隙、高度略微降低 --- */
+@media (max-width: 1279.98px) {
+  .header-bar {
+    height: 56px; min-height: 56px;
+    padding: 0 clamp(12px, 1.8vw, 28px) 0 clamp(10px, 1.6vw, 24px);
+  }
+  .header-left { gap: 12px; }
+  .img-tabs {
+    gap: 14px;
+    margin-left: 10px;
+    height: 34px;
+  }
+  .img-tab {
+    width: auto;
+    min-width: 88px;
+    height: 34px;
+    padding: 0 10px;
+  }
+  .tool-tabs-header { height: 34px; gap: 0; }
+  .tool-tab-h { height: 34px; font-size: 13px; }
+}
+/* --- 窄屏 ≤1000：进一步收紧，Tabs 允许按 min-width 压缩，文字可能省略但整体不换行 --- */
+@media (max-width: 999.98px) {
+  .header-bar {
+    height: 52px; min-height: 52px;
+    padding: 0 12px;
+  }
+  .header-left { gap: 8px; }
+  .img-tabs {
+    gap: 6px;
+    margin-left: 6px;
+    height: 32px;
+  }
+  .img-tab {
+    width: auto;
+    min-width: 0;
+    height: 32px;
+    padding: 0 6px;
+    font-size: 12px;
+  }
+  .img-tab__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tool-tabs-header { height: 32px; overflow-x: auto; scrollbar-width: none; }
+  .tool-tabs-header::-webkit-scrollbar { display: none; }
+  .tool-tab-h {
+    height: 32px;
+    font-size: 12px;
+    width: auto !important;
+    padding: 0 6px !important;
+    min-width: max-content;
+  }
+}
+/* --- 移动端 ≤768：进一步缩小 Tabs 图标优先；头部仅保留抽屉按钮 + 登录 --- */
+@media (max-width: 767.98px) {
+  .header-bar {
+    height: 48px; min-height: 48px;
+    padding: 0 8px;
+  }
+  .img-tabs {
+    padding: 2px;
+    gap: 2px;
+    height: 30px;
+    margin-left: 4px;
+  }
+  .img-tab {
+    height: 30px;
+    padding: 0 4px;
+    gap: 2px;
+    font-size: 11px;
+  }
+  .img-tab__icon { width: 14px; height: 14px; }
+  .tool-tabs-header { height: 30px; }
+  .tool-tab-h { height: 30px; font-size: 11px; }
+  .tool-tab-h__icon { width: 16px; height: 16px; }
+  .tool-tab-h__hot { transform: scale(0.88); }
+}
+
+/* =====================================================================
+   ⭐ 窄屏：图片/视频/工具 页顶部 Tabs 全隐藏 → 统一移到 Sidebar 抽屉的
+   「功能菜单」二级列表显示（图一/图二展开子项效果）
+   阈值 ≤999.98px 与 Sidebar 抽屉态（isNarrow） 对齐
+   ===================================================================== */
+@media (max-width: 999.98px) {
+  .img-tabs,
+  .tool-tabs-header {
+    display: none !important;
+  }
+  /* Tabs 隐藏后，header-left 紧凑靠左，只保留抽屉按钮 + Logo 占位 */
+  .header-left {
+    gap: 10px;
+  }
 }
 </style>
