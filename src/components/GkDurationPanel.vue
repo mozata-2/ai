@@ -63,7 +63,7 @@ const durOpts   = computed(() => isClassic.value ? CLASSIC_DUR_OPTS : G15_DUR_OP
 .gk-duration-panel {
   width: 100%;
   box-sizing: border-box;
-  padding: 12px 6px;                   /* ⭐ 左右补 6px → 与 GkHeadPanel 标题对齐 */
+  padding: 12px 0;
   background: transparent;
 }
 .panel-title {

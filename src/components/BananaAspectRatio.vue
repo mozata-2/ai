@@ -82,12 +82,19 @@ function ratioStyle(value) {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 15px;
-  font-weight: 700;
+  /* ⭐ 对齐 Qwen：14px / 600 字重；颜色接入主题 */
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text-primary, #E5EAF3);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
-.title-emoji { font-size: 16px; }
+.title-emoji {
+  /* ⭐ 对齐 Qwen：15px，独立行高 */
+  font-size: 15px;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+.panel-title__text { flex: 0 0 auto; }
 
 /* 3 行网格：5+5+4，单按钮 62.2×68，圆角 6，字号 12，未选中隐藏比例字（用户指定） */
 .ratio-grid {
@@ -103,8 +110,10 @@ function ratioStyle(value) {
   height: 68px;                  /* ⭐ 固定高 68 */
   appearance: none;
   -webkit-appearance: none;
-  border: none;
-  background: transparent;       /* ⭐ 未选中：无背景 */
+  /* ⭐ 对齐 Qwen：1px 描边 + 接入主题的字色，默认无背景 */
+  border: 1px solid var(--border-base, rgba(255,255,255,0.06));
+  background: transparent;
+  color: var(--text-primary, #E5EAF3);
   cursor: pointer;
   border-radius: 6px;            /* ⭐ 圆角 6 */
   display: inline-flex;
@@ -112,11 +121,23 @@ function ratioStyle(value) {
   align-items: center;
   justify-content: center;
   gap: 4px;                      /* 图标 → 文字 4 */
-  color: #1F2329;
   min-width: 0;
   box-sizing: border-box;
   padding: 4px 0;
+  /* ⭐ 对齐 Qwen：过渡动画 */
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease,
+    transform 120ms ease;
 }
+.ratio-btn:hover {
+  /* ⭐ 对齐 Qwen：hover 背景 + 加粗描边 */
+  background: var(--bg-elevated-2, #26272B);
+  border-color: var(--border-strong, rgba(255,255,255,0.14));
+}
+.ratio-btn:active { transform: scale(0.98); }  /* ⭐ 对齐 Qwen：按压缩放 */
+
 .ratio-box {
   width: 24px;                   /* 比例框 24×24（原36缩三分之一） */
   height: 24px;
@@ -127,19 +148,21 @@ function ratioStyle(value) {
 }
 .ratio-box__inner {
   border-radius: 4px;
-  background: #EEF2F7;           /* ⭐ 浅灰矩形（未选中态的比例缩略图） */
+  /* ⭐ 对齐 Qwen（SVG fill）：未选中态 半透明灰，接入主题变量让深浅主题同步 */
+  background: var(--ratio-icon-fill, rgba(148,163,184,0.20));
 }
 .ratio-label {
-  font-size: 12px;               /* ⭐ 字号 12（保持清晰） */
-  font-weight: 400;              /* ⭐ 取消加粗 */
-  line-height: 1.2;
-  color: #1F2329;
+  /* ⭐ 对齐 Qwen：12px / 600 粗；接入主题字色（不再硬编码 #1F2329） */
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text-primary, #E5EAF3);
   text-align: center;
   display: block;                /* ⭐ 不管选中不选中都显示（用户纠正） */
   flex: 0 0 auto;
 }
 
-/* 选中态：整卡 #FE2C55 填充 + 比例字变白 + 缩略图浅粉 */
+/* 选中态：整卡 #FE2C55 填充 + 比例字变白 + 缩略图纯白（与 Qwen 选中 SVG fill=#FFFFFF 对齐） */
 .ratio-btn--active {
   background: #FE2C55;
   color: #fff;
@@ -149,6 +172,7 @@ function ratioStyle(value) {
   color: #fff;                 /* ⭐ 选中：只改比例字为白，图标不改 */
 }
 .ratio-btn--active .ratio-box__inner {
-  background: #FFB3C1;         /* ⭐ 选中：缩略图浅粉色，在粉底上看得见 */
+  /* ⭐ 对齐 Qwen 选中态：缩略图纯白（原浅粉色 #FFB3C1） */
+  background: #FFFFFF;
 }
 </style>

@@ -108,7 +108,7 @@ const costData = computed(() => {
 }
 .quality-title__icon {
   flex: 0 0 auto;
-  color: #;
+
 }
 .panel-title__text { flex: 0 0 auto; }
 
@@ -167,14 +167,12 @@ const costData = computed(() => {
 .cost-card {
   width: 100%;
   box-sizing: border-box;
-  background: #;
   border-radius: 12px;
-  padding: 10px 16px;
+  padding: 0px 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 1px;
 }
-
 .cost-row {
   width: 100%;
   display: inline-flex;

@@ -45,7 +45,7 @@ defineEmits(['update:modelValue'])
 .v31-mode-tabs {
   width: 100%;
   box-sizing: border-box;
-  padding: 14px 0 8px;
+  padding: 14px 1px 8px;
   display: flex;
   flex-direction: column;
   gap: 0;

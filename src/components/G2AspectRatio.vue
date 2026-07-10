@@ -333,7 +333,7 @@ onMounted(() => {
   width: 48px;
   height: 48px;
   border-radius: 6px;           /* 图标容器圆角 6px */
-  background: #;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -343,12 +343,9 @@ onMounted(() => {
   overflow: hidden;
 }
 .ratio-icon__box {
-  background: #;
+
   border-radius: 2px;           /* 内部小矩形保持 2px 细节 */
-  transition:
-    background-color 140ms ease,
-    width 140ms ease,
-    height 140ms ease;
+  background: #F2F6FC;
 }
 
 /* 各比例的小图标尺寸（按 48/76 ≈ 0.63 缩放原尺寸，取整） */
@@ -361,8 +358,7 @@ onMounted(() => {
 .ratio-icon--4_3 .ratio-icon__box   { width: 34px; height: 25px; }
 .ratio-icon--auto .ratio-icon__box   {
   width: 28px; height: 21px;
-  background: transparent;
-  border: 1.5px dashed #;
+  border: 1.5px dashed ;
   border-radius: 3px;
 }
 
@@ -431,8 +427,8 @@ onMounted(() => {
   align-items: stretch;
   width: 100%;
   height: 40px;
-  background: #;
-  border: 1px solid #;
+
+  border: 1px solid ;
   border-radius: 10px;
   overflow: hidden;
   box-sizing: border-box;
@@ -456,10 +452,10 @@ onMounted(() => {
   box-sizing: border-box;
   user-select: none;
 }
-.stepper__btn:hover:not(:disabled) { background: #; }
-.stepper__btn:active:not(:disabled) { background: #; }
+.stepper__btn:hover:not(:disabled) { }
+.stepper__btn:active:not(:disabled) { }
 .stepper__btn:disabled {
-  color: #;
+
   cursor: not-allowed;
 }
 

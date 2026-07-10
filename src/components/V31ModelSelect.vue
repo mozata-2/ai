@@ -82,7 +82,6 @@ const badgeText = computed(() => BADGE_MAP[props.modelValue] || '')
   padding: 4px 10px;
   border-radius: 999px;
   background: rgba(255,107,138,0.14);
-  color: #;
   font-size: 12px;
   font-weight: 500;
   line-height: 1;

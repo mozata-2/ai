@@ -169,7 +169,7 @@ const CASES = RAW_CASES.map((t, idx) => {
   width: 100%;
   max-width: 1040px;
   max-height: 85vh;
-  background: #;
+
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -192,8 +192,7 @@ const CASES = RAW_CASES.map((t, idx) => {
   margin: 0;
   padding: 0;
   font-size: 15px;
-  font-weight: 600;
-  color: #;
+
   line-height: 1.5;
   flex: 0 0 auto;
 }
@@ -214,7 +213,7 @@ const CASES = RAW_CASES.map((t, idx) => {
   transition: background-color 140ms ease;
   box-sizing: border-box;
 }
-.tpl-modal__close:hover { background: #; }
+.tpl-modal__close:hover { }
 
 /* ========== 主体（可滚） ========== */
 .tpl-modal__body {
@@ -250,7 +249,6 @@ const CASES = RAW_CASES.map((t, idx) => {
   aspect-ratio: 3 / 4;
   border-radius: 12px;
   overflow: hidden;
-  background: #;
   flex: 0 0 auto;
   box-sizing: border-box;
 }
@@ -281,7 +279,7 @@ const CASES = RAW_CASES.map((t, idx) => {
   border-radius: 999px;
   font-size: 11px;
   font-weight: 600;
-  color: #;
+
   line-height: 1.4;
   flex: 0 0 auto;
   max-width: 100%;
@@ -290,8 +288,8 @@ const CASES = RAW_CASES.map((t, idx) => {
   text-overflow: ellipsis;
   box-sizing: border-box;
 }
-.case-tag--primary   { background: #; }
-.case-tag--secondary { background: #; }
+.case-tag--primary   {  }
+.case-tag--secondary {  }
 
 /* 视频播放白色圆按钮（定位于图片正中央） */
 .case-play {
@@ -303,7 +301,7 @@ const CASES = RAW_CASES.map((t, idx) => {
   height: 50px;
   border-radius: 50%;
   border: none;
-  background: #;
+
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -319,7 +317,7 @@ const CASES = RAW_CASES.map((t, idx) => {
   width: 100%;
   font-size: 14px;
   font-weight: 600;
-  color: #;
+
   line-height: 1.45;
   white-space: nowrap;
   overflow: hidden;
@@ -336,7 +334,6 @@ const CASES = RAW_CASES.map((t, idx) => {
   gap: 12px;
   font-size: 12px;
   font-weight: 400;
-  color: #;
   line-height: 1.5;
   flex: 0 0 auto;
   box-sizing: border-box;

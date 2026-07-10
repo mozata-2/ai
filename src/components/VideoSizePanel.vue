@@ -106,9 +106,9 @@ defineEmits(['update:modelValue'])
 .size-btn:active { transform: scale(0.98); }
 
 .size-btn--active {
-  background: #;
+
   border-color: rgba(255,255,255,0.12);
-  color: #;
+
 }
 .size-btn--active:hover {
   filter: brightness(1.05);

@@ -54,7 +54,8 @@ defineEmits(['update:modelValue'])
   gap: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary, #1D1E20);
+  /* ⭐ 强制：fallback 深色白；浅色由 --text-primary 覆盖=黑 */
+  color: var(--text-primary, #ffffff) !important;
   margin-bottom: 12px;
 }
 .title-emoji { font-size: 14px; line-height: 1; }
@@ -75,9 +76,11 @@ defineEmits(['update:modelValue'])
   width: 111.66px;
   height: 36px;
   border-radius: 6px;
-  border: 1px solid var(--border-base, #DCDFE6);
-  background: var(--bg-elevated-2, #F2F3F5);
-  color: #;
+  /* ⭐ fallback 深色优先，接主题变量 */
+  border: 1px solid var(--border-base, #1e1e1e) !important;
+  background: var(--bg-elevated-2, #1e1e1e) !important;
+  /* ⭐ 显式写 color 并用 !important 防止 EP/浏览器 button 默认黑字覆盖 */
+  color: var(--text-primary, #ffffff) !important;
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
@@ -89,13 +92,13 @@ defineEmits(['update:modelValue'])
   transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
   user-select: none;
 }
-.seg-btn:hover { background: var(--bg-elevated-3, #E9EAEC); }
+.seg-btn:hover { background: var(--bg-elevated-3, #242424) !important; }
 .seg-btn:active { transform: scale(0.99); }
 
 .seg-btn--active {
-  background: #FE2C55;
-  border-color: #FE2C55;
-  color: #fff;
+  background: #FE2C55 !important;
+  border-color: #FE2C55 !important;
+  color: #fff !important;
   font-weight: 500;
 }
 </style>

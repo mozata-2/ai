@@ -486,7 +486,7 @@ function onLogin() { router.push('/login') }
      (radio-button.scss L88) */
   box-shadow: none !important;
   /* ⭐ 亮/暗主题统一：Tab 未选中底色（暗→#1e1f24 深灰；亮→浅灰）+ 描边 + 文字色 */
-
+  background: var(--bg-elevated-2, #1e1f24) !important;
   color: var(--text-secondary, #c9cdd6) !important;
   border: 1px solid var(--border-base, #4C4D4F) !important;
     /* 统一显式描边，缩放时无隐缝 */

@@ -915,9 +915,10 @@ const onUseModalTemplate = (tpl) => {
 .record-panel__head .my-work-btn {
   appearance: none;
   -webkit-appearance: none;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: #;
-  color: #;
+  /* ⭐ 补背景/文字色，接入主题：深色=深灰描边+浅字；浅色=白底+黑字 */
+  background: var(--bg-elevated, #F5F7FA);
+  color: var(--text-primary, #111318);
+  border: 1px solid var(--border-base, #E5E6EA);
   text-align: center;
   padding: 0 16px;
   width: 88px;
@@ -927,16 +928,18 @@ const onUseModalTemplate = (tpl) => {
   align-items: center;
   gap: 7px;
   font-size: 14px;
-
   cursor: pointer;
   transition:
     background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
     transform 140ms ease;
   flex: 0 0 auto;
   white-space: nowrap;
 }
 .record-panel__head .my-work-btn:hover {
-  background: #;
+  background: var(--bg-elevated-2, #F0F1F4);
+  border-color: var(--border-strong, #E0E2E7);
   transform: translateY(-1px);
 }
 .record-panel__head .my-work-btn:active { transform: translateY(0) scale(0.98); }
@@ -1192,7 +1195,7 @@ const onUseModalTemplate = (tpl) => {
   align-items: center;
   justify-content: center;          /* 两按钮居中（外胶囊大框保留） */
   padding: 4px;
-  background: #;              /* ⭐ 保留外胶囊大框（与截图一致） */
+  background: var(--bg-elevated-2, #f9d4d49a); /* ⭐ 保留外胶囊大框（与截图一致） */
   border-radius: 12px;
   gap: 4px;                         /* 中间 4px 缝，让各自圆角独立显示 */
 }
@@ -1203,8 +1206,8 @@ const onUseModalTemplate = (tpl) => {
   height: 36px;                     /* ⭐ 高度 36 */
   border-radius: 6px;               /* ⭐ 圆角 6 */
   border: none;
+  color: var(--text-primary, #2A2C2E);
   background: transparent;          /* 未选中：透明（外框已有背景） */
-  color: #;
   font-size: 12px;                  /* ⭐ 字号 12 */
   font-weight: 400;                 /* 取消加粗 */
   cursor: pointer;
@@ -1223,6 +1226,8 @@ const onUseModalTemplate = (tpl) => {
   color: #fff;
   border-color: #FE2C55;
 }
+/* 深色主题：jimeng-tabs 胶囊背景改为 #262727 */
+:global(.dark) .jimeng-tabs { background: #262727; }
 
 /* ==============================
    即梦专属：分辨率面板（2k / 4k）—— 严格按截图重写
@@ -1300,10 +1305,7 @@ const onUseModalTemplate = (tpl) => {
   transition: background-color 140ms ease, color 140ms ease;
 }
 /* 选中态：粉红底白字（尺寸字号圆角完全继承 .jimeng-resolution__btn） */
-.jimeng-resolution__btn--capsule-active {
-  background: #;
-  color: #;
-}
+
 /* 未选中态：⭐ 取消背景色（transparent）+ 主文字色 */
 .jimeng-resolution__btn--plain {
   background: transparent;

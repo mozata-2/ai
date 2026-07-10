@@ -93,14 +93,13 @@ const onMergeClick = () => {
 .gk-image-ref {
   width: 100%;
   box-sizing: border-box;
-  /* ⭐ GK下所有面板统一左对齐基准：GkHeadPanel标题的 padding-left=6px */
-  padding: 12px 6px;
+  padding: 12px 0;
   background: transparent;
   display: flex;
   flex-direction: column;
   gap: 0;
   margin-top: -6px;
-  margin-left: 0;                          /* ✅ 删除多余 12px（原来比基准多一倍：6 vs 18） */
+  margin-left: 1px;
 }
 .panel-title {
   display: inline-flex;
@@ -114,7 +113,7 @@ const onMergeClick = () => {
 }
 .panel-title__icon { font-size: 14px; }
 .panel-title__required {
-  color: #;
+
   font-weight: 400;
   margin-left: 4px;
   margin-top: 1px;
@@ -133,7 +132,7 @@ const onMergeClick = () => {
   height: 180px;
   min-height: 180px;
   max-height: 180px;
-  width: 100%;                         /* ✅ 去掉 101%（为了对冲 margin-left12px 的旧hack），现在左右边距正确后直接100% */
+  width: 101%;
   border: 2px dashed var(--border-strong, rgba(255, 255, 255, 0.27));
   border-radius: 12px;
   background: transparent;
@@ -196,7 +195,7 @@ const onMergeClick = () => {
 .link-btn {
   appearance: none;
   background: rgba(0,0,0,0.45);
-  color: #;
+
   padding: 3px 9px;
   font-size: 12px;
   border-radius: 7px;

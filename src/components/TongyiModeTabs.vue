@@ -62,9 +62,11 @@ defineEmits(['update:modelValue'])
   width: 81.75px;
   height: 36px;
   border-radius: 6px;
-  border: 1px solid transparent;
-  background: var(--bg-elevated-2, #F2F3F5);
-  color: #;
+  /* ⭐ fallback 写深色优先（#1e1e1e），接入主题变量让深浅同步 */
+  border: 1px solid var(--border-base, #1e1e1e);
+  background: var(--bg-elevated-2, #1e1e1e);
+  /* ⭐ 补上 color：深色主题下用浅字（606266），浅色主题下用灰字 */
+  color: var(--text-secondary, #606266);
   font-size: 12px;
   font-weight: 400;
   cursor: pointer;
@@ -76,7 +78,7 @@ defineEmits(['update:modelValue'])
   transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
   user-select: none;
 }
-.seg-btn:hover { background: var(--bg-elevated-3, #E9EAEC); }
+.seg-btn:hover { background: var(--bg-elevated-3, #242424); }
 .seg-btn:active { transform: scale(0.99); }
 
 .seg-btn--active {

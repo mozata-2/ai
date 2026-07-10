@@ -737,7 +737,12 @@ onBeforeUnmount(() => clearHideTimer())
 }
 
 .sidebar.is-persistent.is-collapsed .logo-section {
-  margin: 0 0 12px;
+  /* ⭐ 用户指出：折叠态 logo 会向下偏移。
+     展开态：sidebar padding-top 16 + logo-section margin-top -8 = 距顶 8px；
+     折叠态：sidebar padding-top 12 + 此处 margin-top -12 = 距顶 0？不对，
+     实际应该是 (12 + (-4)) = 8，与展开态相等 → 用 -4 对齐；
+     底部补 16px：展开态 8(margin-bottom) + 8(padding-bottom) = 16 → 保持一致 */
+  margin: -4px 0 16px;
   padding: 0;
   width: 100%;
   display: flex;
@@ -745,14 +750,16 @@ onBeforeUnmount(() => clearHideTimer())
 }
 .sidebar.is-persistent.is-collapsed .logo { gap: 0; justify-content: center; margin-bottom: 0; }
 .sidebar.is-persistent.is-collapsed .logo-icon {
-  width: 44px; height: 44px; border-radius: 12px;
+  /* ⭐ 用户指出：折叠态 logo 会缩小。改回与展开态一致的 48×48，不再缩小 */
+  width: 48px; height: 48px; border-radius: 12px;
 }
 .sidebar.is-persistent.is-collapsed .logo-text { display: none !important; }
 
 .sidebar.is-persistent.is-collapsed .menu-toggle {
-  width: 44px; min-width: 44px; height: 44px;
+  /* 与 logo 48×48 同视觉尺寸居中对齐 */
+  width: 48px; min-width: 48px; height: 48px;
   padding: 0; justify-content: center; align-items: center;
-  border-radius: 12px; margin: 0 auto 12px;
+  border-radius: 12px;
 }
 .sidebar.is-persistent.is-collapsed .menu-toggle-label { display: none !important; }
 .sidebar.is-persistent.is-collapsed .menu-toggle-icon { width: 22px; height: 22px; stroke-width: 2.2; }

@@ -100,7 +100,7 @@ function onFileChange(e) {
   transition: border-color 160ms ease;
 }
 .audio-input::placeholder { color: var(--text-secondary, #909399); }
-.audio-input:focus { border-color: #; }
+
 
 /* 选择按钮 60×32 圆角 6，文字 14 */
 .select-btn {
@@ -122,7 +122,7 @@ function onFileChange(e) {
   transition: background-color 160ms ease, border-color 160ms ease;
   padding: 0;
 }
-.select-btn:hover { background: var(--bg-elevated-3, #E9EAEC); border-color: #; }
+.select-btn:hover { background: var(--bg-elevated-3, #E9EAEC); }
 .select-btn:active { transform: scale(0.99); }
 
 /* 底部提示：12 号 */

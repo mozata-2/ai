@@ -298,7 +298,6 @@ onMounted(() => {
   left: 6px;
   bottom: 6px;
   background: rgba(255,255,255,0.92);
-  color: #;
   padding: 2px 6px;
   border-radius: 999px;
   font-size: 10px;
@@ -341,7 +340,6 @@ onMounted(() => {
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: #;
   cursor: pointer;
   display: inline-flex;
   align-items: center;

@@ -73,7 +73,7 @@ const onAppend = (t) => {
   box-sizing: border-box;
   background: transparent;
   margin-top: -10px;
-  margin-left: -166px;
+  margin-left: -169px;
 }
 .panel-title {
   display: inline-flex;
@@ -103,7 +103,6 @@ const onAppend = (t) => {
   -webkit-appearance: none;
   border: none;
   background: transparent;
-  color: #;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -116,7 +115,7 @@ const onAppend = (t) => {
   flex: 0 0 auto;
   transition: color 160ms ease;
 }
-.title-action:hover { color: #; }
+
 
 /* 让右侧按钮真正靠右 */
 @media all {
@@ -129,6 +128,7 @@ const onAppend = (t) => {
   width: 363px;
   min-height: 140px;
   resize: vertical;
+  background: var(--bg-surface, #FFFFFF);     /* 深色=深灰/黑色；浅色=白底 */
   color: var(--text-primary, #E5EAF3);
   border: 1px solid var(--border-strong, rgba(255,255,255,0.25));
   border-radius: 4px;
@@ -207,5 +207,5 @@ const onAppend = (t) => {
   line-height: 1;
   transition: color 160ms ease;
 }
-.prompt-count.warn { color: #; }
+
 </style>

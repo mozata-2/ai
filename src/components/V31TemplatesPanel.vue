@@ -338,7 +338,6 @@ onMounted(() => {
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: #;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -357,7 +356,6 @@ onMounted(() => {
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: #;
   cursor: pointer;
   display: inline-flex;
   align-items: center;

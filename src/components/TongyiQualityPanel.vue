@@ -54,7 +54,8 @@ defineEmits(['update:modelValue'])
   gap: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary, #1D1E20);
+  /* ⭐ fallback 深色白；浅色由 --text-primary 覆盖=黑 */
+  color: var(--text-primary, #ffffff);
   margin-bottom: 12px;
 }
 .title-emoji { font-size: 14px; line-height: 1; }
@@ -75,9 +76,11 @@ defineEmits(['update:modelValue'])
   width: 173.5px;
   height: 56px;
   border-radius: 6px;
-  border: 1px solid var(--border-base, #DCDFE6);
-  background: var(--bg-elevated-2, #F2F3F5);
-  color: #;
+  /* ⭐ fallback 深色优先 */
+  border: 1px solid var(--border-base, #1e1e1e);
+  background: var(--bg-elevated-2, #1e1e1e);
+  /* ⭐ 补 color：未选中按钮深色=白/浅字；浅色=黑 */
+  color: var(--text-primary, #ffffff);
   cursor: pointer;
   display: inline-flex;
   flex-direction: column;
@@ -89,10 +92,11 @@ defineEmits(['update:modelValue'])
   transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
   user-select: none;
 }
-.seg-btn:hover { background: var(--bg-elevated-3, #E9EAEC); }
+.seg-btn:hover { background: var(--bg-elevated-3, #242424); }
 .seg-btn:active { transform: scale(0.99); }
-.seg-btn__title { font-size: 14px; font-weight: 600; line-height: 1.2; }
-.seg-btn__sub   { font-size: 12px; font-weight: 400; line-height: 1.2; }
+/* ⭐ 子文字显式接 color，防止默认 inherit=黑 */
+.seg-btn__title { font-size: 14px; font-weight: 600; line-height: 1.2; color: inherit; }
+.seg-btn__sub   { font-size: 12px; font-weight: 400; line-height: 1.2; color: inherit; opacity: 0.92; }
 
 .seg-btn--active {
   background: #FE2C55;

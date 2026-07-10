@@ -16,7 +16,7 @@
             <div class="gk-prompt-ref-shift">
               <GkImageRefPanel v-model="gkRefImage" :mode="gkMode" />
               <ImagePromptPanel
-                class="video-prompt prompt--gk-left"
+                class="video-prompt"
                 v-model="promptText"
                 :max="PROMPT_MAX"
                 :suggest-tags="VIDEO_PROMPT_TAGS"
@@ -423,7 +423,7 @@ const onGenerate = () => {
 <style scoped>
 
 .video-prompt{
-  margin-left: 10px;
+  margin-left: 1px;
 }
 .video-page {
   width: 100%;
@@ -528,53 +528,6 @@ const onGenerate = () => {
 .col-left__scroll::-webkit-scrollbar-track { background: transparent; }
 .col-left__scroll::-webkit-scrollbar-thumb { background: transparent; }
 
-/* ⭐ 用户要求：GK 视频下「参考图片 + 提示词」两块整体左移 2px
-   纯视觉偏移，不改变文档流占位，因此不会压缩右侧宽度。 */
-.gk-prompt-ref-shift {
-  position: relative;
-  left: -2px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 356px;
-  max-width: 356px;
-  flex: 0 0 auto;
-  box-sizing: border-box;
-}
-/* ⭐ GK 专属：ImagePromptPanel 是跨模块共享组件，
-   组件内残留了大量调试用错误值（根容器 margin-left:-166px / 
-   .prompt-panel__foot width:203% / .prompt-textarea 363px / 
-   .title-action margin-left:18px），
-   只能在 GK 这一个实例上用 :deep() 局部覆盖，避免影响
-   Banana / V31 / SR / Tongyi 等其它模块。
-   最终以 GkHeadPanel 标题的 padding-left:6px 为统一基准。 */
-.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left) {
-  margin-left: 0 !important;              /* ✅ 清除 -166px 错误值 */
-  margin-top: 0 !important;               /* ✅ 清除 -10px 残留 */
-  padding: 0 6px;                         /* ✅ 对齐基准：GkHeadPanel 标题的 6px 内边距 */
-  box-sizing: border-box;
-  width: 100%;
-}
-.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .panel-title) {
-  /* 组件默认已经 14px 标题，保持即可，左边缘由根容器 padding 保证 */
-  margin-bottom: 9px;
-}
-.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .prompt-textarea) {
-  width: 100%;                            /* ✅ 组件写死 363px，现在改为容器自适应 */
-  box-sizing: border-box;
-}
-.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .prompt-panel__foot) {
-  width: 100%;                            /* ✅ 清除 width: 203% 错误值 */
-  box-sizing: border-box;
-}
-.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .prompt-tags) {
-  width: 100%;                            /* ✅ 清除 width: 363px 写死值 */
-  flex-basis: auto;
-  min-width: 0;
-}
-.gk-prompt-ref-shift :deep(.image-prompt.prompt--gk-left .title-action) {
-  margin-left: auto !important;           /* ✅ 清除 18px 硬编码（组件是为了让按钮在v31时跟右侧边缘对齐），让它自然靠标题行右边缘 */
-}
 
 .gen-btn {
   appearance: none;
@@ -651,8 +604,6 @@ const onGenerate = () => {
   appearance: none;
   -webkit-appearance: none;
   border: 1px solid rgba(255,255,255,0.08);
-  background: #;
-  color: #;
   padding: 0 16px;
   height: 36px;
   border-radius: 10px;
@@ -669,7 +620,6 @@ const onGenerate = () => {
   white-space: nowrap;
 }
 .record-panel__head .my-work-btn:hover {
-  background: #;
   transform: translateY(-1px);
 }
 .record-panel__head .my-work-btn:active { transform: translateY(0) scale(0.98); }
@@ -750,7 +700,6 @@ const onGenerate = () => {
   padding: 0;
   font-size: 14px;
   line-height: 1.6;
-  color: #;
   font-weight: 400;
   box-sizing: border-box;
 }

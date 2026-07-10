@@ -111,8 +111,8 @@ defineEmits(['update:modelValue'])
   font-size: 10px;
   font-weight: 700;
   border-radius: 9px;
-  background: #;
-  color: #;
+
+
   letter-spacing: 0.3px;
   flex: 0 0 auto;
 }

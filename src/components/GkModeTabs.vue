@@ -41,7 +41,7 @@ defineEmits(['update:modelValue'])
 .gk-mode-tabs {
   width: 100%;
   box-sizing: border-box;
-  
+  margin-left: -7px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;       /* ⭐ 不再居中，368×44 贴左 */

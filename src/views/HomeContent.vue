@@ -31,7 +31,7 @@ import PromptPlaza from '../components/PromptPlaza.vue'
 
 /* ⭐ 版心：实体宽度 1136，左右无 padding。max-width:100% 兼容小屏 */
 .home-content {
-  width: 1136px;
+  width: 79.75rem;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;

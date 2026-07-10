@@ -146,7 +146,6 @@ const open = ref(true)
   height: 68px;
   flex: 0 0 68px;
   border-radius: 6px;
-  background: #;
   border: 1px solid var(--border-base, rgba(107, 114, 128, 0.14));
   padding: 0 16px;
   box-sizing: border-box;
@@ -170,7 +169,7 @@ const open = ref(true)
   justify-content: center;
 }
 .adv-box__icon--spark { font-size: 18px; }
-.adv-box__icon--note  { color: #; }
+
 
 .adv-box__txt {
   display: flex;

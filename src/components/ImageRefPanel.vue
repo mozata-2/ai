@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="image-ref">
     <div class="panel-title">
       <span class="panel-title__icon">🖼️</span>
@@ -121,11 +121,8 @@ const onRemove = () => {
   margin-top: -1px;
 }
 .uploader:hover {
-  /* ⭐ 亮/暗主题统一：hover 描边用 --border-extra */
+  /* ⭐ 取消 hover 背景色，仅保留描边变化 */
   border-color: var(--border-extra, rgba(255, 255, 255, 0.28));
-  background:
-    radial-gradient(circle at 50% 0%, rgb(255, 255, 255) 0%, transparent 60%),
-    var(--hover-bg, rgba(255, 255, 255, 0));
 }
 .uploader__plus {
   width:  34px;
@@ -176,7 +173,6 @@ const onRemove = () => {
   /* ⭐ 亮/暗主题统一：半透明遮罩 + 粉色文字，亮主题下也可读；
         不用 --mask-soft（未定义），直接用 rgba 同时兼容两种主题 */
   background: rgba(0,0,0,0.45);
-  color: #;
   padding: 3px 9px;
   font-size: 12px;
   border-radius: 7px;

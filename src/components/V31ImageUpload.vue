@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="v31-image-upload">
     <div class="panel-title">
       <span class="panel-title__icon">🖼️</span>
@@ -78,7 +78,7 @@ const onRemove = () => {
   flex-direction: column;
   gap: 0;
   margin-top: -13px;
-  margin-left: 12px;
+  margin-left: 1px;
 }
 .panel-title {
   display: inline-flex;
@@ -115,10 +115,8 @@ const onRemove = () => {
   margin-top: -1px;
 }
 .uploader:hover {
+  /* ⭐ 取消 hover 背景色，仅保留描边变化 */
   border-color: var(--border-extra, rgba(255,255,255,0.28));
-  background:
-    radial-gradient(circle at 50% 0%, rgba(254,44,85,0.10) 0%, transparent 60%),
-    var(--hover-bg, rgba(255,255,255,0.025));
 }
 .uploader__plus {
   width:  34px;
@@ -163,7 +161,6 @@ const onRemove = () => {
 .link-btn {
   appearance: none;
   background: rgba(0,0,0,0.45);
-  color: #;
   padding: 3px 9px;
   font-size: 12px;
   border-radius: 7px;
@@ -240,7 +237,6 @@ const onRemove = () => {
   transition: color var(--theme-dur, 200ms) var(--theme-ease, ease);
 }
 .upload-tips__line--warn {
-  color: #;
   font-weight: 500;
 }
 .upload-tips__line--warn > span:last-child {

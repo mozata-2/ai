@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="image-head">
     <h1 class="page-title">
       <span class="page-title__brand">{{ brand }}</span>
@@ -38,7 +38,8 @@ defineProps({
   transition: color var(--theme-dur) var(--theme-ease);
 }
 .page-title__brand {
-  background: linear-gradient(135deg, # 0%, # 55%, # 100%);
+  /* ⭐ 品牌字「构客」粉色渐变（与主色 #FE2C55 一致） */
+  background: linear-gradient(135deg, #FF4068 0%, #FE2C55 55%, #EB002D 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

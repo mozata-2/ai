@@ -429,8 +429,8 @@ function onStartCreate() {
   position: relative;
   width: 100vw;
   min-height: 100vh;
-  background: #0A0A0B;
-  color: #FFFFFF;
+  background: var(--bg-base, #0A0A0B);
+  color: var(--text-primary, #FFFFFF);
   overflow-x: hidden;
   overflow-y: auto;
   box-sizing: border-box;
@@ -490,16 +490,16 @@ function onStartCreate() {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  color: #FFFFFF;
-  border: 1px solid rgba(255,255,255,0.10);
+  background: var(--bg-elevated-2, rgba(255,255,255,0.08));
+  color: var(--text-primary, #FFFFFF);
+  border: 1px solid var(--border-base, rgba(255,255,255,0.10));
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: background-color 160ms ease, border-color 160ms ease;
 }
-.icon-round:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.18); }
+.icon-round:hover { background: var(--bg-elevated-3, rgba(255,255,255,0.14)); border-color: var(--border-strong, rgba(255,255,255,0.18)); }
 
 /* 登录胶囊按钮 */
 .login-btn {
@@ -507,8 +507,8 @@ function onStartCreate() {
   padding: 0 16px;
   border-radius: 999px;
   background: transparent;
-  color: #FFFFFF;
-  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--text-primary, #FFFFFF);
+  border: 1px solid var(--border-strong, rgba(255,255,255,0.18));
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -517,7 +517,7 @@ function onStartCreate() {
   gap: 2px;
   transition: background-color 160ms ease, border-color 160ms ease;
 }
-.login-btn:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.26); }
+.login-btn:hover { background: var(--hover-bg, rgba(255,255,255,0.06)); border-color: rgba(255,255,255,0.26); }
 
 /* ================================================================
    主内容区（ Hero + Features + Workflow 三屏都在 main 里居中 ）
@@ -560,9 +560,9 @@ function onStartCreate() {
   gap: 6px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.82);
+  background: var(--bg-elevated, rgba(255,255,255,0.06));
+  border: 1px solid var(--border-base, rgba(255,255,255,0.08));
+  color: var(--text-secondary, rgba(255,255,255,0.82));
   font-size: 12px;
   line-height: 1;
   margin-bottom: 28px;
@@ -588,7 +588,7 @@ function onStartCreate() {
   line-height: 1.16;
   font-weight: 800;
   letter-spacing: -0.5px;
-  color: #FFFFFF;
+  color: var(--text-primary, #FFFFFF);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -604,10 +604,10 @@ function onStartCreate() {
   align-items: center;
   gap: 8px;
   padding: 7px 14px 7px 10px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.10);
+  background: var(--bg-elevated-2, rgba(255,255,255,0.08));
+  border: 1px solid var(--border-base, rgba(255,255,255,0.10));
   border-radius: 999px;
-  color: #FFFFFF;
+  color: var(--text-primary, #FFFFFF);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   user-select: none;
@@ -616,11 +616,11 @@ function onStartCreate() {
 }
 .bubble__dot {
   width: 16px; height: 16px; border-radius: 4px; flex: 0 0 auto;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.12) inset;
+  box-shadow: 0 0 0 1px var(--border-base, rgba(255,255,255,0.12)) inset;
 }
 .bubble__label {
   font-size: 12.5px; line-height: 1; font-weight: 500;
-  color: rgba(255,255,255,0.95); white-space: nowrap;
+  color: var(--text-secondary, rgba(255,255,255,0.95)); white-space: nowrap;
 }
 /* 气泡箭头已移除：公转过程中气泡会从左飞到右，固定方向箭头方向错误 */
 
@@ -650,21 +650,21 @@ function onStartCreate() {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 9px 20px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.88);
+  border: 1px solid var(--border-base, rgba(255,255,255,0.10));
+  background: var(--bg-elevated, rgba(255,255,255,0.06));
+  color: var(--text-secondary, rgba(255,255,255,0.88));
   font-size: 13px; line-height: 1; font-weight: 500;
   cursor: pointer;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: background-color 160ms ease, border-color 160ms ease;
 }
-.tab-pill:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.18); }
+.tab-pill:hover { background: var(--bg-elevated-2, rgba(255,255,255,0.10)); border-color: var(--border-strong, rgba(255,255,255,0.18)); }
 .tab-pill__dot { font-size: 13px; line-height: 1; }
 .tab-pill--active {
-  background: #FE2C55;
-  color: #fff;
-  border-color: #FE2C55;
+  background: var(--bg-elevated-2, rgba(255,255,255,0.12));
+  border-color: var(--border-strong, rgba(255,255,255,0.22));
+  color: var(--text-primary, #FFFFFF);
 }
 /* 紧凑气泡（原 Tab 两侧豆包 / 🍌 Nano Banana）：padding 略小于普通气泡，其余继承 .bubble */
 .tab-bubble {
@@ -684,18 +684,18 @@ function onStartCreate() {
   user-select: none;
 }
 .cta-btn--primary {
-  background: #FFFFFF; color: #0D0D0F;
-  border: 1px solid rgba(0,0,0,0.08);
+  background: var(--bg-surface, #FFFFFF); color: var(--text-primary, #0D0D0F);
+  border: 1px solid var(--border-base, rgba(0,0,0,0.08));
   box-shadow: 0 10px 30px rgba(255,255,255,0.14);
 }
 .cta-btn--primary:hover { filter: brightness(1.02); }
 .cta-btn--ghost {
-  background: rgba(255,255,255,0.08); color: #FFFFFF;
-  border: 1px solid rgba(255,255,255,0.14);
+  background: var(--bg-elevated-2, rgba(255,255,255,0.08)); color: var(--text-primary, #FFFFFF);
+  border: 1px solid var(--border-base, rgba(255,255,255,0.14));
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
-.cta-btn--ghost:hover { background: rgba(255,255,255,0.12); }
+.cta-btn--ghost:hover { background: var(--bg-elevated-3, rgba(255,255,255,0.12)); }
 
 /* ---------------- 第二屏：核心能力 4 卡片 ---------------- */
 .features {
@@ -709,7 +709,7 @@ function onStartCreate() {
   text-align: center;
   font-size: 28px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text-primary, #FFFFFF);
   letter-spacing: -0.3px;
 }
 .features__grid {
@@ -722,8 +722,8 @@ function onStartCreate() {
   position: relative;
   padding: 26px 28px 26px 28px;
   border-radius: 18px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--bg-elevated, rgba(255,255,255,0.04));
+  border: 1px solid var(--border-base, rgba(255,255,255,0.08));
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transition: background-color 180ms ease, border-color 180ms ease, transform 160ms ease;
@@ -731,8 +731,8 @@ function onStartCreate() {
   min-height: 172px;
 }
 .feature-card:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
+  background: var(--bg-elevated-2, rgba(255,255,255,0.06));
+  border-color: var(--border-strong, rgba(255,255,255,0.14));
   transform: translateY(-2px);
 }
 .feature-card__icon {
@@ -740,20 +740,20 @@ function onStartCreate() {
   border-radius: 12px;
   display: inline-flex; align-items: center; justify-content: center;
   margin-bottom: 14px;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.10) inset, 0 8px 18px rgba(0,0,0,0.25);
+  box-shadow: 0 0 0 1px var(--border-base, rgba(255,255,255,0.10)) inset, 0 8px 18px rgba(0,0,0,0.25);
 }
 .feature-card__title {
   margin: 0 0 8px;
   font-size: 18px;
   font-weight: 600;
-  color: #FFFFFF;
+  color: var(--text-primary, #FFFFFF);
   letter-spacing: -0.1px;
 }
 .feature-card__desc {
   margin: 0;
   font-size: 13.5px;
   line-height: 1.8;
-  color: rgba(255,255,255,0.62);
+  color: var(--text-secondary, rgba(255,255,255,0.62));
   max-width: 520px;
 }
 
@@ -768,13 +768,13 @@ function onStartCreate() {
   margin: 0;
   font-size: 28px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text-primary, #FFFFFF);
   letter-spacing: -0.3px;
 }
 .workflow__subtitle {
   margin: 12px 0 36px;
   font-size: 14px;
-  color: rgba(255,255,255,0.52);
+  color: var(--text-faint, rgba(255,255,255,0.52));
 }
 .workflow__row {
   width: 100%;
@@ -798,17 +798,17 @@ function onStartCreate() {
   gap: 14px;
   padding: 16px 18px;
   border-radius: 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--bg-elevated, rgba(255,255,255,0.04));
+  border: 1px solid var(--border-base, rgba(255,255,255,0.08));
   transition: background-color 180ms ease, border-color 180ms ease;
 }
-.step:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); }
+.step:hover { background: var(--bg-elevated-2, rgba(255,255,255,0.06)); border-color: var(--border-strong, rgba(255,255,255,0.14)); }
 .step__num {
   position: absolute;
   top: 16px; right: 18px;
   font-size: 13px;
   font-weight: 600;
-  color: rgba(255,255,255,0.32);
+  color: var(--text-faint, rgba(255,255,255,0.32));
   letter-spacing: 1px;
 }
 .step__icon {
@@ -816,19 +816,19 @@ function onStartCreate() {
   border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
   flex: 0 0 auto;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.10) inset;
+  box-shadow: 0 0 0 1px var(--border-base, rgba(255,255,255,0.10)) inset;
 }
 .step__body { min-width: 0; }
 .step__title {
   margin: 0 0 4px;
   font-size: 16px;
   font-weight: 600;
-  color: #FFFFFF;
+  color: var(--text-primary, #FFFFFF);
 }
 .step__desc {
   margin: 0;
   font-size: 13px;
-  color: rgba(255,255,255,0.58);
+  color: var(--text-faint, rgba(255,255,255,0.58));
 }
 /* 右：画布示意 */
 .workflow__canvas {
@@ -837,8 +837,8 @@ function onStartCreate() {
   background:
     radial-gradient(ellipse at 30% 20%, rgba(142, 99, 255, 0.14), transparent 55%),
     radial-gradient(ellipse at 80% 80%, rgba(255, 99, 132, 0.12), transparent 55%),
-    rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
+    var(--bg-elevated, rgba(255,255,255,0.03));
+  border: 1px solid var(--border-base, rgba(255,255,255,0.08));
   min-height: 360px;
   overflow: hidden;
   box-sizing: border-box;
@@ -857,8 +857,8 @@ function onStartCreate() {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 10px 14px 10px 10px;
   border-radius: 12px;
-  background: rgba(16,17,22,0.9);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--bg-surface, rgba(16,17,22,0.9));
+  border: 1px solid var(--border-base, rgba(255,255,255,0.12));
   box-shadow: 0 10px 24px rgba(0,0,0,0.35);
 }
 
@@ -881,10 +881,10 @@ function onStartCreate() {
 .wf-float--c { animation: wfFloatC 8.6s ease-in-out infinite; animation-delay: 2.6s; }
 .wf-node__dot {
   width: 22px; height: 22px; border-radius: 6px; flex: 0 0 auto;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.14) inset;
+  box-shadow: 0 0 0 1px var(--border-base, rgba(255,255,255,0.14)) inset;
 }
-.wf-node__title { font-size: 13px; font-weight: 600; color: #FFFFFF; }
-.wf-node__tag { font-size: 11px; color: rgba(255,255,255,0.52); margin-top: 2px; }
+.wf-node__title { font-size: 13px; font-weight: 600; color: var(--text-primary, #FFFFFF); }
+.wf-node__tag { font-size: 11px; color: var(--text-faint, rgba(255,255,255,0.52)); margin-top: 2px; }
 
 .wf-node--a { top: 14%;  left: 8%; }
 .wf-node--b { top: 44%;  left: 38%; }
@@ -934,19 +934,19 @@ function onStartCreate() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid var(--border-base, rgba(255,255,255,0.06));
 }
 .footer__logo { width: 36px; height: 36px; display: inline-flex; }
 .footer__logo svg { width: 36px; height: 36px; display: block; }
 .footer__texts { text-align: right; }
 .footer__copy {
   font-size: 12.5px;
-  color: rgba(255,255,255,0.50);
+  color: var(--text-faint, rgba(255,255,255,0.50));
   line-height: 1.6;
 }
 .footer__icp {
   font-size: 12px;
-  color: rgba(255,255,255,0.36);
+  color: var(--text-faint, rgba(255,255,255,0.36));
   margin-top: 4px;
   line-height: 1.6;
 }

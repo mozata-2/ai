@@ -75,7 +75,8 @@ defineEmits(['update:modelValue'])
   gap: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary, #1D1E20);
+  /* ⭐ fallback 深色白；浅色由 --text-primary 覆盖=黑 */
+  color: var(--text-primary, #ffffff);
   margin-bottom: 12px;
 }
 .title-emoji { font-size: 14px; line-height: 1; }
@@ -96,9 +97,11 @@ defineEmits(['update:modelValue'])
   width: 62.2px;
   height: 76px;
   border-radius: 6px;
-  border: 1px solid var(--border-base, #DCDFE6);
-  background: var(--bg-elevated-2, #F2F3F5);
-  color: #;
+  /* ⭐ fallback 深色优先 */
+  border: 1px solid var(--border-base, #1e1e1e);
+  background: var(--bg-elevated-2, #1e1e1e);
+  /* ⭐ 补 color：未选中按钮字色接入主题 */
+  color: var(--text-primary, #ffffff);
   cursor: pointer;
   display: inline-flex;
   flex-direction: column;
@@ -110,12 +113,12 @@ defineEmits(['update:modelValue'])
   transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
   user-select: none;
 }
-.aspect-btn:hover { background: var(--bg-elevated-3, #E9EAEC); }
+.aspect-btn:hover { background: var(--bg-elevated-3, #242424); }
 .aspect-btn:active { transform: scale(0.99); }
 
-/* 全部文字 12 号（用户要求：内外部文字大小为 12） */
-.aspect-btn__label { font-size: 12px; font-weight: 600; line-height: 1.2; }
-.aspect-btn__sub   { font-size: 12px; font-weight: 400; line-height: 1.2; opacity: 0.9; }
+/* 全部文字 12 号（用户要求：内外部文字大小为 12）；字色显式接入主题 */
+.aspect-btn__label { font-size: 12px; font-weight: 600; line-height: 1.2; color: inherit; }
+.aspect-btn__sub   { font-size: 12px; font-weight: 400; line-height: 1.2; color: inherit; opacity: 0.9; }
 
 /* 比例预览图标外框：15×18（原 30×36 等比缩小一半） */
 .aspect-icon {
